@@ -11,6 +11,13 @@ document.body.appendChild(renderer.domElement);
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
+const loader = new THREE.TextureLoader();
+const bgTexture = loader.load('./back.jpg');
+bgTexture.colorSpace = THREE.SRGBColorSpace;
+scene.background = bgTexture;
+
+
+start();
 const playerCar = car();
 
 // Add directional light to the scene
@@ -36,35 +43,94 @@ camera.rotation.y = Math.PI*(3/2);
 
 var time;
 var time1;
+var time2;
 function animate() {
     requestAnimationFrame(animate);
 
-    // Rotate the car (if needed)
-    if (playerCar) {
-        playerCar.rotation.y += 1;
-    }
-	for (let i=0;i<move.length;i++){
-		move[i].position.x += 1;
-	}
-	camera.position.x += 1;
+	if (!end){
+		// Rotate the car (if needed)
+		if (playerCar) {
+			playerCar.rotation.y += 1;
+		}
+		for (let i=0;i<move.length;i++){
+			move[i].position.x += 1;
+		}
+		camera.position.x += 1;
 
-	if (time1==100){
-		time1 = 0;
-		block(8*(Math.floor(Math.random()*3)-1));
-	}
-	if (time==10){
-		time = 0;
-		flats(-20);
-		flats(20);
+		if (time1==100){
+			time1 = 0;
+			block(8*(Math.floor(Math.random()*3)-1));
+			time2[1] = 6*(Math.floor(Math.random()*3)-1);
+			time2[0] = 5;
+		}
+
+		if (blocks.length > 0 && move.length > 2 && blocks[0].position.x <= move[2].position.x-15) {
+			scene.remove(blocks[0]);
+			blocks.shift();
+		}
+
+		if (coins.length > 0 && move.length > 2 && coins[0].position.x <= move[2].position.x-15) {
+			scene.remove(coins[0]);
+			coins.shift();
+		}
+
+		if (time==10){
+			time = 0;
+			flat(-20);
+			flat(20);
+			scene.remove(flats[0]);
+			flats.shift();
+			scene.remove(flats[0]);
+			flats.shift();
+
+			pill(3);
+			pill(-3);
+			pill(10);
+			pill(-10);
+
+			for (let j=0;j<4;j++){
+				scene.remove(pills[0]);
+				pills.shift();
+			}
+
+			if (time2[0]>0){
+				time2[0] -= 1;
+				coin(time2[1]);
+			}
+		}
 		road();
-		pill(3);
-		pill(-3);
-		pill(10);
-		pill(-10);
+		scene.remove(roads[0]);
+		roads.shift();
+
+		xx += 1;
+		time += 1;
+		time1 += 1;
 	}
-	xx += 1;
-	time += 1;
-	time1 += 1;
+
+	if (blocks.length > 0 && move.length > 2 && blocks[0].position.x == move[2].position.x+3
+		&& 4>= Math.abs(blocks[0].position.z - move[2].position.z)) {
+		end = true;
+		alert("Game Over! You crashed!"+points);
+	}
+	if (blocks.length > 1 && move.length > 2 && blocks[1].position.x == move[2].position.x+3
+		&& 4>= Math.abs(blocks[1].position.z - move[2].position.z)) {
+		end = true;
+		alert("Game Over! You crashed!"+points);
+	}
+	if (blocks.length > 2 && move.length > 2 && blocks[2].position.x == move[2].position.x+3
+		&& 4>= Math.abs(blocks[2].position.z - move[2].position.z)) {
+		end = true;
+		alert("Game Over! You crashed!"+points);
+	}
+
+	for (let l=0;l<4;l++){
+		if (coins.length > l && move.length > 2 && coins[l].position.x == move[2].position.x+3
+			&& 4>= Math.abs(coins[l].position.z - move[2].position.z)) {
+				points += 1;
+				scene.remove(coins[l]);
+				coins.shift();
+		}
+	}
 
     renderer.render(scene, camera);
 }
@@ -79,20 +145,21 @@ function pill(zz){
         new THREE.BoxGeometry(1,0.1,1),
         new THREE.MeshLambertMaterial({color:"yellow"})
     );
-	rtt.position.x = xx+300;
+	rtt.position.x = xx;
 	rtt.position.y = -0.5;
 	rtt.position.z = zz;
     scene.add(rtt);
+	pills.push(rtt);
 }
 function road(){
 	const rtt = new THREE.Mesh(
-        new THREE.BoxGeometry(10,0.1,22),
+        new THREE.BoxGeometry(1,0.1,22),
         new THREE.MeshLambertMaterial({color:"grey"})
     );
-	rtt.position.x = xx+300;
+	rtt.position.x = xx;
 	rtt.position.y = -0.6;
-	//rtt.position.z = zz;
     scene.add(rtt);
+	roads.push(rtt);
 }
 
 function block(zz){
@@ -100,25 +167,79 @@ function block(zz){
         new THREE.BoxGeometry(6,6,6),
         new THREE.MeshLambertMaterial({color:"white"})
     );
-	rtt.position.x = xx+300 + Math.floor(Math.random()*150);
+	rtt.position.x = xx + Math.floor(Math.random()*200);
 	rtt.position.y = 0;
 	rtt.position.z = zz;
     scene.add(rtt);
+	blocks.push(rtt);
 }
 
-function flats(zz){
+function flat(zz){
 	var x = Math.floor(Math.random()*20);
 	const rtt = new THREE.Mesh(
         new THREE.BoxGeometry(10,20 +x,5),
         new THREE.MeshLambertMaterial({color:"brown"})
     );
-	rtt.position.x = xx+300;
+	rtt.position.x = xx;
 	rtt.position.y = x/2;
 	rtt.position.z = zz;
     scene.add(rtt);
+	flats.push(rtt)
+}
+
+function coin(zz){
+	const rtt = new THREE.Mesh(
+        new THREE.CylinderGeometry(1,1,0.1,100),
+        new THREE.MeshLambertMaterial({color:"yellow"})
+    );
+	rtt.position.x = xx+100;
+	rtt.position.y = 2;
+	rtt.position.z = zz;
+	rtt.rotation.z = Math.PI*(1/2);
+    scene.add(rtt);
+	coins.push(rtt);
+}
+
+
+
+var roads;
+var pills;
+var blocks;
+var flats;
+var coins;
+var points;
+function start(){
+	xx = -20;
+	time = 10;
+	time1 = 0;
+	time2 = [0,0];
+	roads = [];
+	pills = [];
+	blocks = [];
+	flats = [];
+	coins = [];
+	points = 0;
+
+	for (let i=0;i<300;i++){
+		road();
+
+		if (time==10){
+			time = 0;
+			flat(-20);
+			flat(20);
+			pill(3);
+			pill(-3);
+			pill(10);
+			pill(-10);
+		}
+
+		xx += 1;
+		time += 1;
+	}
 }
 
 var move; 
+var end;
 function car(){
     const car = new THREE.Group();
 	move = [];
@@ -157,9 +278,7 @@ function car(){
     scene.add(cabin);  
 	move.push(cabin);  
 
-	xx = 0;
-	time = 0;
-	time1 = 0;
+	end = false;
     return car;
 }
 
@@ -170,16 +289,16 @@ let useAnaglyph = false;
 function renderScene() {
 	//console.log(`objectNumber: ${objectNumber}, useAnaglyph: ${useAnaglyph}`);
 	for (let i=0;i<move.length;i++){
-		if (objectNumber==1){
+		if (objectNumber==1 && move[i].position.y<3){
 			move[i].position.y += 3;
 		}
-		if (objectNumber==2){
+		if (objectNumber==2 && move[i].position.y>2){
 			move[i].position.y -= 3;
 		}
-		if (objectNumber==3){
+		if (objectNumber==3 && move[i].position.z>-6){
 			move[i].position.z -= 6;
 		}
-		if (objectNumber==4){
+		if (objectNumber==4 && move[i].position.z<6){
 			move[i].position.z += 6;
 		}
 	}
