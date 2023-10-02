@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -15,6 +17,77 @@ const loader = new THREE.TextureLoader();
 const bgTexture = loader.load('./back.jpg');
 bgTexture.colorSpace = THREE.SRGBColorSpace;
 scene.background = bgTexture;
+
+/*var mtlLoader = new MTLLoader();
+mtlLoader.load('./untitled1.mtl', function(materials) {
+	materials.preload();
+
+	var glftLoader = new OBJLoader();
+	glftLoader.setMaterials(materials);
+	glftLoader.load('./untitled1.obj', function(gltfScene) {
+		//loadedModel = gltfScene;
+		// console.log(loadedModel);
+
+		gltfScene.rotation.y = Math.PI*(1/2);
+		//gltfScene.scene.position.y = 3;
+		gltfScene.scale.set(0.5, 0.5, 0.5);
+		scene.add(gltfScene);
+	});
+});*/
+
+
+function block(zz){
+	var mtlLoader = new MTLLoader();
+	mtlLoader.setPath('./models/train/');
+	mtlLoader.load('materials.mtl', function(materials) {
+		materials.preload();
+
+		var glftLoader = new OBJLoader();
+		glftLoader.setPath('./models/train/');
+		glftLoader.setMaterials(materials);
+
+		glftLoader.load('./model.obj', function(gltfScene) {
+			gltfScene.position.y = 4;
+			gltfScene.scale.set(6, 6, 6);
+			gltfScene.position.x = xx + Math.floor(Math.random()*200);
+			gltfScene.position.z = zz;
+			scene.add(gltfScene);
+			blocks.push(gltfScene);
+			//scene.add(gltfScene);
+		});
+	});
+}
+
+function coin(zz){
+	var mtlLoader = new MTLLoader();
+	mtlLoader.setPath('./models/coin/');
+	mtlLoader.load('CoinDollarSign.mtl', function(materials) {
+		materials.preload();
+
+		var glftLoader = new OBJLoader();
+		glftLoader.setPath('./models/coin/');
+		glftLoader.setMaterials(materials);
+
+		glftLoader.load('./CoinDollarSign.obj', function(gltfScene) {
+			/*gltfScene.position.y = 4;
+			gltfScene.scale.set(6, 6, 6);
+			gltfScene.position.x = xx + Math.floor(Math.random()*200);
+			gltfScene.position.z = zz;
+			scene.add(gltfScene);
+			blocks.push(gltfScene); */
+			//////
+			gltfScene.scale.set(6, 6, 6);
+			gltfScene.position.x = xx+100;
+			gltfScene.position.y = 2;
+			gltfScene.position.z = zz;
+			//gltfScene.rotation.z = Math.PI*(1/2);
+			scene.add(gltfScene);
+			coins.push(gltfScene);
+			////
+			//scene.add(gltfScene);
+		});
+	});
+}
 
 
 start();
@@ -59,7 +132,7 @@ function animate() {
 
 		if (time1==100){
 			time1 = 0;
-			block(8*(Math.floor(Math.random()*3)-1));
+			block(6*(Math.floor(Math.random()*3)-1));
 			time2[1] = 6*(Math.floor(Math.random()*3)-1);
 			time2[0] = 5;
 		}
@@ -101,23 +174,27 @@ function animate() {
 		road();
 		scene.remove(roads[0]);
 		roads.shift();
+		scene.remove(paves[0]);
+		paves.shift();
+		scene.remove(paves[0]);
+		paves.shift();
 
 		xx += 1;
 		time += 1;
 		time1 += 1;
 	}
-
-	if (blocks.length > 0 && move.length > 2 && blocks[0].position.x == move[2].position.x+3
+    
+	if (blocks.length > 0 && move.length > 2 && blocks[0].position.x == move[2].position.x+4
 		&& 4>= Math.abs(blocks[0].position.z - move[2].position.z)) {
 		end = true;
 		alert("Game Over! You crashed!"+points);
 	}
-	if (blocks.length > 1 && move.length > 2 && blocks[1].position.x == move[2].position.x+3
+	if (blocks.length > 1 && move.length > 2 && blocks[1].position.x == move[2].position.x+4
 		&& 4>= Math.abs(blocks[1].position.z - move[2].position.z)) {
 		end = true;
 		alert("Game Over! You crashed!"+points);
 	}
-	if (blocks.length > 2 && move.length > 2 && blocks[2].position.x == move[2].position.x+3
+	if (blocks.length > 2 && move.length > 2 && blocks[2].position.x == move[2].position.x+4
 		&& 4>= Math.abs(blocks[2].position.z - move[2].position.z)) {
 		end = true;
 		alert("Game Over! You crashed!"+points);
@@ -160,21 +237,35 @@ function road(){
 	rtt.position.y = -0.6;
     scene.add(rtt);
 	roads.push(rtt);
+	pave(22);
+	pave(-22);
+}
+function pave(zz){
+	const rtt = new THREE.Mesh(
+        new THREE.BoxGeometry(1,0.1,22),
+        new THREE.MeshLambertMaterial({color:"black"})
+    );
+	rtt.position.x = xx;
+	rtt.position.z = zz;
+	rtt.position.y = -0.6;
+    scene.add(rtt);
+	paves.push(rtt);
 }
 
-function block(zz){
-	const rtt = new THREE.Mesh(
+/*function block(zz){
+	/*const rtt = new THREE.Mesh(
         new THREE.BoxGeometry(6,6,6),
         new THREE.MeshLambertMaterial({color:"white"})
     );
-	rtt.position.x = xx + Math.floor(Math.random()*200);
+	train(zz);
+	/*rtt.position.x = xx + Math.floor(Math.random()*200);
 	rtt.position.y = 0;
 	rtt.position.z = zz;
     scene.add(rtt);
 	blocks.push(rtt);
-}
+} */
 
-function flat(zz){
+/*function flat(zz){
 	var x = Math.floor(Math.random()*20);
 	const rtt = new THREE.Mesh(
         new THREE.BoxGeometry(10,20 +x,5),
@@ -185,24 +276,25 @@ function flat(zz){
 	rtt.position.z = zz;
     scene.add(rtt);
 	flats.push(rtt)
-}
+}*/
 
-function coin(zz){
-	const rtt = new THREE.Mesh(
+/*function coin(zz){
+	/*const rtt = new THREE.Mesh(
         new THREE.CylinderGeometry(1,1,0.1,100),
         new THREE.MeshLambertMaterial({color:"yellow"})
-    );
+    ); 
 	rtt.position.x = xx+100;
 	rtt.position.y = 2;
 	rtt.position.z = zz;
 	rtt.rotation.z = Math.PI*(1/2);
     scene.add(rtt);
 	coins.push(rtt);
-}
+} */
 
 
 
 var roads;
+var paves;
 var pills;
 var blocks;
 var flats;
@@ -214,19 +306,23 @@ function start(){
 	time1 = 0;
 	time2 = [0,0];
 	roads = [];
+	paves = [];
 	pills = [];
 	blocks = [];
 	flats = [];
 	coins = [];
 	points = 0;
 
+	right = -40;
+	left = -40;
+
 	for (let i=0;i<300;i++){
 		road();
 
 		if (time==10){
 			time = 0;
-			flat(-20);
-			flat(20);
+			flat00(-20);
+			flat00(20);
 			pill(3);
 			pill(-3);
 			pill(10);
@@ -236,6 +332,10 @@ function start(){
 		xx += 1;
 		time += 1;
 	}
+	flat00(-20);
+	flat00(20);
+	flat00(-20);
+	flat00(20);
 }
 
 var move; 
@@ -340,3 +440,118 @@ function doKeyboard(event) {
 document.addEventListener('keydown', doKeyboard);
 
 animate();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function flat(zz){
+	var pp = Math.floor(Math.random()*6);
+	console.log(pp+" x value 2 :"+xx);
+	var obj = ['large_buildingA.obj', 'large_buildingB.obj', 'large_buildingC.obj',
+	'large_buildingD.obj', 'large_buildingG.obj', 'large_buildingF.obj'];
+	var mtl = ['large_buildingA.mtl', 'large_buildingB.mtl', 'large_buildingC.mtl',
+	'large_buildingD.mtl', 'large_buildingG.mtl', 'large_buildingF.mtl'];
+	var mtlLoader = new MTLLoader();
+	mtlLoader.setPath('./models/large/');
+	mtlLoader.load(mtl[pp], function(materials) {
+		materials.preload();
+
+		var glftLoader = new OBJLoader();
+		glftLoader.setPath('./models/large/');
+		glftLoader.setMaterials(materials);
+
+		glftLoader.load(obj[pp], function(gltfScene) {
+			/*gltfScene.position.y = 4;
+			gltfScene.scale.set(10, 10, 10);
+			gltfScene.position.x = xx + Math.floor(Math.random()*200);
+			gltfScene.position.z = zz;
+			scene.add(gltfScene);
+			blocks.push(gltfScene);*/
+			//scene.add(gltfScene);
+
+			//var x = Math.floor(Math.random()*20);
+			gltfScene.scale.set(10, 10, 10);
+			gltfScene.position.x = xx;
+			console.log(pp+" x value"+xx);
+			gltfScene.position.y = 0;
+			gltfScene.position.z = zz;
+			scene.add(gltfScene);
+			flats.push(gltfScene);
+		});
+	});
+}
+
+var right;
+var left;
+function flat00(zz){
+	var pp = Math.floor(Math.random()*6);
+	console.log(pp+" x value 2 :"+xx);
+	var obj = ['large_buildingA.obj', 'large_buildingB.obj', 'large_buildingC.obj',
+	'large_buildingD.obj', 'large_buildingG.obj', 'large_buildingF.obj'];
+	var mtl = ['large_buildingA.mtl', 'large_buildingB.mtl', 'large_buildingC.mtl',
+	'large_buildingD.mtl', 'large_buildingG.mtl', 'large_buildingF.mtl'];
+	var mtlLoader = new MTLLoader();
+	mtlLoader.setPath('./models/large/');
+	mtlLoader.load(mtl[pp], function(materials) {
+		materials.preload();
+
+		var glftLoader = new OBJLoader();
+		glftLoader.setPath('./models/large/');
+		glftLoader.setMaterials(materials);
+
+		glftLoader.load(obj[pp], function(gltfScene) {
+			/*gltfScene.position.y = 4;
+			gltfScene.scale.set(10, 10, 10);
+			gltfScene.position.x = xx + Math.floor(Math.random()*200);
+			gltfScene.position.z = zz;
+			scene.add(gltfScene);
+			blocks.push(gltfScene);*/
+			//scene.add(gltfScene);
+
+			//var x = Math.floor(Math.random()*20);
+			gltfScene.scale.set(10, 10, 10);
+			if (zz<0){
+				gltfScene.position.x = left;
+				left += 10;
+			}
+			else {
+				gltfScene.position.x = right;
+				right += 10;
+			}
+			console.log(pp+" x value"+xx);
+			gltfScene.position.y = 0;
+			gltfScene.position.z = zz;
+			scene.add(gltfScene);
+			flats.push(gltfScene);
+		});
+	});
+}
