@@ -62,6 +62,59 @@
             cursor: pointer;
             font-size: 18px;
         }
+        #myButtons{
+            position: relative;
+            margin-left: 700px;
+        margin-top: 400px;
+        }
+       #startButton{
+        text-align: center;
+        width: 200px;
+        height: 70px;
+       }
+       #optionButton{
+        text-align: center;
+        width: 200px;
+        height: 70px;
+       }
+       #quitButton{
+        text-align: center;
+        width: 200px;
+        height: 70px;
+       }
+       .hidden {
+    display: none;
+}
+
+/* CSS to increase the size and center the checkbox */
+/* CSS to increase the size and center the checkbox and label */
+#optionsMenu {
+  display: flex;
+  align-items: center;
+  left: 50px;
+  text-align: center;
+  margin-top: 450px;
+  padding: 10px; /* Add padding for spacing */
+}
+
+#soundSwitch {
+  width: 30px; /* Set the width of the checkbox */
+  height: 30px; /* Set the height of the checkbox */
+  transform: scale(2); /* Increase the size of the checkbox */
+  margin: 0 10px; /* Add margin for spacing */
+}
+
+#words {
+  font-size: 24px; /* Increase the font size of the label */
+  margin-right: 10px; /* Add margin for spacing between the label and checkbox */
+}
+#back{
+        text-align: center;
+        width: 200px;
+        height: 70px;
+       }
+
+
 		</style>
 	</head>
 	<body>
@@ -69,12 +122,88 @@
 			<div class="card-title">Score</div>
 			<div class="score-value" id="score">0</div>
 		</div>
+        <div id="myButtons">
+        <button id="startButton">Start Game</button>
+        <button id="optionButton">Options</button>
+        <button id="quitButton">Quit</button>
+         
+    </div>
+  
+    <div id="optionsMenu" class="hidden" style="display: none;">
+        <label for="soundSwitch" id="words">Sound</label>
+        <input type="checkbox" id="soundSwitch">
+        <button id="back" onclick="back()">back</button>
+    </div>
 
 		<div class="game-over-card" id="gameOverCard">
 			<div class="game-over-text">Game Over</div>
-			<button class="restart-button" onclick="restartGame()">Restart</button>
+			<button class="restart-button" id="restartGame">Restart</button>
 		</div>
 
 		<script type="module" src="./main.js"></script>
 	</body>
+
+    <script>
+        const optionButton = document.getElementById('optionButton');
+const optionsMenu = document.getElementById('optionsMenu');
+const soundSwitch = document.getElementById('soundSwitch');
+const divButtons=document.getElementById("myButtons");
+let isSoundOn = true; // Initially, sound is on
+
+// Event listener for the "Options" button
+optionButton.addEventListener('click', () => {
+    // Toggle the visibility of the options menu
+    divButtons.style.display="none";
+    optionsMenu.style.display="block";
+    if (optionsMenu.classList.contains('hidden')) {
+        optionsMenu.classList.remove('hidden');
+    } else {
+        optionsMenu.classList.add('hidden');
+    }
+});
+
+function back(){
+    divButtons.style.display="block";
+    optionsMenu.style.display="none";
+}
+// Event listener for the sound switch
+soundSwitch.addEventListener('change', () => {
+    // Update the sound status based on the switch state
+    isSoundOn = soundSwitch.checked;
+
+    // Play or stop the song based on the sound status
+    if (isSoundOn) {
+        // Play the song (you'll need to add your specific code for playing the song)
+        playSound();
+    } else {
+        // Stop the song (you'll need to add your specific code for stopping the song)
+        stopSound();
+    }
+});
+let audio; // Global variable to hold the audio element
+
+// Function to play the sound
+function playSound() {
+    if (!audio) {
+        // Create an audio element and set the source of your audio file
+        audio = new Audio('01 John Wick (feat_ Sir Trill & Da Muziqal Chef).mp3');
+        audio.loop = true; // Enable looping for continuous playback
+    }
+
+    // Check if the audio is paused, and if so, play it
+    if (audio.paused) {
+        audio.play();
+    }
+}
+
+// Function to stop the sound
+function stopSound() {
+    if (audio) {
+        audio.pause();
+    }
+}
+
+    </script>
+
+   
 </html>

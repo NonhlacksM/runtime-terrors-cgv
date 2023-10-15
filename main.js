@@ -114,7 +114,8 @@ function block(zz){
 		glftLoader.load('./model.obj', function(gltfScene) {
 			gltfScene.position.y = 4;
 			gltfScene.scale.set(6, 6, 6);
-			gltfScene.position.x = xx + Math.floor(Math.random()*200);
+			//gltfScene.position.x = xx + Math.floor(Math.random()*200);
+			gltfScene.position.x = xx;
 			gltfScene.position.z = zz;
 			gltfScene.traverse(function(node){
 				if(node.isMesh){
@@ -165,9 +166,14 @@ function coin(zz){
 		});
 	});
 }
+const divButtons=document.getElementById("myButtons");
+const startButton=document.getElementById("startButton");
+startButton.addEventListener("click",function(e){
+	divButtons.style.display="none";
+	start();
+	animate();
+});
 
-
-start();
 const playerCar = car();
 ///////////
 
@@ -229,6 +235,9 @@ loader1.load('./untitled3.glb', function (gltf) {
 				firstAnimationAction1.reset();
 				firstAnimationAction1.play();
 				person.position.y += 3;
+				if(check==="true"){
+					camera.position.y += 3;
+			    }
 			}
 
 			else {
@@ -240,7 +249,11 @@ loader1.load('./untitled3.glb', function (gltf) {
 }, undefined, function (error) {
     console.error(error);
 });
-
+/*const restart =document.getElementById("restart-button");
+restart.addEventListener("click",function(e){
+	alert("game over!!");
+	start();
+});*/
 		
 
 //////////
@@ -286,7 +299,7 @@ function animate() {
 		}
 		camera.position.x += 1;
 
-		if (time1==100){
+		if (time1>=levels){
 			time1 = 0;
 			block(6*(Math.floor(Math.random()*3)-1));
 			time2[1] = 6*(Math.floor(Math.random()*3)-1);
@@ -369,6 +382,9 @@ function animate() {
 		if (coins.length > l && move.length > 2 && coins[l].position.x == move[2].position.x+3
 			&& 4>= Math.abs(coins[l].position.z - move[2].position.z)) {
 				points += 1;
+				if (points%30==0){
+					levels = levels/2;
+				}
 				scoreElement.textContent = points;
 				scene.remove(coins[l]);
 				coins.shift();
@@ -379,6 +395,9 @@ function animate() {
 		jumpjump -= 1;
 		if (jumpjump ==0){
 		person.position.y -= 3;
+		if(check==="true"){
+			camera.position.y -= 3;
+		}
 		}
 	}
 
@@ -479,6 +498,7 @@ var blocks;
 var flats;
 var coins;
 var points;
+var levels;
 var sLights;
 function start(){
 	xx = -20;
@@ -493,6 +513,7 @@ function start(){
 	coins = [];
 	sLights = [];
 	points = 0;
+	levels = 128;
 
 	jumpjump = 0;
 
@@ -587,36 +608,60 @@ function car(){
 
 let objectNumber = 1;
 let useAnaglyph = false;
-
+var check = "false";
 // Rendering function (replace with your rendering logic)
 function renderScene() {
 	//console.log(`objectNumber: ${objectNumber}, useAnaglyph: ${useAnaglyph}`);
 	for (let i=0;i<move.length;i++){
-		if (objectNumber==1 && move[i].position.y<3){
+		if (objectNumber==1 && move[i].position.y<3 ){
 			move[i].position.y += 3;
 		}
-		if (objectNumber==2 && move[i].position.y>2){
+		if (objectNumber==2 && move[i].position.y>2 ){
 			move[i].position.y -= 3;
 		}
-		if (objectNumber==3 && move[i].position.z>-6){
+		if (objectNumber==3 && move[i].position.z>-6 ){
 			move[i].position.z -= 6;
 		}
-		if (objectNumber==4 && move[i].position.z<6){
+		if (objectNumber==4 && move[i].position.z<6 ){
 			move[i].position.z += 6;
+		}
+		if (objectNumber==5 && check==="false"){
+			camera.position.x = camera.position.x+15.9;
+			camera.position.y = 4.7;
+			camera.position.z = person.position.z;
+			camera.rotation.y = Math.PI*(3/2);
+			check= "true";
+		}
+		if (objectNumber==6 && check==="true"){
+			camera.position.x = camera.position.x-15.9;
+			camera.position.y = 7;
+			camera.position.z = 0;
+			camera.rotation.y = Math.PI*(3/2);
+			check= "false";
 		}
 	}
 
-	if (objectNumber==1 && person.position.y<3){
+	if (objectNumber==1 && person.position.y<3 ){
 		jumpjump = 10;
 	}
-	if (objectNumber==2 && person.position.y>2){
+	if (objectNumber==2 && person.position.y>2 ){
+		if(check==="true"){
+
+		}
 		person.position.y -= 3;
 	}
 	if (objectNumber==3 && person.position.z>-6){
 		person.position.z -= 6;
+		if(check==="true"){
+			camera.position.z -= 6;
+		}
+		
 	}
 	if (objectNumber==4 && person.position.z<6){
 		person.position.z += 6;
+		if(check==="true"){
+			camera.position.z += 6;
+		}
 	}
     
 }
@@ -639,6 +684,12 @@ function doKeyboard(event) {
 		case 'ArrowRight':
 			objectNumber = 4;
 			break;
+			case 'A':
+				objectNumber = 5;
+				break;
+			case 'D':
+				objectNumber = 6;
+				break;
 		case ' ':
 			useAnaglyph = !useAnaglyph;
 			break;
@@ -664,9 +715,56 @@ function toggleCardVisibility() {
 		card.style.display = "none"; // Hide the card
 	} */
 }
+// Define an array to store objects that should be kept in the scene
+const objectsToKeep = [];
+
+const restart = document.getElementById("restartGame");
+restart.addEventListener("click", function (e) {
+    card.style.display = "none";
+
+    // Iterate through the scene's children and filter out lights and camera
+    scene.children.forEach((child) => {
+        if (child instanceof THREE.PerspectiveCamera || child instanceof THREE.AmbientLight) {
+            // Keep the perspective camera and ambient light in the scene
+            objectsToKeep.push(child);
+        } else {
+            // Remove other objects from the scene
+            scene.remove(child);
+        }
+    });
+
+    // Clear the renderer's buffer
+    renderer.clear();
+
+    // Add back the perspective camera and ambient light to the scene
+    objectsToKeep.forEach((obj) => {
+        scene.add(obj);
+    });
+
+    end = false;
+    start();
+
+    scene.add(person);
+
+    for (let i = 0; i < move.length; i++) {
+        move[i].position.x = 0;
+        scene.add(move[i]);
+    }
 
 
-animate();
+	
+		// Set the visibility of "frontwheel" to true
+		move[2].visible = true;
+	
+
+    camera.position.set(-15, 7, 0);
+    person.position.x = 0;
+
+    animate();
+});
+
+
+//animate();
 
 
 
