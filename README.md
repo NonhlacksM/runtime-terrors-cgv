@@ -1,4 +1,5 @@
 **RunTime-Terros 3D Game**
+
 Welcome to the RunTime-Terros 3D Game! This project provides an immersive gaming experience set in a 3D subway environment. Players can control a character and navigate through the subway, collecting coins and avoiding obstacles to increase their score.
 
 ## Table of Contents
@@ -20,9 +21,11 @@ Before you begin, ensure you have met the following requirements:
 - **[Three.js](https://threejs.org/)**: This project is built using the Three.js library, so you should be familiar with it.
 
 2. **Access the Game:**
-   Open a web browser and go to `http://localhost:8000` (or the appropriate local server URL). You should see the game running.
+   
+   Open a web browser and go to `(To be added)`. You should see the game running.
 
-3. **Game Controls:**
+4. **Game Controls:**
+   
    - Use the arrow keys to control your character.
    - Up Arrow: Move Up
    - Down Arrow: Move Down
