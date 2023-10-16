@@ -88,14 +88,7 @@
 
 /* CSS to increase the size and center the checkbox */
 /* CSS to increase the size and center the checkbox and label */
-#optionsMenu {
-  display: flex;
-  align-items: center;
-  left: 50px;
-  text-align: center;
-  margin-top: 25%;
-  padding: 10px; /* Add padding for spacing */
-}
+
 
 #soundSwitch {
   width: 30px; /* Set the width of the checkbox */
@@ -117,9 +110,18 @@
 
 		</style>
         <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="styles.css">
 	</head>
 	<body>
-		<div class="score-card">
+        <div id="welcomeContainer">
+            <h1 id="gameNameWelcome">Welcome to RunTime Terror</h1>
+            <div class= "infinite" id="RunTimeAnimation">
+                <div class="girl"></div>
+                <div class="shadow"></div>
+            </div>
+        </div>
+        
+		<div class="score-card" id = "scoreCard" style="display: none;">
 			<div class="card-title">Score</div>
 			<div class="score-value" id="score">0</div>
 		</div>
@@ -148,12 +150,14 @@
 const optionsMenu = document.getElementById('optionsMenu');
 const soundSwitch = document.getElementById('soundSwitch');
 const divButtons=document.getElementById("myButtons");
+const welcomeContainer=document.getElementById("welcomeContainer");
 let isSoundOn = true; // Initially, sound is on
 
 // Event listener for the "Options" button
 optionButton.addEventListener('click', () => {
     // Toggle the visibility of the options menu
     divButtons.style.display="none";
+    welcomeContainer.style.display = "none";
     optionsMenu.style.display="block";
     if (optionsMenu.classList.contains('hidden')) {
         optionsMenu.classList.remove('hidden');
@@ -165,6 +169,7 @@ optionButton.addEventListener('click', () => {
 function back(){
     divButtons.style.display="flex";
     optionsMenu.style.display="none";
+    welcomeContainer.style.display = "block";
 }
 // Event listener for the sound switch
 soundSwitch.addEventListener('change', () => {

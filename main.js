@@ -168,8 +168,13 @@ function coin(zz){
 }
 const divButtons=document.getElementById("myButtons");
 const startButton=document.getElementById("startButton");
+const scoreCard = document.getElementById("scoreCard");
+const welcomeContainer=document.getElementById("welcomeContainer");
+
 startButton.addEventListener("click",function(e){
+	welcomeContainer.style.display = "none"
 	divButtons.style.display="none";
+	scoreCard.style.display="block";
 	start();
 	animate();
 });
@@ -721,6 +726,7 @@ const objectsToKeep = [];
 const restart = document.getElementById("restartGame");
 restart.addEventListener("click", function (e) {
     card.style.display = "none";
+	welcomeContainer.style.display="none";
 
     // Iterate through the scene's children and filter out lights and camera
     scene.children.forEach((child) => {
