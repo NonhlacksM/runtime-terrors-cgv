@@ -1,0 +1,65 @@
+body {
+    font-size:16px;
+    margin:0px;
+    padding:0px;
+    /* display:flex;
+    flex-direction:column;
+    align-items:center; */
+    background-color:#1bafdb;
+    font-family: Arial;
+    height: 100vh; /* Set the body's height to 100% of the viewport height */
+    overflow: hidden; /*Hide scrollbars */
+}
+
+button {
+    border:none;
+    appearance:none;
+    outline:none;
+    display:inline-block;
+    font-size:1.5em;
+    cursor:pointer;
+    text-decoration:none;
+    padding:12px 48px 12px 48px;
+    border-radius:4px;
+    color:#ffffff;
+    background-color:#1bafdb;
+    border: 2px solid #ffffff;
+}
+button {   transition-duration: 0.4s; }
+button:hover {
+    font-size:1.6em;
+    background-color:#05c46b;
+}
+.screen {
+    padding: 20px;     
+    position: fixed;     
+    top:50%;     
+    left:50%;     
+    margin-top: -100px;     
+    margin-left: -100px;     
+    height:200px;     
+    width:250px;     
+    text-align: center;
+}
+
+#myButtons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    margin-right: 50%; 
+    flex-direction: column;
+} 
+  
+  button {
+    margin: 5px; /* Add some spacing between buttons */
+  }
+  /* #myButtons {
+    border: 5px solid;
+    position: absolute;
+    top: 0%;
+    transform: translate(0, -50%);
+    padding: 10px;
+    display: flex;
+    flex-direction: column; 
+  } */

@@ -116,20 +116,20 @@
 
 
 		</style>
+        <link rel="stylesheet" href="index.css">
 	</head>
 	<body>
 		<div class="score-card">
 			<div class="card-title">Score</div>
 			<div class="score-value" id="score">0</div>
 		</div>
-        <div id="myButtons">
-        <button id="startButton">Start Game</button>
-        <button id="optionButton">Options</button>
-        <button id="quitButton">Quit</button>
-         
-    </div>
+        <div class="button-container" id="myButtons">
+            <button id="startButton">Start Game</button>
+            <button id="optionButton">Options</button>
+            <button id="quitButton">Quit</button>
+         </div>
   
-    <div id="optionsMenu" class="hidden" style="display: none;">
+    <div id="optionsMenu" class="hidden">
         <label for="soundSwitch" id="words">Sound</label>
         <input type="checkbox" id="soundSwitch">
         <button id="back" onclick="back()">back</button>
