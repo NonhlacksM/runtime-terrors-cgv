@@ -399,26 +399,26 @@ function animate() {
 		xx += 1;
 		time += 1;
 		time1 += 1;
-	}
     
-	if (blocks.length > 0 && move.length > 0 && blocks[0].position.x == move[0].position.x+4
-		&& 4>= Math.abs(blocks[0].position.z - move[0].position.z)) {
-		end = true;
-		dead = true;
-		toggleCardVisibility();
-	}
-	if (blocks.length > 1 && move.length > 0 && blocks[1].position.x == move[0].position.x+4
-		&& 4>= Math.abs(blocks[1].position.z - move[0].position.z)) {
-		end = true;
-		dead = true;
-		toggleCardVisibility();
-	}
-	if (blocks.length > 2 && move.length > 0 && blocks[2].position.x == move[0].position.x+4
-		&& 4>= Math.abs(blocks[2].position.z - move[0].position.z)) {
-		end = true;
-		dead = true;
-		toggleCardVisibility();
-	}
+		if (blocks.length > 0 && move.length > 0 && blocks[0].position.x == move[0].position.x+4
+			&& 4>= Math.abs(blocks[0].position.z - move[0].position.z)) {
+			end = true;
+			dead = true;
+			toggleCardVisibility();
+		}
+		if (blocks.length > 1 && move.length > 0 && blocks[1].position.x == move[0].position.x+4
+			&& 4>= Math.abs(blocks[1].position.z - move[0].position.z)) {
+			end = true;
+			dead = true;
+			toggleCardVisibility();
+		}
+		if (blocks.length > 2 && move.length > 0 && blocks[2].position.x == move[0].position.x+4
+			&& 4>= Math.abs(blocks[2].position.z - move[0].position.z)) {
+			end = true;
+			dead = true;
+			toggleCardVisibility();
+		}
+	
 
 	function updateLeaderboardd(score) {
 		const leaderboard = document.getElementById('leaderboard');
@@ -493,6 +493,7 @@ function animate() {
 			camera.position.y -= 3;
 		}
 		}
+	}
 	}
 
     renderer.render(scene, camera);

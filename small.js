@@ -10,7 +10,12 @@ scoreBoard.addEventListener("click",function(e){
    }
 
 });
+
+const card = document.getElementById("gameOverCard");
+const scoreCard = document.getElementById("scoreCard");
 function scoreBack(){
+    card.style.display = "none";
+    scoreCard.style.display = "none";
     divButtons.style.display="flex";
     leaderboard.style.display="none";
     welcomeContainer.style.display = "block";
