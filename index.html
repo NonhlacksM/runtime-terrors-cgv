@@ -108,12 +108,22 @@
        }
 
 
+#options {
+  display: none;
+ }
+
 		</style>
         <link rel="stylesheet" href="index.css">
         <link rel="stylesheet" href="styles.css">
         <link rel="stylesheet" href="small.css">
 	</head>
 	<body>
+
+  
+
+
+
+
         <div id="welcomeContainer">
             <h1 id="gameNameWelcome">Welcome to RunTime Terror</h1>
             <div class= "infinite" id="RunTimeAnimation">
@@ -125,7 +135,15 @@
 		<div class="score-card" id = "scoreCard" style="display: none;">
 			<div class="card-title">Score</div>
 			<div class="score-value" id="score">0</div>
+
+            <button id="pauseButton">Pause</button>
+    <div id="options">
+        <button id="playButton">Play</button>
+        <button id="settingsButton">Options</button>
+    </div>
+
 		</div>
+        
         <div id="myButtons" style="display: flex;flex-direction: column;">
             <button id="startButton">Start Game</button>
             <button id="scoreBoard">Leaderboard</button>
@@ -168,15 +186,32 @@
 	</body>
 
     <script>
-        const optionButton = document.getElementById('optionButton');
+const optionButton = document.getElementById('optionButton');
+const settingsButton = document.getElementById('settingsButton');
 const optionsMenu = document.getElementById('optionsMenu');
 const soundSwitch = document.getElementById('soundSwitch');
 const divButtons=document.getElementById("myButtons");
 const welcomeContainer=document.getElementById("welcomeContainer");
 let isSoundOn = true; // Initially, sound is on
 
+
+let backkk;
 // Event listener for the "Options" button
 optionButton.addEventListener('click', () => {
+    backkk = true;
+    // Toggle the visibility of the options menu
+    divButtons.style.display="none";
+    welcomeContainer.style.display = "none";
+    optionsMenu.style.display="block";
+    if (optionsMenu.classList.contains('hidden')) {
+        optionsMenu.classList.remove('hidden');
+    } else {
+        optionsMenu.classList.add('hidden');
+    }
+});
+
+settingsButton.addEventListener('click', () => {
+    backkk = false;
     // Toggle the visibility of the options menu
     divButtons.style.display="none";
     welcomeContainer.style.display = "none";
@@ -189,9 +224,11 @@ optionButton.addEventListener('click', () => {
 });
 
 function back(){
-    divButtons.style.display="flex";
     optionsMenu.style.display="none";
-    welcomeContainer.style.display = "block";
+    if (backkk){
+        divButtons.style.display="flex";
+        welcomeContainer.style.display = "block";
+    }
 }
 // Event listener for the sound switch
 soundSwitch.addEventListener('change', () => {
@@ -231,6 +268,11 @@ function stopSound() {
 }
 
     </script>
+
+
+
+
+
 
    
 </html>

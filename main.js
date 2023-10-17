@@ -123,7 +123,7 @@ function coin(zz){
 
 function block(zz){
 	var here = blockClone.clone();
-	here.position.x = xx + Math.floor(Math.random()*200);
+	here.position.x = xx;
 	here.position.z = zz;
 	scene.add(here);
 	blocks.push(here);
@@ -404,16 +404,19 @@ function animate() {
 	if (blocks.length > 0 && move.length > 0 && blocks[0].position.x == move[0].position.x+4
 		&& 4>= Math.abs(blocks[0].position.z - move[0].position.z)) {
 		end = true;
+		dead = true;
 		toggleCardVisibility();
 	}
 	if (blocks.length > 1 && move.length > 0 && blocks[1].position.x == move[0].position.x+4
 		&& 4>= Math.abs(blocks[1].position.z - move[0].position.z)) {
 		end = true;
+		dead = true;
 		toggleCardVisibility();
 	}
 	if (blocks.length > 2 && move.length > 0 && blocks[2].position.x == move[0].position.x+4
 		&& 4>= Math.abs(blocks[2].position.z - move[0].position.z)) {
 		end = true;
+		dead = true;
 		toggleCardVisibility();
 	}
 
@@ -453,7 +456,7 @@ function animate() {
 	}
 	
 	
-	if (end == true) {
+	if (dead == true) {
 		updateLeaderboardd(points);
 	
 		// Display the leaderboard pop-up
@@ -598,6 +601,7 @@ function start(){
 
 var move; 
 var end;
+var dead;
 function car(){
     const car = new THREE.Group();
 	move = [];
@@ -613,8 +617,9 @@ function car(){
     scene.add(main);
 	move.push(main);
 
-	alert(move.length);
+	
 	end = false;
+	dead = false;
     return car;
 }
 
@@ -722,7 +727,8 @@ document.addEventListener('keydown', doKeyboard);
 function toggleCardVisibility() {
 	
 	if (card.style.display === "none") {
-		card.style.display = "block"; // Show the card
+		card.style.display = "block"; 
+		// Show the card
 	} /*else {
 		card.style.display = "none"; // Hide the card
 	} */
@@ -753,8 +759,9 @@ restart.addEventListener("click", function (e) {
     objectsToKeep.forEach((obj) => {
         scene.add(obj);
     });
-
+    scoreElement.textContent = 0;
     end = false;
+	dead = false;
     start();
 
     scene.add(person);
@@ -775,6 +782,31 @@ restart.addEventListener("click", function (e) {
 
     animate();
 });
+
+const pauseButton = document.getElementById("pauseButton");
+const options = document.getElementById("options");
+const playButton = document.getElementById("playButton");
+const settingsButton = document.getElementById("settingsButton");
+
+pauseButton.addEventListener("click", function() {
+	if (!dead){
+		end = true;
+	    options.style.display = "block";
+	}
+});
+
+playButton.addEventListener("click", function() {
+	end = false;
+	options.style.display = "none";
+	// Add code to resume playback here
+});
+
+/*settingsButton.addEventListener("click", function() {
+
+	// Add code to open options/settings here
+	alert("Options clicked");
+});*/
+       
 
 
 //animate();
