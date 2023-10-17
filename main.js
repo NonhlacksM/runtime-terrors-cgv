@@ -11,31 +11,191 @@ card.style.display = "none";
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
+camera.position.x = -15;
+camera.position.y = 7;
+camera.position.z = 0;
+camera.rotation.y = Math.PI*(3/2);
+
+
 const renderer = new THREE.WebGLRenderer();
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Shadow map type can be adjusted
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Add ambient light to the scene
-//const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-//scene.add(ambientLight);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+scene.add(ambientLight);
+
+// CLASS FOR MODELS
+/////////////////////////////////////////////////////////////////////////////////
+
+let blockClone;
+var blockCreate = new MTLLoader();
+blockCreate.setPath('./models/train/');
+blockCreate.load('materials.mtl', function(materials) {
+	materials.preload();
+
+	var glftLoader = new OBJLoader();
+	glftLoader.setPath('./models/train/');
+	glftLoader.setMaterials(materials);
+
+	glftLoader.load('./model.obj', function(gltfScene) {
+		gltfScene.position.y = 4;
+		gltfScene.scale.set(6, 6, 6);
+		gltfScene.traverse(function(node){
+			if(node.isMesh){
+				node.castShadow = true;
+				node.receiveShadow = true;
+			}
+		});
+		blockClone = gltfScene;
+	});
+});
+
+let coinClone;
+var coinCreate  = new MTLLoader();
+coinCreate.setPath('./models/coin/');
+coinCreate.load('CoinDollarSign.mtl', function(materials) {
+	materials.preload();
+
+	var glftLoader = new OBJLoader();
+	glftLoader.setPath('./models/coin/');
+	glftLoader.setMaterials(materials);
+
+	glftLoader.load('./CoinDollarSign.obj', function(gltfScene) {
+		gltfScene.scale.set(6, 6, 6);
+		gltfScene.position.y = 2;
+		gltfScene.traverse(function(node){
+			if(node.isMesh){
+				node.castShadow = true;
+				node.receiveShadow = true;
+			}
+		});
+		coinClone = gltfScene;
+	});
+});
+
+let flatClone;
+fflatClonee();
+function fflatClonee(){
+	flatClone = [];
+	for (let ii=0; ii<6; ii++){
+		var obj = ['large_buildingA.obj', 'large_buildingB.obj', 'large_buildingC.obj',
+		'large_buildingD.obj', 'large_buildingG.obj', 'large_buildingF.obj'];
+		var mtl = ['large_buildingA.mtl', 'large_buildingB.mtl', 'large_buildingC.mtl',
+		'large_buildingD.mtl', 'large_buildingG.mtl', 'large_buildingF.mtl'];
+		var flatCreate = new MTLLoader();
+		flatCreate.setPath('./models/large/');
+		flatCreate.load(mtl[ii], function(materials) {
+			materials.preload();
+
+			var glftLoader = new OBJLoader();
+			glftLoader.setPath('./models/large/');
+			glftLoader.setMaterials(materials);
+
+			glftLoader.load(obj[ii], function(gltfScene) {
+				gltfScene.scale.set(10, 10, 10);
+				gltfScene.position.y = 0;
+				gltfScene.traverse(function(node){
+					if(node.isMesh){
+						node.castShadow = false;
+						node.receiveShadow = true;
+					}
+				});
+				flatClone.push(gltfScene);
+			});
+		});
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+
+// CLASS FOR CREATING MODELS
+/////////////////////////////////////////////////////////////////////////////////
+
+function coin(zz){
+	var here = coinClone.clone();
+	here.position.x = xx + 100;
+	here.position.z = zz;
+	scene.add(here);
+	coins.push(here);
+}
+
+function block(zz){
+	var here = blockClone.clone();
+	here.position.x = xx + Math.floor(Math.random()*200);
+	here.position.z = zz;
+	scene.add(here);
+	blocks.push(here);
+}
+
+function flat(zz){
+	var pp = Math.floor(Math.random()*6);
+	var here = flatClone[pp].clone();
+	here.position.x = xx;
+	here.position.z = zz;
+	scene.add(here);
+	flats.push(here);
+}
+
+var right;
+var left;
+function flat00(zz){
+	var pp = Math.floor(Math.random()*6);
+	
+	var obj = ['large_buildingA.obj', 'large_buildingB.obj', 'large_buildingC.obj',
+	'large_buildingD.obj', 'large_buildingG.obj', 'large_buildingF.obj'];
+	var mtl = ['large_buildingA.mtl', 'large_buildingB.mtl', 'large_buildingC.mtl',
+	'large_buildingD.mtl', 'large_buildingG.mtl', 'large_buildingF.mtl'];
+	var mtlLoader = new MTLLoader();
+	mtlLoader.setPath('./models/large/');
+	mtlLoader.load(mtl[pp], function(materials) {
+		materials.preload();
+
+		var glftLoader = new OBJLoader();
+		glftLoader.setPath('./models/large/');
+		glftLoader.setMaterials(materials);
+
+		glftLoader.load(obj[pp], function(gltfScene) {
+			gltfScene.scale.set(10, 10, 10);
+			if (zz<0){
+				gltfScene.position.x = left;
+				left += 10;
+			}
+			else {
+				gltfScene.position.x = right;
+				right += 10;
+			}
+			
+			gltfScene.position.y = 0;
+			gltfScene.position.z = zz;
+			gltfScene.traverse(function(node){
+				if(node.isMesh){
+					node.castShadow = false;
+					node.receiveShadow = true;
+				}
+			});
+			scene.add(gltfScene);
+			flats.push(gltfScene);
+		});
+	});
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
+
+
+// Do not know yet
+/////////////////////////////////////////////////////////////////////////////////
+
 function sLight(zz){
 	let light = new THREE.PointLight(0xFFFFFF, 200.0);
 	light.position.set(zz, 11.5, 9.8);
-	//light.target.position.set(300,0,0);
 	light.castShadow = true;
-	/*light.shadow.bias = -0.001;
-	light.shadow.mapSize.width = 2048;
-	light.shadow.mapSize.height = 2048;
-	light.shadow.camera.near = 0.1;
-	light.shadow.camera.far = 500.0;
-	light.shadow.camera.left = 800;
-	light.shadow.camera.right = -800;
-	light.shadow.camera.top = 800;
-	light.shadow.camera.bottom = -800;*/
 	scene.add(light);
 	sLights.push(light);
+	
 	var mtlLoader = new MTLLoader();
 	mtlLoader.setPath('./models/lights/');
 	mtlLoader.load('materials.mtl', function(materials) {
@@ -46,18 +206,10 @@ function sLight(zz){
 		glftLoader.setMaterials(materials);
 
 		glftLoader.load('./model.obj', function(gltfScene) {
-			/*gltfScene.position.y = 4;
-			gltfScene.scale.set(6, 6, 6);
-			gltfScene.position.x = xx + Math.floor(Math.random()*200);
-			gltfScene.position.z = zz;
-			scene.add(gltfScene);
-			blocks.push(gltfScene); */
-			//////
 			gltfScene.scale.set(4, 4, 4);
 			gltfScene.position.x = zz;
 			gltfScene.position.y = 10;
 			gltfScene.position.z = 11;
-			//gltfScene.rotation.z = Math.PI*(1/2);
 			gltfScene.traverse(function(node){
 				if(node.isMesh){
 					node.castShadow = true;
@@ -65,123 +217,10 @@ function sLight(zz){
 				}
 			});
 			scene.add(gltfScene);
-			//coins.push(gltfScene);
-			////
-			//scene.add(gltfScene);
+			lightPoll.push(gltfScene);
 		});
 	});
 }
-//sLight(0);
-//sLight(100);
-//sLight(200);
-//sLight(300);
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
-scene.add(ambientLight);
-
-const loader = new THREE.TextureLoader();
-const bgTexture = loader.load('./back.jpg');
-bgTexture.colorSpace = THREE.SRGBColorSpace;
-scene.background = bgTexture;
-
-/*var mtlLoader = new MTLLoader();
-mtlLoader.load('./untitled1.mtl', function(materials) {
-	materials.preload();
-
-	var glftLoader = new OBJLoader();
-	glftLoader.setMaterials(materials);
-	glftLoader.load('./untitled1.obj', function(gltfScene) {
-		//loadedModel = gltfScene;
-		// console.log(loadedModel);
-
-		gltfScene.rotation.y = Math.PI*(1/2);
-		//gltfScene.scene.position.y = 3;
-		gltfScene.scale.set(0.5, 0.5, 0.5);
-		scene.add(gltfScene);
-	});
-});*/
-
-
-function block(zz){
-	var mtlLoader = new MTLLoader();
-	mtlLoader.setPath('./models/train/');
-	mtlLoader.load('materials.mtl', function(materials) {
-		materials.preload();
-
-		var glftLoader = new OBJLoader();
-		glftLoader.setPath('./models/train/');
-		glftLoader.setMaterials(materials);
-
-		glftLoader.load('./model.obj', function(gltfScene) {
-			gltfScene.position.y = 4;
-			gltfScene.scale.set(6, 6, 6);
-			//gltfScene.position.x = xx + Math.floor(Math.random()*200);
-			gltfScene.position.x = xx;
-			gltfScene.position.z = zz;
-			gltfScene.traverse(function(node){
-				if(node.isMesh){
-					node.castShadow = true;
-					node.receiveShadow = true;
-				}
-			});
-			scene.add(gltfScene);
-			blocks.push(gltfScene);
-			//scene.add(gltfScene);
-		});
-	});
-}
-
-function coin(zz){
-	var mtlLoader = new MTLLoader();
-	mtlLoader.setPath('./models/coin/');
-	mtlLoader.load('CoinDollarSign.mtl', function(materials) {
-		materials.preload();
-
-		var glftLoader = new OBJLoader();
-		glftLoader.setPath('./models/coin/');
-		glftLoader.setMaterials(materials);
-
-		glftLoader.load('./CoinDollarSign.obj', function(gltfScene) {
-			/*gltfScene.position.y = 4;
-			gltfScene.scale.set(6, 6, 6);
-			gltfScene.position.x = xx + Math.floor(Math.random()*200);
-			gltfScene.position.z = zz;
-			scene.add(gltfScene);
-			blocks.push(gltfScene); */
-			//////
-			gltfScene.scale.set(6, 6, 6);
-			gltfScene.position.x = xx+100;
-			gltfScene.position.y = 2;
-			gltfScene.position.z = zz;
-			//gltfScene.rotation.z = Math.PI*(1/2);
-			gltfScene.traverse(function(node){
-				if(node.isMesh){
-					node.castShadow = true;
-					node.receiveShadow = true;
-				}
-			});
-			scene.add(gltfScene);
-			coins.push(gltfScene);
-			////
-			//scene.add(gltfScene);
-		});
-	});
-}
-const divButtons=document.getElementById("myButtons");
-const startButton=document.getElementById("startButton");
-const scoreCard = document.getElementById("scoreCard");
-const welcomeContainer=document.getElementById("welcomeContainer");
-
-startButton.addEventListener("click",function(e){
-	welcomeContainer.style.display = "none"
-	divButtons.style.display="none";
-	scoreCard.style.display="block";
-	start();
-	animate();
-});
-
-const playerCar = car();
-///////////
-
 
 const loader1 = new GLTFLoader();
 let mixer; // Declare a mixer variable to manage animations
@@ -201,8 +240,6 @@ loader1.load('./untitled3.glb', function (gltf) {
 			node.receiveShadow = true;
 		}
 	});
-	//gltf.scene.castShadow = true;
-    //gltf.scene.receiveShadow = false;
     scene.add(gltf.scene);
 	person = gltf.scene;
 	ani = gltf.animations;
@@ -231,7 +268,6 @@ loader1.load('./untitled3.glb', function (gltf) {
 
 		const firstAnimationClip1 = animations[1];
 		const firstAnimationAction1 = mixer.clipAction(firstAnimationClip1);
-		//firstAnimationAction1.play();
 		firstAnimationAction1.loop = THREE.LoopOnce;
 
 		mixer.addEventListener('finished', function(e) {
@@ -254,33 +290,32 @@ loader1.load('./untitled3.glb', function (gltf) {
 }, undefined, function (error) {
     console.error(error);
 });
-/*const restart =document.getElementById("restart-button");
-restart.addEventListener("click",function(e){
-	alert("game over!!");
+
+const loader = new THREE.TextureLoader();
+const bgTexture = loader.load('./back.jpg');
+bgTexture.colorSpace = THREE.SRGBColorSpace;
+scene.background = bgTexture;
+
+
+/////////////////////////////////////////////////////////////////////////////////
+
+
+
+const divButtons=document.getElementById("myButtons");
+const startButton=document.getElementById("startButton");
+const scoreCard = document.getElementById("scoreCard");
+const welcomeContainer=document.getElementById("welcomeContainer");
+
+startButton.addEventListener("click",function(e){
+	welcomeContainer.style.display = "none"
+	divButtons.style.display="none";
+	scoreCard.style.display="block";
 	start();
-});*/
-		
+	animate();
+});
 
-//////////
-
-// Add directional light to the scene
-
-
- // Declare the car variable in a higher scope
-
-// Load the 3D car model (replace 'path/to/your/car.gltf' with your model's path)
-/* const loader = new GLTFLoader();
-loader.load('path/to/your/car.gltf', (gltf) => {
-    car = gltf.scene; // Assign the loaded car model to the car variable
-    scene.add(car);
-}); */
+const playerCar = car();
 scene.add(playerCar);
-camera.position.x = -15;
-camera.position.y = 7;
-camera.position.z = 0;
-
-//camera.rotation.z = -0.3;
-camera.rotation.y = Math.PI*(3/2);
 
 var time;
 var time1;
@@ -311,12 +346,12 @@ function animate() {
 			time2[0] = 5;
 		}
 
-		if (blocks.length > 0 && move.length > 2 && blocks[0].position.x <= move[2].position.x-15) {
+		if (blocks.length > 0 && move.length > 0 && blocks[0].position.x <= move[0].position.x-15) {
 			scene.remove(blocks[0]);
 			blocks.shift();
 		}
 
-		if (coins.length > 0 && move.length > 2 && coins[0].position.x <= move[2].position.x-15) {
+		if (coins.length > 0 && move.length > 0 && coins[0].position.x <= move[0].position.x-15) {
 			scene.remove(coins[0]);
 			coins.shift();
 		}
@@ -325,6 +360,8 @@ function animate() {
 			sLight(xx);
 			scene.remove(sLights[0]);
 			sLights.shift();
+			scene.remove(lightPoll[0]);
+			lightPoll.shift();
 		}
 
 		if (time==10){
@@ -364,28 +401,25 @@ function animate() {
 		time1 += 1;
 	}
     
-	if (blocks.length > 0 && move.length > 2 && blocks[0].position.x == move[2].position.x+4
-		&& 4>= Math.abs(blocks[0].position.z - move[2].position.z)) {
+	if (blocks.length > 0 && move.length > 0 && blocks[0].position.x == move[0].position.x+4
+		&& 4>= Math.abs(blocks[0].position.z - move[0].position.z)) {
 		end = true;
 		toggleCardVisibility();
-		// alert("Game Over! You crashed!"+points);
 	}
-	if (blocks.length > 1 && move.length > 2 && blocks[1].position.x == move[2].position.x+4
-		&& 4>= Math.abs(blocks[1].position.z - move[2].position.z)) {
+	if (blocks.length > 1 && move.length > 0 && blocks[1].position.x == move[0].position.x+4
+		&& 4>= Math.abs(blocks[1].position.z - move[0].position.z)) {
 		end = true;
 		toggleCardVisibility();
-		//alert("Game Over! You crashed!"+points);
 	}
-	if (blocks.length > 2 && move.length > 2 && blocks[2].position.x == move[2].position.x+4
-		&& 4>= Math.abs(blocks[2].position.z - move[2].position.z)) {
+	if (blocks.length > 2 && move.length > 0 && blocks[2].position.x == move[0].position.x+4
+		&& 4>= Math.abs(blocks[2].position.z - move[0].position.z)) {
 		end = true;
 		toggleCardVisibility();
-		//alert("Game Over! You crashed!"+points);
 	}
 
 	for (let l=0;l<4;l++){
-		if (coins.length > l && move.length > 2 && coins[l].position.x == move[2].position.x+3
-			&& 4>= Math.abs(coins[l].position.z - move[2].position.z)) {
+		if (coins.length > l && move.length > 0 && coins[l].position.x == move[0].position.x+3
+			&& 4>= Math.abs(coins[l].position.z - move[0].position.z)) {
 				points += 1;
 				if (points%30==0){
 					levels = levels/2;
@@ -409,10 +443,6 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-/*const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-const cube = new THREE.Mesh( geometry, material );
-scene.add( cube );*/
 var xx;
 function pill(zz){
 	const rtt = new THREE.Mesh(
@@ -455,45 +485,6 @@ function pave(zz){
 	paves.push(rtt);
 }
 
-/*function block(zz){
-	/*const rtt = new THREE.Mesh(
-        new THREE.BoxGeometry(6,6,6),
-        new THREE.MeshLambertMaterial({color:"white"})
-    );
-	train(zz);
-	/*rtt.position.x = xx + Math.floor(Math.random()*200);
-	rtt.position.y = 0;
-	rtt.position.z = zz;
-    scene.add(rtt);
-	blocks.push(rtt);
-} */
-
-/*function flat(zz){
-	var x = Math.floor(Math.random()*20);
-	const rtt = new THREE.Mesh(
-        new THREE.BoxGeometry(10,20 +x,5),
-        new THREE.MeshLambertMaterial({color:"brown"})
-    );
-	rtt.position.x = xx;
-	rtt.position.y = x/2;
-	rtt.position.z = zz;
-    scene.add(rtt);
-	flats.push(rtt)
-}*/
-
-/*function coin(zz){
-	/*const rtt = new THREE.Mesh(
-        new THREE.CylinderGeometry(1,1,0.1,100),
-        new THREE.MeshLambertMaterial({color:"yellow"})
-    ); 
-	rtt.position.x = xx+100;
-	rtt.position.y = 2;
-	rtt.position.z = zz;
-	rtt.rotation.z = Math.PI*(1/2);
-    scene.add(rtt);
-	coins.push(rtt);
-} */
-
 
 
 var roads;
@@ -505,6 +496,7 @@ var coins;
 var points;
 var levels;
 var sLights;
+var lightPoll;
 function start(){
 	xx = -20;
 	time = 10;
@@ -517,6 +509,7 @@ function start(){
 	flats = [];
 	coins = [];
 	sLights = [];
+	lightPoll = [];
 	points = 0;
 	levels = 128;
 
@@ -556,32 +549,6 @@ var end;
 function car(){
     const car = new THREE.Group();
 	move = [];
-    const backwheel = new THREE.Mesh(
-        new THREE.BoxGeometry(1.2,1.2,3.3),
-        new THREE.MeshLambertMaterial({color:"grey",
-		opacity: 0,
-		transparent: true,})
-    );
-	//backwheel.castShadow = true;
-    backwheel.receiveShadow = true;
-    backwheel.position.y = 0.6;
-    backwheel.position.x = -1.8;
-    scene.add(backwheel);
-	move.push(backwheel);
-
-    const frontwheel = new THREE.Mesh(
-        new THREE.BoxGeometry(1.2,1.2,3.3),
-        new THREE.MeshLambertMaterial({color:"grey",
-		opacity: 0,
-		transparent: true,})
-    );
-	//frontwheel.castShadow = true;
-    frontwheel.receiveShadow = true;
-    frontwheel.position.y = 0.6;
-    frontwheel.position.x = 1.8;
-    scene.add(frontwheel);
-	move.push(frontwheel);
-    
     const main = new THREE.Mesh(
         new THREE.BoxGeometry(6.0,1.5,3.0),
         new THREE.MeshLambertMaterial({color:"blue",
@@ -589,24 +556,12 @@ function car(){
 		transparent: true,})
     );
 	//main.castShadow = true;
-    main.receiveShadow = true;
+    //main.receiveShadow = true;
     main.position.y =  1.2;
     scene.add(main);
 	move.push(main);
 
-    const cabin = new THREE.Mesh(
-        new THREE.BoxGeometry(3.3,1.2,2.4),
-        new THREE.MeshLambertMaterial({color:"red",
-		opacity: 0,
-		transparent: true,})
-    ); 
-	//cabin.castShadow = true;
-    cabin.receiveShadow = true;
-    cabin.position.x =-0.6;
-    cabin.position.y =2.55;
-    scene.add(cabin);  
-	move.push(cabin);  
-
+	alert(move.length);
 	end = false;
     return car;
 }
@@ -760,7 +715,7 @@ restart.addEventListener("click", function (e) {
 
 	
 		// Set the visibility of "frontwheel" to true
-		move[2].visible = true;
+		//move[2].visible = true;
 	
 
     camera.position.set(-15, 7, 0);
@@ -804,97 +759,4 @@ restart.addEventListener("click", function (e) {
 
 
 
-function flat(zz){
-	var pp = Math.floor(Math.random()*6);
-	
-	var obj = ['large_buildingA.obj', 'large_buildingB.obj', 'large_buildingC.obj',
-	'large_buildingD.obj', 'large_buildingG.obj', 'large_buildingF.obj'];
-	var mtl = ['large_buildingA.mtl', 'large_buildingB.mtl', 'large_buildingC.mtl',
-	'large_buildingD.mtl', 'large_buildingG.mtl', 'large_buildingF.mtl'];
-	var mtlLoader = new MTLLoader();
-	mtlLoader.setPath('./models/large/');
-	mtlLoader.load(mtl[pp], function(materials) {
-		materials.preload();
 
-		var glftLoader = new OBJLoader();
-		glftLoader.setPath('./models/large/');
-		glftLoader.setMaterials(materials);
-
-		glftLoader.load(obj[pp], function(gltfScene) {
-			/*gltfScene.position.y = 4;
-			gltfScene.scale.set(10, 10, 10);
-			gltfScene.position.x = xx + Math.floor(Math.random()*200);
-			gltfScene.position.z = zz;
-			scene.add(gltfScene);
-			blocks.push(gltfScene);*/
-			//scene.add(gltfScene);
-
-			//var x = Math.floor(Math.random()*20);
-			gltfScene.scale.set(10, 10, 10);
-			gltfScene.position.x = xx;
-			
-			gltfScene.position.y = 0;
-			gltfScene.position.z = zz;
-			gltfScene.traverse(function(node){
-				if(node.isMesh){
-					node.castShadow = false;
-					node.receiveShadow = true;
-				}
-			});
-			scene.add(gltfScene);
-			flats.push(gltfScene);
-		});
-	});
-}
-
-var right;
-var left;
-function flat00(zz){
-	var pp = Math.floor(Math.random()*6);
-	
-	var obj = ['large_buildingA.obj', 'large_buildingB.obj', 'large_buildingC.obj',
-	'large_buildingD.obj', 'large_buildingG.obj', 'large_buildingF.obj'];
-	var mtl = ['large_buildingA.mtl', 'large_buildingB.mtl', 'large_buildingC.mtl',
-	'large_buildingD.mtl', 'large_buildingG.mtl', 'large_buildingF.mtl'];
-	var mtlLoader = new MTLLoader();
-	mtlLoader.setPath('./models/large/');
-	mtlLoader.load(mtl[pp], function(materials) {
-		materials.preload();
-
-		var glftLoader = new OBJLoader();
-		glftLoader.setPath('./models/large/');
-		glftLoader.setMaterials(materials);
-
-		glftLoader.load(obj[pp], function(gltfScene) {
-			/*gltfScene.position.y = 4;
-			gltfScene.scale.set(10, 10, 10);
-			gltfScene.position.x = xx + Math.floor(Math.random()*200);
-			gltfScene.position.z = zz;
-			scene.add(gltfScene);
-			blocks.push(gltfScene);*/
-			//scene.add(gltfScene);
-
-			//var x = Math.floor(Math.random()*20);
-			gltfScene.scale.set(10, 10, 10);
-			if (zz<0){
-				gltfScene.position.x = left;
-				left += 10;
-			}
-			else {
-				gltfScene.position.x = right;
-				right += 10;
-			}
-			
-			gltfScene.position.y = 0;
-			gltfScene.position.z = zz;
-			gltfScene.traverse(function(node){
-				if(node.isMesh){
-					node.castShadow = false;
-					node.receiveShadow = true;
-				}
-			});
-			scene.add(gltfScene);
-			flats.push(gltfScene);
-		});
-	});
-}
