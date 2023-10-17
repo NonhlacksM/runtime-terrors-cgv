@@ -23,7 +23,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Shadow map type can be adju
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
 // CLASS FOR MODELS
@@ -190,7 +190,7 @@ function flat00(zz){
 /////////////////////////////////////////////////////////////////////////////////
 
 function sLight(zz){
-	let light = new THREE.PointLight(0xFFFFFF, 200.0);
+	let light = new THREE.PointLight(0xFFFFFF, 500.0);
 	light.position.set(zz, 11.5, 9.8);
 	light.castShadow = true;
 	scene.add(light);
@@ -292,7 +292,7 @@ loader1.load('./untitled3.glb', function (gltf) {
 });
 
 const loader = new THREE.TextureLoader();
-const bgTexture = loader.load('./back.jpg');
+const bgTexture = loader.load('./night.jpg');
 bgTexture.colorSpace = THREE.SRGBColorSpace;
 scene.background = bgTexture;
 
