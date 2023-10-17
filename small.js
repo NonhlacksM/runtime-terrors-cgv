@@ -13,7 +13,7 @@ scoreBoard.addEventListener("click",function(e){
 
 const card = document.getElementById("gameOverCard");
 const scoreCard = document.getElementById("scoreCard");
-function scoreBack(){
+function scoreBack1(){
     card.style.display = "none";
     scoreCard.style.display = "none";
     divButtons.style.display="flex";
@@ -66,3 +66,46 @@ window.addEventListener('load', () => {
 });
 
 
+
+
+
+
+
+
+
+// Add an event listener to the "Leaderboard" button in your JavaScript code
+document.getElementById('pauseLeaderboard').addEventListener('click', showLeaderboardOnPause);
+
+// Function to display the leaderboard
+function showLeaderboardOnPause() {
+    const leaderboard = document.getElementById('leaderboard');
+    leaderboard.style.display = 'block';
+    
+    // You may also need to populate the leaderboard with scores here if you haven't already.
+    // Example:
+    // populateLeaderboard();
+}
+
+
+
+
+// function gameOver() {
+//     gameInProgress = false;
+//     // Add code to handle game over here
+// }
+
+// function scoreBack() {
+//     const leaderboard = document.getElementById('leaderboard');
+
+//     if (gameInProgress) {
+//         // You were already playing the game or just lost
+//         leaderboard.style.display = 'none';
+//         // Add any other logic you need when going back from a game
+//     } else {//clicking back from start menu
+//         card.style.display = "none";
+//         scoreCard.style.display = "none";
+//         divButtons.style.display="flex";
+//         leaderboard.style.display="none";
+//         welcomeContainer.style.display = "block";
+//     }
+// }

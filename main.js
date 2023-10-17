@@ -307,14 +307,41 @@ const startButton=document.getElementById("startButton");
 const scoreCard = document.getElementById("scoreCard");
 const welcomeContainer=document.getElementById("welcomeContainer");
 
+let gameInProgress = false; // Variable to track game state
 startButton.addEventListener("click",function(e){
 	welcomeContainer.style.display = "none"
 	divButtons.style.display="none";
 	scoreCard.style.display="block";
+	gameInProgress = true;
 	start();
 	animate();
 });
 
+function gameOver() {
+    gameInProgress = false;
+    // Add code to handle game over here
+}
+
+function scoreBack() {
+    const leaderboard = document.getElementById('leaderboard');
+
+    if (gameInProgress) {
+        // You were already playing the game or just lost
+        leaderboard.style.display = 'none';
+        // Add any other logic you need when going back from a game
+    } else {//clicking back from start menu
+        card.style.display = "none";
+        scoreCard.style.display = "none";
+        divButtons.style.display="flex";
+        leaderboard.style.display="none";
+        welcomeContainer.style.display = "block";
+    }
+}
+
+const scoreBackk=document.getElementById("scoreBack");
+scoreBackk.addEventListener("click",function(e){
+	scoreBack();
+});
 const playerCar = car();
 scene.add(playerCar);
 
@@ -424,8 +451,42 @@ function animate() {
 		}
 	
 
+	// function updateLeaderboardd(score) {
+	// 	const leaderboard = document.getElementById('leaderboard');
+	// 	leaderboard.style.display = 'block';
+	
+	// 	const scoreList = document.getElementById('scoreList');
+	// 	const newItem = document.createElement('li');
+	// 	newItem.textContent = 'Score: ' + score;
+	
+	// 	const scores = Array.from(scoreList.children);
+	
+	// 	// Insert the new score in the correct position
+	// 	let inserted = false;
+	// 	for (let i = 0; i < scores.length; i++) {
+	// 		const currentScore = parseInt(scores[i].textContent.split(': ')[1]);
+	// 		if (score > currentScore) {
+	// 			scoreList.insertBefore(newItem, scores[i]);
+	// 			inserted = true;
+	// 			break;
+	// 		}
+	// 	}
+	
+	// 	// If the score hasn't been inserted yet, add it to the end
+	// 	if (!inserted) {
+	// 		scoreList.appendChild(newItem);
+	// 	}
+	
+	// 	// Update the scores array with the new item
+	// 	scores.push(newItem);
+	
+	// 	// Remove the last item if there are more than 5 scores
+	// 	while (scores.length > 5) {
+	// 		scoreList.removeChild(scores.shift()); // Remove the first item
+	// 	}
+	// }
+	const leaderboard = document.getElementById('leaderboard');
 	function updateLeaderboardd(score) {
-		const leaderboard = document.getElementById('leaderboard');
 		leaderboard.style.display = 'block';
 	
 		const scoreList = document.getElementById('scoreList');
@@ -434,28 +495,31 @@ function animate() {
 	
 		const scores = Array.from(scoreList.children);
 	
-		// Insert the new score in the correct position
-		let inserted = false;
+		// Find the correct position to insert the new score
+		let insertIndex = scores.length; // Default to adding to the end
+	
 		for (let i = 0; i < scores.length; i++) {
 			const currentScore = parseInt(scores[i].textContent.split(': ')[1]);
 			if (score > currentScore) {
-				scoreList.insertBefore(newItem, scores[i]);
-				inserted = true;
+				insertIndex = i;
 				break;
 			}
 		}
 	
-		// If the score hasn't been inserted yet, add it to the end
-		if (!inserted) {
-			scoreList.appendChild(newItem);
+		// Insert the new score at the calculated position
+		if (insertIndex < scores.length) {
+			scoreList.insertBefore(newItem, scores[insertIndex]);
+		} else {
+			scoreList.appendChild(newItem); // Add to the end
 		}
 	
 		// Update the scores array with the new item
-		scores.push(newItem);
+		scores.splice(insertIndex, 0, newItem);
 	
 		// Remove the last item if there are more than 5 scores
-		while (scores.length > 5) {
-			scoreList.removeChild(scores.shift()); // Remove the first item
+		if (scores.length > 5) {
+			const removedItem = scores.pop();
+			scoreList.removeChild(removedItem);
 		}
 	}
 	
@@ -790,6 +854,8 @@ restart.addEventListener("click", function (e) {
     camera.position.set(-15, 7, 0);
     person.position.x = 0;
 
+
+	leaderboard.style.display = "none";
     animate();
 });
 
