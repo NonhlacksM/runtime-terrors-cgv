@@ -111,6 +111,7 @@
 		</style>
         <link rel="stylesheet" href="index.css">
         <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="small.css">
 	</head>
 	<body>
         <div id="welcomeContainer">
@@ -127,10 +128,30 @@
 		</div>
         <div id="myButtons" style="display: flex;flex-direction: column;">
             <button id="startButton">Start Game</button>
+            <button id="scoreBoard">Leaderboard</button>
             <button id="optionButton">Options</button>
             <button id="quitButton">Quit</button>
         </div>
-  
+   
+        <!--- Leaderboard menu --->
+    <div id="leaderboard" class="hidden" style="display: none;">
+        <h2>Leaderboard</h2>
+        <ul id="scoreList">
+    
+        </ul>
+        <button id="scoreBack" onclick="scoreBack()">back</button>
+    </div>
+    <div id="leaderboardPopup" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLeaderboardPopup()">&times;</span>
+            <h2>Leaderboard</h2>
+            <ul id="scoreListPopup">
+                <!-- Leaderboard scores will be displayed here -->
+            </ul>
+        </div>
+    </div>    
+    
+            <!--- Options menu --->
     <div id="optionsMenu" class="hidden" style="display: none;" >
         <label for="soundSwitch" id="words">Sound</label>
         <input type="checkbox" id="soundSwitch">
@@ -143,6 +164,7 @@
 		</div>
 
 		<script type="module" src="./main.js"></script>
+        <script src="./small.js"></script>
 	</body>
 
     <script>

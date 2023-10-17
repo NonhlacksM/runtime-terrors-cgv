@@ -416,6 +416,57 @@ function animate() {
 		end = true;
 		toggleCardVisibility();
 	}
+
+	function updateLeaderboardd(score) {
+		const leaderboard = document.getElementById('leaderboard');
+		leaderboard.style.display = 'block';
+	
+		const scoreList = document.getElementById('scoreList');
+		const newItem = document.createElement('li');
+		newItem.textContent = 'Score: ' + score;
+	
+		const scores = Array.from(scoreList.children);
+	
+		// Insert the new score in the correct position
+		let inserted = false;
+		for (let i = 0; i < scores.length; i++) {
+			const currentScore = parseInt(scores[i].textContent.split(': ')[1]);
+			if (score > currentScore) {
+				scoreList.insertBefore(newItem, scores[i]);
+				inserted = true;
+				break;
+			}
+		}
+	
+		// If the score hasn't been inserted yet, add it to the end
+		if (!inserted) {
+			scoreList.appendChild(newItem);
+		}
+	
+		// Update the scores array with the new item
+		scores.push(newItem);
+	
+		// Remove the last item if there are more than 5 scores
+		while (scores.length > 5) {
+			scoreList.removeChild(scores.shift()); // Remove the first item
+		}
+	}
+	
+	
+	if (end == true) {
+		updateLeaderboardd(points);
+	
+		// Display the leaderboard pop-up
+		const leaderboardPopup = document.getElementById('leaderboardPopup');
+		leaderboardPopup.style.display = 'none';
+	}
+	
+	// Function to close the leaderboard pop-up
+	function closeLeaderboardPopup() {
+		const leaderboardPopup = document.getElementById('leaderboardPopup');
+		leaderboardPopup.style.display = 'none';
+	}
+
 	const audioManager = new AudioManager('Video Game Coin Beep Sound Effect.mp3');
 	for (let l=0;l<4;l++){
 		if (coins.length > l && move.length > 0 && coins[l].position.x == move[0].position.x+3
