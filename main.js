@@ -23,7 +23,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Shadow map type can be adju
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
 scene.add(ambientLight);
 
 // CLASS FOR MODELS
@@ -190,7 +190,7 @@ function flat00(zz){
 /////////////////////////////////////////////////////////////////////////////////
 
 function sLight(zz){
-	let light = new THREE.PointLight(0xFFFFFF, 500.0);
+	let light = new THREE.PointLight(0xFFFFFF, 600.0);
 	light.position.set(zz, 11.5, 9.8);
 	light.castShadow = true;
 	scene.add(light);
