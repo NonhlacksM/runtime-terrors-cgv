@@ -3,7 +3,6 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import { FBXLoader } from 'three/addons/loaders/FBXLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import AudioManager from './sounds.js';
 
 const scoreElement = document.getElementById('score');
 const card = document.getElementById("gameOverCard");
@@ -417,12 +416,10 @@ function animate() {
 		end = true;
 		toggleCardVisibility();
 	}
-	const audioManager = new AudioManager('Video Game Coin Beep Sound Effect.mp3');
-    
+
 	for (let l=0;l<4;l++){
 		if (coins.length > l && move.length > 0 && coins[l].position.x == move[0].position.x+3
 			&& 4>= Math.abs(coins[l].position.z - move[0].position.z)) {
-				audioManager.playSound();
 				points += 1;
 				if (points%30==0){
 					levels = levels/2;
