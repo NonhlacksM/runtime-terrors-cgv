@@ -7,7 +7,8 @@ import AudioManager from './sounds.js';
 const scoreElement = document.getElementById('score');
 const card = document.getElementById("gameOverCard");
 card.style.display = "none";
-
+// Get the element with the id "level"
+const levelElement = document.getElementById('level');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -15,7 +16,7 @@ camera.position.x = -15;
 camera.position.y = 7;
 camera.position.z = 0;
 camera.rotation.y = Math.PI*(3/2);
-
+var level=1;
 
 const renderer = new THREE.WebGLRenderer();
 renderer.shadowMap.enabled = true;
@@ -462,7 +463,7 @@ function animate() {
 	if (dead == true) {
 		
 		updateLeaderboardd(points);
-	
+		levelElement.textContent = '1'; // Change the content to whatever you need
 		// Display the leaderboard pop-up
 		const leaderboardPopup = document.getElementById('leaderboardPopup');
 		leaderboardPopup.style.display = 'none';
@@ -482,10 +483,14 @@ function animate() {
 				points += 1;
 				if (points%30==0){
 					levels = levels/2;
+					// Update its textContent
+					level+=1;
+					
 				}
 				scoreElement.textContent = points;
 				scene.remove(coins[l]);
 				coins.shift();
+				levelElement.textContent = level; // Change the content to whatever you need
 		}
 	}
 
