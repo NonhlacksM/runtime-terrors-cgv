@@ -11,7 +11,7 @@ card.style.display = "none";
 const levelElement = document.getElementById('level');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
+//camera positions
 camera.position.x = -15;
 camera.position.y = 7;
 camera.position.z = 0;
@@ -29,7 +29,7 @@ scene.add(ambientLight);
 
 // CLASS FOR MODELS
 /////////////////////////////////////////////////////////////////////////////////
-
+//this code models and clone the trains
 let blockClone;
 var blockCreate = new MTLLoader();
 blockCreate.setPath('./models/train/');
@@ -52,7 +52,7 @@ blockCreate.load('materials.mtl', function(materials) {
 		blockClone = gltfScene;
 	});
 });
-
+//this code models and clone the coins
 let coinClone;
 var coinCreate  = new MTLLoader();
 coinCreate.setPath('./models/coin/');
@@ -75,7 +75,7 @@ coinCreate.load('CoinDollarSign.mtl', function(materials) {
 		coinClone = gltfScene;
 	});
 });
-
+//this code models and clone the flats
 let flatClone;
 fflatClonee();
 function fflatClonee(){
@@ -113,7 +113,7 @@ function fflatClonee(){
 
 // CLASS FOR CREATING MODELS
 /////////////////////////////////////////////////////////////////////////////////
-
+//adding the coins to scene
 function coin(zz){
 	var here = coinClone.clone();
 	here.position.x = xx + 100;
@@ -121,7 +121,7 @@ function coin(zz){
 	scene.add(here);
 	coins.push(here);
 }
-
+//adding the trains to scene
 function block(zz){
 	var here = blockClone.clone();
 	here.position.x = xx;
@@ -129,7 +129,7 @@ function block(zz){
 	scene.add(here);
 	blocks.push(here);
 }
-
+//adding the flats to scene
 function flat(zz){
 	var pp = Math.floor(Math.random()*6);
 	var here = flatClone[pp].clone();
@@ -138,7 +138,7 @@ function flat(zz){
 	scene.add(here);
 	flats.push(here);
 }
-
+//adding the initial flats to scene
 var right;
 var left;
 function flat00(zz){
@@ -189,7 +189,7 @@ function flat00(zz){
 
 // Do not know yet
 /////////////////////////////////////////////////////////////////////////////////
-
+//Adding the streetlights and spotlights
 function sLight(zz){
 	let light = new THREE.PointLight(0xFFFFFF, 600.0);
 	light.position.set(zz, 11.5, 9.8);
@@ -222,7 +222,7 @@ function sLight(zz){
 		});
 	});
 }
-
+//adding the person to the world
 const loader1 = new GLTFLoader();
 let mixer; // Declare a mixer variable to manage animations
 var person;
@@ -451,40 +451,7 @@ function animate() {
 		}
 	
 
-	// function updateLeaderboardd(score) {
-	// 	const leaderboard = document.getElementById('leaderboard');
-	// 	leaderboard.style.display = 'block';
 	
-	// 	const scoreList = document.getElementById('scoreList');
-	// 	const newItem = document.createElement('li');
-	// 	newItem.textContent = 'Score: ' + score;
-	
-	// 	const scores = Array.from(scoreList.children);
-	
-	// 	// Insert the new score in the correct position
-	// 	let inserted = false;
-	// 	for (let i = 0; i < scores.length; i++) {
-	// 		const currentScore = parseInt(scores[i].textContent.split(': ')[1]);
-	// 		if (score > currentScore) {
-	// 			scoreList.insertBefore(newItem, scores[i]);
-	// 			inserted = true;
-	// 			break;
-	// 		}
-	// 	}
-	
-	// 	// If the score hasn't been inserted yet, add it to the end
-	// 	if (!inserted) {
-	// 		scoreList.appendChild(newItem);
-	// 	}
-	
-	// 	// Update the scores array with the new item
-	// 	scores.push(newItem);
-	
-	// 	// Remove the last item if there are more than 5 scores
-	// 	while (scores.length > 5) {
-	// 		scoreList.removeChild(scores.shift()); // Remove the first item
-	// 	}
-	// }
 	const leaderboard = document.getElementById('leaderboard');
 	function updateLeaderboardd(score) {
 		leaderboard.style.display = 'block';
@@ -803,9 +770,7 @@ function toggleCardVisibility() {
 	if (card.style.display === "none") {
 		card.style.display = "block"; 
 		// Show the card
-	} /*else {
-		card.style.display = "none"; // Hide the card
-	} */
+	} 
 }
 // Define an array to store objects that should be kept in the scene
 const objectsToKeep = [];
@@ -877,15 +842,7 @@ playButton.addEventListener("click", function() {
 	// Add code to resume playback here
 });
 
-/*settingsButton.addEventListener("click", function() {
 
-	// Add code to open options/settings here
-	alert("Options clicked");
-});*/
-       
-
-
-//animate();
 
 
 

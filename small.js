@@ -67,12 +67,6 @@ window.addEventListener('load', () => {
 
 
 
-
-
-
-
-
-
 // Add an event listener to the "Leaderboard" button in your JavaScript code
 document.getElementById('pauseLeaderboard').addEventListener('click', showLeaderboardOnPause);
 
@@ -89,23 +83,3 @@ function showLeaderboardOnPause() {
 
 
 
-// function gameOver() {
-//     gameInProgress = false;
-//     // Add code to handle game over here
-// }
-
-// function scoreBack() {
-//     const leaderboard = document.getElementById('leaderboard');
-
-//     if (gameInProgress) {
-//         // You were already playing the game or just lost
-//         leaderboard.style.display = 'none';
-//         // Add any other logic you need when going back from a game
-//     } else {//clicking back from start menu
-//         card.style.display = "none";
-//         scoreCard.style.display = "none";
-//         divButtons.style.display="flex";
-//         leaderboard.style.display="none";
-//         welcomeContainer.style.display = "block";
-//     }
-// }
