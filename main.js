@@ -3,7 +3,11 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import { FBXLoader } from 'three/addons/loaders/FBXLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import AudioManager from './sounds.js';
+import model from './Models.js';
+import Level2 from './level2.js';
+
 const scoreElement = document.getElementById('score');
 const card = document.getElementById("gameOverCard");
 card.style.display = "none";
@@ -19,96 +23,31 @@ camera.rotation.y = Math.PI*(3/2);
 var level=1;
 
 const renderer = new THREE.WebGLRenderer();
+
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Shadow map type can be adjusted
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+/*const controls = new OrbitControls(camera, renderer.domElement); // Pass the renderer's DOM element to OrbitControls
+// Add event listener for changes to update the renderer
+controls.addEventListener('change', () => {
+    renderer.render(scene, camera);
+});*/
+
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
 scene.add(ambientLight);
+
 
 // CLASS FOR MODELS
 /////////////////////////////////////////////////////////////////////////////////
 
+const models = new Level2();
 let blockClone;
-var blockCreate = new MTLLoader();
-blockCreate.setPath('./models/train/');
-blockCreate.load('materials.mtl', function(materials) {
-	materials.preload();
-
-	var glftLoader = new OBJLoader();
-	glftLoader.setPath('./models/train/');
-	glftLoader.setMaterials(materials);
-
-	glftLoader.load('./model.obj', function(gltfScene) {
-		gltfScene.position.y = 4;
-		gltfScene.scale.set(6, 6, 6);
-		gltfScene.traverse(function(node){
-			if(node.isMesh){
-				node.castShadow = true;
-				node.receiveShadow = true;
-			}
-		});
-		blockClone = gltfScene;
-	});
-});
-
 let coinClone;
-var coinCreate  = new MTLLoader();
-coinCreate.setPath('./models/coin/');
-coinCreate.load('CoinDollarSign.mtl', function(materials) {
-	materials.preload();
-
-	var glftLoader = new OBJLoader();
-	glftLoader.setPath('./models/coin/');
-	glftLoader.setMaterials(materials);
-
-	glftLoader.load('./CoinDollarSign.obj', function(gltfScene) {
-		gltfScene.scale.set(6, 6, 6);
-		gltfScene.position.y = 2;
-		gltfScene.traverse(function(node){
-			if(node.isMesh){
-				node.castShadow = true;
-				node.receiveShadow = true;
-			}
-		});
-		coinClone = gltfScene;
-	});
-});
-
 let flatClone;
-fflatClonee();
-function fflatClonee(){
-	flatClone = [];
-	for (let ii=0; ii<6; ii++){
-		var obj = ['large_buildingA.obj', 'large_buildingB.obj', 'large_buildingC.obj',
-		'large_buildingD.obj', 'large_buildingG.obj', 'large_buildingF.obj'];
-		var mtl = ['large_buildingA.mtl', 'large_buildingB.mtl', 'large_buildingC.mtl',
-		'large_buildingD.mtl', 'large_buildingG.mtl', 'large_buildingF.mtl'];
-		var flatCreate = new MTLLoader();
-		flatCreate.setPath('./models/large/');
-		flatCreate.load(mtl[ii], function(materials) {
-			materials.preload();
-
-			var glftLoader = new OBJLoader();
-			glftLoader.setPath('./models/large/');
-			glftLoader.setMaterials(materials);
-
-			glftLoader.load(obj[ii], function(gltfScene) {
-				gltfScene.scale.set(10, 10, 10);
-				gltfScene.position.y = 0;
-				gltfScene.traverse(function(node){
-					if(node.isMesh){
-						node.castShadow = false;
-						node.receiveShadow = true;
-					}
-				});
-				flatClone.push(gltfScene);
-			});
-		});
-	}
-}
-
+let pollClone;
+let skybox;
 /////////////////////////////////////////////////////////////////////////////////
 
 // CLASS FOR CREATING MODELS
@@ -123,7 +62,14 @@ function coin(zz){
 }
 
 function block(zz){
-	var here = blockClone.clone();
+	var pp = Math.floor(Math.random()*4);
+	var here;
+	if (models.getLevel()==1){
+		here = blockClone.clone();
+	} 
+	else if (models.getLevel()==2){
+		here = blockClone[pp].clone();
+	}
 	here.position.x = xx;
 	here.position.z = zz;
 	scene.add(here);
@@ -182,15 +128,7 @@ function flat00(zz){
 	});
 }
 
-
-
-/////////////////////////////////////////////////////////////////////////////////
-
-
-// Do not know yet
-/////////////////////////////////////////////////////////////////////////////////
-
-function sLight(zz){
+function sLight00(zz){
 	let light = new THREE.PointLight(0xFFFFFF, 600.0);
 	light.position.set(zz, 11.5, 9.8);
 	light.castShadow = true;
@@ -221,6 +159,31 @@ function sLight(zz){
 			lightPoll.push(gltfScene);
 		});
 	});
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
+
+
+// Do not know yet
+/////////////////////////////////////////////////////////////////////////////////
+
+function sLight(zz){
+	let light = new THREE.PointLight(0xFFFFFF, 600.0);
+	light.position.set(zz, 11.5, 9.8);
+	light.castShadow = true;
+	scene.add(light);
+	sLights.push(light);
+	
+	var here = pollClone.clone();
+	here.scale.set(4, 4, 4);
+	here.position.x = zz;
+	here.position.y = 10;
+	here.position.z = 11;
+	scene.add(here);
+	lightPoll.push(here);
+
 }
 
 const loader1 = new GLTFLoader();
@@ -292,10 +255,10 @@ loader1.load('./untitled3.glb', function (gltf) {
     console.error(error);
 });
 
-const loader = new THREE.TextureLoader();
+/*const loader = new THREE.TextureLoader();
 const bgTexture = loader.load('./night.jpg');
 bgTexture.colorSpace = THREE.SRGBColorSpace;
-scene.background = bgTexture;
+scene.background = bgTexture; */
 
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -362,6 +325,7 @@ function animate() {
 			playerCar.rotation.y += 1;
 		}
 		person.position.x += 1;
+		skybox.position.x += 1;
 		for (let i=0;i<move.length;i++){
 			move[i].position.x += 1;
 		}
@@ -601,9 +565,16 @@ function road(){
 	pave(-22);
 }
 function pave(zz){
+	var colour;
+	if (models.getLevel()==1){
+		colour = "black";
+	} 
+	else if (models.getLevel()==2){
+		colour = "green";
+	}
 	const rtt = new THREE.Mesh(
         new THREE.BoxGeometry(1,0.1,22),
-        new THREE.MeshLambertMaterial({color:"black"})
+        new THREE.MeshLambertMaterial({color:colour})
     );
 	rtt.position.x = xx;
 	rtt.position.z = zz;
@@ -643,6 +614,13 @@ function start(){
 	levels = 128;
 
 	jumpjump = 0;
+	//blockClone = models.getTrain();      
+	blockClone = models.getCar();
+	coinClone = models.getCoin();
+	flatClone = models.getFlat();
+	pollClone = models.getPoll();
+	skybox = models.getSkybox();
+	scene.add(skybox);
 
 	right = -40;
 	left = -40;
@@ -653,8 +631,8 @@ function start(){
 
 		if (time==10){
 			time = 0;
-			flat00(-20);
-			flat00(20);
+			flat(-20);
+			flat(20);
 			pill(3);
 			pill(-3);
 			pill(10);
@@ -667,10 +645,10 @@ function start(){
 		xx += 1;
 		time += 1;
 	}
-	flat00(-20);
-	flat00(20);
-	flat00(-20);
-	flat00(20);
+	flat(-20);
+	flat(20);
+	flat(-20);
+	flat(20);
 }
 
 var move; 
@@ -692,7 +670,7 @@ function car(){
 	move.push(main);
 
 	
-	end = false;
+	end = true;
 	dead = false;
     return car;
 }
@@ -853,6 +831,7 @@ restart.addEventListener("click", function (e) {
 
     camera.position.set(-15, 7, 0);
     person.position.x = 0;
+	skybox.position.x = 0;
 
 
 	leaderboard.style.display = "none";
