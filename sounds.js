@@ -3,7 +3,7 @@ class AudioManager {
         this.audio = null;
         this.audioFile = audioFile;
     }
-
+    //Play music
     playSound() {
         if (!this.audio) {
             this.audio = new Audio(this.audioFile);
@@ -14,12 +14,12 @@ class AudioManager {
             this.audio.play();
         }
     }
-
+    //Stop music
     stopSound() {
         if (this.audio) {
             this.audio.pause();
         }
     }
 }
-
+//exporting this class
 export default AudioManager;
