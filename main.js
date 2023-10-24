@@ -7,6 +7,7 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import AudioManager from './sounds.js';
 import model from './Models.js';
 import Level2 from './level2.js';
+import Level3 from './level3.js';
 
 const scoreElement = document.getElementById('score');
 const card = document.getElementById("gameOverCard");
@@ -42,7 +43,7 @@ scene.add(ambientLight);
 // CLASS FOR MODELS
 /////////////////////////////////////////////////////////////////////////////////
 
-const models = new Level2();
+const models = new Level3();
 let blockClone;
 let coinClone;
 let flatClone;
@@ -67,8 +68,11 @@ function block(zz){
 	if (models.getLevel()==1){
 		here = blockClone.clone();
 	} 
-	else if (models.getLevel()==2){
+	else if (models.getLevel()==2){ 
 		here = blockClone[pp].clone();
+	}
+	else if (models.getLevel()==3){ 
+		here = blockClone.clone();
 	}
 	here.position.x = xx;
 	here.position.z = zz;
@@ -537,6 +541,9 @@ function pave(zz){
 		colour = "black";
 	} 
 	else if (models.getLevel()==2){
+		colour = "green";
+	}
+	else if (models.getLevel()==3){
 		colour = "green";
 	}
 	const rtt = new THREE.Mesh(
