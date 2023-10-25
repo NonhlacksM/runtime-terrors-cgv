@@ -114,9 +114,9 @@
  }
 
 		</style>
-        <link rel="stylesheet" href="index.css">
-        <link rel="stylesheet" href="styles.css">
-        <link rel="stylesheet" href="small.css">
+        <link rel="stylesheet" href='./CSS/index.css'>
+        <link rel="stylesheet" href='./CSS/styles.css'>
+        <link rel="stylesheet" href='./CSS/Leaderboard.css'>
 	</head>
 	<body>
 
@@ -186,7 +186,7 @@
 		</div>
 
 		<script type="module" src="./main.js"></script>
-        <script src="./small.js"></script>
+        <script src='./JS/Leaderboard.js'></script>
 	</body>
 
     <script>
@@ -254,7 +254,7 @@ let audio; // Global variable to hold the audio element
 function playSound() {
     if (!audio) {
         // Create an audio element and set the source of your audio file
-        audio = new Audio('SUBWAY SURFERS (Main Theme).m4a');
+        audio = new Audio('./Sounds/SUBWAY SURFERS (Main Theme).m4a');
         audio.loop = true; // Enable looping for continuous playback
     }
 
@@ -272,11 +272,5 @@ function stopSound() {
 }
 
     </script>
-
-
-
-
-
-
    
 </html>

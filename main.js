@@ -4,10 +4,10 @@ import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import { FBXLoader } from 'three/addons/loaders/FBXLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
-import AudioManager from './sounds.js';
-import model from './Models.js';
-import Level2 from './level2.js';
-import Level3 from './level3.js';
+import AudioManager from './JS/sounds.js';
+import model from './JS/Models.js';
+import Level2 from './JS/level2.js';
+import Level3 from './JS/level3.js';
 
 const scoreElement = document.getElementById('score');
 const card = document.getElementById("gameOverCard");
@@ -260,7 +260,7 @@ loader1.load('./untitled3.glb', function (gltf) {
 });
 
 /*const loader = new THREE.TextureLoader();
-const bgTexture = loader.load('./night.jpg');
+const bgTexture = loader.load('./resources/night.jpg');
 bgTexture.colorSpace = THREE.SRGBColorSpace;
 scene.background = bgTexture; */
 
@@ -395,7 +395,7 @@ function animate() {
 		xx += 1;
 		time += 1;
 		time1 += 1;
-       const death=new AudioManager("death.mp3");
+       const death=new AudioManager('./Sounds/death.mp3');
 		if (blocks.length > 0 && move.length > 0 && blocks[0].position.x == move[0].position.x+4
 			&& 4>= Math.abs(blocks[0].position.z - move[0].position.z)) {
 			death.playSound();
@@ -474,7 +474,7 @@ function animate() {
 		leaderboardPopup.style.display = 'none';
 	}
 
-	const audioManager = new AudioManager('Video Game Coin Beep Sound Effect.mp3');
+	const audioManager = new AudioManager('./Sounds/Video Game Coin Beep Sound Effect.mp3');
 	for (let l=0;l<4;l++){
 		if (coins.length > l && move.length > 0 && coins[l].position.x == move[0].position.x+3
 			&& 4>= Math.abs(coins[l].position.z - move[0].position.z)) {
@@ -827,39 +827,3 @@ playButton.addEventListener("click", function() {
 	options.style.display = "none";
 	// Add code to resume playback here
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

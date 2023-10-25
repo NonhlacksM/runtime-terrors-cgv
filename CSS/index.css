@@ -1,0 +1,62 @@
+body{
+    background-color:#1bafdb;
+}
+
+button {
+    border:none;
+    appearance:none;
+    outline:none;
+    display:inline-block;
+    font-size:1.5em;
+    cursor:pointer;
+    text-decoration:none;
+    padding:12px 48px 12px 48px;
+    border-radius:4px;
+    color:#ffffff;
+    background-color:#1bafdb;
+    border: 2px solid #ffffff;
+}
+button {   transition-duration: 0.4s; margin: 5px;}
+button:hover {
+    font-size:1.6em;
+    background-color:#05c46b;
+}
+
+#myButtons {
+    display: flex;
+    flex-direction: column;
+}
+#myButtons {
+    border: 5px ;
+    position: absolute;
+    top: 10%;
+    right: 45%;
+    transform: translate(0, -50%);
+    padding: 0px;
+    display: flex;
+    flex-direction: column; /* Stack the child elements vertically */
+}
+#optionsMenu {
+    border: 5px ;
+    position: absolute;
+    top: 50%;
+    right: 45%;
+    transform: translate(0, -50%);
+    padding: 0px;
+    display: flex;
+}
+/* #optionsMenu {
+    display: flex;
+    align-items: center;
+    left: 50%;
+    text-align: center;
+    margin-top: 25%;
+    padding: 10px; 
+  } */
+#gameNameWelcome{
+    text-align: center;
+    position: absolute;
+    top: 0%; /* Center vertically */
+    left: 35%;
+}
+
