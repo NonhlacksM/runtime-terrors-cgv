@@ -24,8 +24,17 @@ camera.position.y = 7;
 camera.position.z = 0;
 camera.rotation.y = Math.PI*(3/2);
 var level=1;
+let mirror;
 
 const renderer = new THREE.WebGLRenderer();
+// Define your fog settings
+const fogColor = 0xf1f1f1;
+const fogDensity = 0.14;
+
+// Create the fog object
+const customFog = new THREE.FogExp2(fogColor, fogDensity);
+
+
 
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Shadow map type can be adjusted
@@ -563,12 +572,12 @@ function animate() {
 					level+=1;
 
 					// Enable the fog
-					scene.fog = new THREE.FogExp2(0xf1f1f1, 0.14);
+					scene.fog = customFog;
 
-					// Wait for 5 seconds and then remove the fog
+					// Wait for 4 seconds and then remove the fog
 					setTimeout(() => {
 						scene.fog = null; // Set fog to null to remove it
-					}, 5000); // 5000 milliseconds (5 seconds)
+					}, 4000); // 4000 milliseconds (4 seconds)
 					
 				}
 				scoreElement.textContent = points;
@@ -653,12 +662,13 @@ function Pond(){
 	}
 	
 	const mirrorGeometry = new THREE.PlaneGeometry(20, 5);
-	const mirror = new Reflector(mirrorGeometry, mirrorOptions);
+	mirror = new Reflector(mirrorGeometry, mirrorOptions);
 	mirror.rotateY(-Math.PI/2);
 	mirror.position.set(15, 10, 0);
-	mirror.rotateX(Math.PI/6);
+	mirror.rotateX(Math.PI/9);
 	scene.add(mirror);
 	ponds.push(mirror);
+	mirror.visible = false;
 }
 
 
@@ -702,6 +712,8 @@ function start(){
 	right = -40;
 	left = -40;
 	sLight(-50);
+
+
 	Pond();
 
 	for (let i=0;i<300;i++){
@@ -845,15 +857,8 @@ function doKeyboard(event) {
             break;
         case 'b':
         case 'B':
-            // Toggle the "lookingBack" state
-            lookingBack = !lookingBack;
-
-            if (lookingBack) {
-                // Adjust the camera/player's orientation to look back
-                camera.rotation.y = Math.PI/2; // Adjust the rotation as needed
-            } else {
-                // Restore the camera/player's default orientation
-                camera.rotation.y = Math.PI * (3 / 2); // Default rotation
+            if (mirror) {
+                mirror.visible = !mirror.visible; // Toggle mirror visibility
             }
             break;
         default:
