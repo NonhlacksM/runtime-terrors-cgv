@@ -4,6 +4,8 @@ import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import { FBXLoader } from 'three/addons/loaders/FBXLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
+import {Reflector} from './JS/reflector.js';
+
 import AudioManager from './JS/sounds.js';
 import model from './JS/Models.js';
 import Level2 from './JS/level2.js';
@@ -30,12 +32,13 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Shadow map type can be adju
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-/*const controls = new OrbitControls(camera, renderer.domElement); // Pass the renderer's DOM element to OrbitControls
+/*
+const controls = new OrbitControls(camera, renderer.domElement); // Pass the renderer's DOM element to OrbitControls
 // Add event listener for changes to update the renderer
 controls.addEventListener('change', () => {
     renderer.render(scene, camera);
-});*/
-
+});
+*/
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
 scene.add(ambientLight);
 
@@ -191,8 +194,12 @@ function sLight(zz){
 }
 
 const loader1 = new GLTFLoader();
-let mixer; // Declare a mixer variable to manage animations
+const loader2 = new GLTFLoader();
+let mixer;
+let mixer2; // Declare a mixer variable to manage animations
 var person;
+var person2;
+
 var ani;
 var ani2;
 var jumpjump;
@@ -264,6 +271,37 @@ const bgTexture = loader.load('./resources/night.jpg');
 bgTexture.colorSpace = THREE.SRGBColorSpace;
 scene.background = bgTexture; */
 
+loader2.load('./person2.glb', function (gltf) {
+    // Add the loaded 3D object to the scene
+    gltf.scene.rotation.set(0, Math.PI / 2, 0);
+    gltf.scene.scale.set(2, 2, 2);
+
+	gltf.scene.traverse(function(node){
+		if(node.isMesh){
+			node.castShadow = true;
+			node.receiveShadow = true;
+		}
+	});
+    scene.add(gltf.scene);
+	person2 = gltf.scene;
+	person2.position.x = -10;
+
+    // Initialize the mixer
+    mixer2 = new THREE.AnimationMixer(gltf.scene);
+
+    // Get all the animations from the loaded model
+    const animations = gltf.animations;
+
+    // Create animation actions for each animation and add them to the mixer
+    if (animations.length > 0) {
+		const firstAnimationClip = animations[0];
+		const firstAnimationAction = mixer2.clipAction(firstAnimationClip);
+		firstAnimationAction.play();
+	}
+}, undefined, function (error) {
+    console.error(error);
+});
+
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -321,15 +359,19 @@ function animate() {
 	if (!end){
 		if (mixer) {
 			mixer.update(0.03);
+			mixer2.update(0.03);
 			
 			 // You can adjust the time delta as needed
 			}
+			
 		// Rotate the car (if needed)
 		if (playerCar) {
 			playerCar.rotation.y += 1;
 		}
 		person.position.x += 1;
+		person2.position.x += 1;
 		skybox.position.x += 1;
+		ponds[0].position.x += 1;
 		for (let i=0;i<move.length;i++){
 			move[i].position.x += 1;
 		}
@@ -391,6 +433,10 @@ function animate() {
 		paves.shift();
 		scene.remove(paves[0]);
 		paves.shift();
+
+		//if (xx%1000==0){
+		//	Pond();
+		//}
 
 		xx += 1;
 		time += 1;
@@ -558,11 +604,28 @@ function pave(zz){
     scene.add(rtt);
 	paves.push(rtt);
 }
-
+function Pond(){
+	const mirrorOptions = {
+		clipBias: 0.000,
+		textureWidth: window.innerWidth * window.devicePixelRatio,
+		textureHeight: window.innerHeight * window.devicePixelRatio,
+		color: 0x808080,
+		multisample: 4,
+	}
+	
+	const mirrorGeometry = new THREE.PlaneGeometry(20, 5);
+	const mirror = new Reflector(mirrorGeometry, mirrorOptions);
+	mirror.rotateY(-Math.PI/2);
+	mirror.position.set(15, 10, 0);
+	mirror.rotateX(Math.PI/6);
+	scene.add(mirror);
+	ponds.push(mirror);
+}
 
 
 var roads;
 var paves;
+var ponds;
 var pills;
 var blocks;
 var flats;
@@ -578,6 +641,7 @@ function start(){
 	time2 = [0,0];
 	roads = [];
 	paves = [];
+	ponds = [];
 	pills = [];
 	blocks = [];
 	flats = [];
@@ -599,6 +663,7 @@ function start(){
 	right = -40;
 	left = -40;
 	sLight(-50);
+	Pond();
 
 	for (let i=0;i<300;i++){
 		road();
@@ -673,6 +738,7 @@ function renderScene() {
 			camera.position.y = 4.7;
 			camera.position.z = person.position.z;
 			camera.rotation.y = Math.PI*(3/2);
+			
 			check= "true";
 		}
 		if (objectNumber==6 && check==="true"){
@@ -695,6 +761,7 @@ function renderScene() {
 	}
 	if (objectNumber==3 && person.position.z>-6){
 		person.position.z -= 6;
+		person2.position.z -= 6;
 		if(check==="true"){
 			camera.position.z -= 6;
 		}
@@ -702,6 +769,7 @@ function renderScene() {
 	}
 	if (objectNumber==4 && person.position.z<6){
 		person.position.z += 6;
+		person2.position.z += 6;
 		if(check==="true"){
 			camera.position.z += 6;
 		}

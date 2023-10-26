@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
+import {Reflector} from './reflector.js';
+
 
 class Level3 {
     constructor() {
@@ -96,10 +98,6 @@ class Level3 {
         }
 
         for (let ii=0; ii<3; ii++){
-            /*var obj = ['FieldOfCorn.obj', 'FieldOfWheat(1).obj', 'model.obj',
-            'model1.obj', 'PUSHILIN_forest.obj', 'PUSHILIN_pond.obj'];
-            var mtl = ['FieldOfCorn.mtl', 'FieldOfWheat.mtl','materials.mtl',
-            'materials1.mtl', 'PUSHILIN_forest.mtl', 'PUSHILIN_pond.mtl'];*/
             var obj = ['model.obj', 'model1.obj', 'PUSHILIN_forest.obj',
                        ];
             var mtl = ['materials.mtl', 'materials1.mtl','PUSHILIN_forest.mtl',
@@ -127,31 +125,6 @@ class Level3 {
                 });
             });
         }
-
-        /*var flatCreate = new MTLLoader();
-        flatCreate.setPath('./models/forest/');
-        flatCreate.load('FieldOfCorn.mtl', function(materials) {
-            materials.preload();
-
-            var glftLoader = new OBJLoader();
-            glftLoader.setPath('./models/forest/');
-            glftLoader.setMaterials(materials);
-
-            glftLoader.load('FieldOfCorn.obj', function(gltfScene) {
-                gltfScene.scale.set(0.8, 0.8, 0.8);
-                gltfScene.position.y = 0;
-                //gltfScene.rotation.y = Math.PI*(3/2);
-                gltfScene.traverse(function(node){
-                    if(node.isMesh){
-                        node.castShadow = false;
-                        node.receiveShadow = true;
-                    }
-                });
-                for (let ii=0; ii<6; ii++){
-                    self.flat.push(gltfScene);
-                }
-            });
-        });*/
     }
 
     createPoll() {
@@ -209,7 +182,6 @@ class Level3 {
         let skyboxGeo = new THREE.BoxGeometry( 300, 100, 100);
         this.skybox = new THREE.Mesh( skyboxGeo, materialArray );
     }
-
 
 
     getCar() {
