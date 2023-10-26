@@ -44,9 +44,17 @@ scene.add(ambientLight);
 
 
 // CLASS FOR MODELS
+let models;
 /////////////////////////////////////////////////////////////////////////////////
-
-const models = new Level3();
+if(level == 1){
+	models = new Level3();
+}else if(level == 2){
+	models = new Level2();
+}
+else{
+	models = new Level3();
+}
+// const models = new Level3();
 let blockClone;
 let coinClone;
 let flatClone;
@@ -353,9 +361,32 @@ scene.add(playerCar);
 var time;
 var time1;
 var time2;
+
+
+
+
+let models2= new Level2();
+
+let models3 = new Level3();
+
+
 function animate() {
     requestAnimationFrame(animate);
     
+		// CLASS FOR MODELS
+	/////////////////////////////////////////////////////////////////////////////////
+	if(level == 1){
+		models = models3;
+	}else if(level == 2){
+		models = models2;
+	}
+	else{
+		models = models3;
+	}
+	blockClone = models.getCar();
+	coinClone = models.getCoin();
+	flatClone = models.getFlat();
+	pollClone = models.getPoll();
 	if (!end){
 		if (mixer) {
 			mixer.update(0.03);
@@ -530,6 +561,14 @@ function animate() {
 					levels = levels/2;
 					// Update its textContent
 					level+=1;
+
+					// Enable the fog
+					scene.fog = new THREE.FogExp2(0xf1f1f1, 0.14);
+
+					// Wait for 5 seconds and then remove the fog
+					setTimeout(() => {
+						scene.fog = null; // Set fog to null to remove it
+					}, 5000); // 5000 milliseconds (5 seconds)
 					
 				}
 				scoreElement.textContent = points;
@@ -779,43 +818,60 @@ function renderScene() {
 
 // Add a function to handle keyboard input
 function doKeyboard(event) {
-	const ch = event.key;
-	let redraw = 1;
+    const ch = event.key;
+    let redraw = 1;
 
-	switch (ch) {
-		case 'ArrowUp':
-			objectNumber = 1;
-			break;
-		case 'ArrowDown':
-			objectNumber = 2;
-			break;
-		case 'ArrowLeft':
-			objectNumber = 3;
-			break;
-		case 'ArrowRight':
-			objectNumber = 4;
-			break;
-			case 'A':
-				objectNumber = 5;
-				break;
-			case 'D':
-				objectNumber = 6;
-				break;
-		case ' ':
-			useAnaglyph = !useAnaglyph;
-			break;
-		default:
-			redraw = 0;
-			break;
-	}
+    switch (ch) {
+        case 'ArrowUp':
+            objectNumber = 1;
+            break;
+        case 'ArrowDown':
+            objectNumber = 2;
+            break;
+        case 'ArrowLeft':
+            objectNumber = 3;
+            break;
+        case 'ArrowRight':
+            objectNumber = 4;
+            break;
+        case 'A':
+            objectNumber = 5;
+            break;
+        case 'D':
+            objectNumber = 6;
+            break;
+        case ' ':
+            useAnaglyph = !useAnaglyph;
+            break;
+        case 'b':
+        case 'B':
+            // Toggle the "lookingBack" state
+            lookingBack = !lookingBack;
 
-	if (redraw) {
-		renderScene(); // Trigger a redraw or rendering function
-	}
+            if (lookingBack) {
+                // Adjust the camera/player's orientation to look back
+                camera.rotation.y = Math.PI/2; // Adjust the rotation as needed
+            } else {
+                // Restore the camera/player's default orientation
+                camera.rotation.y = Math.PI * (3 / 2); // Default rotation
+            }
+            break;
+        default:
+            redraw = 0;
+            break;
+    }
+
+    if (redraw) {
+        renderScene(); // Trigger a redraw or rendering function
+    }
 }
+
+// Define a boolean variable to track whether the player is looking back
+let lookingBack = false;
 
 // Add a keyboard event listener to the document
 document.addEventListener('keydown', doKeyboard);
+
 
 
 function toggleCardVisibility() {
