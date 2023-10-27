@@ -1,7 +1,4 @@
 import * as THREE from 'three';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
-import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
-import { FBXLoader } from 'three/addons/loaders/FBXLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {Reflector} from './JS/reflector.js';
@@ -15,13 +12,12 @@ const scoreElement = document.getElementById('score');
 const card = document.getElementById("gameOverCard");
 const preloader = document.getElementById('preloader');
 card.style.display = "none";
-//preloader.style.display = "none";
+
 // Get the element with the id "level"
 const levelElement = document.getElementById('level');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 //camera positions
-
 camera.position.x = -15;
 camera.position.y = 7;
 camera.position.z = 0;
@@ -38,7 +34,7 @@ const fogDensity = 0.14;
 const customFog = new THREE.FogExp2(fogColor, fogDensity);
 
 
-
+//enabling the blender
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Shadow map type can be adjusted
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -62,9 +58,10 @@ if(level == 1){
 	models = new Level3();
 }else if(level == 2){
 	models = new Level2();
+	
 }
 else{
-	models = new Level3();
+	models = new model();
 }
 // const models = new Level3();
 let blockClone;
@@ -111,90 +108,8 @@ function flat(zz){
 	scene.add(here);
 	flats.push(here);
 }
-//adding the initial flats to scene
-var right;
-var left;
-function flat00(zz){
-	var pp = Math.floor(Math.random()*6);
-	
-	var obj = ['large_buildingA.obj', 'large_buildingB.obj', 'large_buildingC.obj',
-	'large_buildingD.obj', 'large_buildingG.obj', 'large_buildingF.obj'];
-	var mtl = ['large_buildingA.mtl', 'large_buildingB.mtl', 'large_buildingC.mtl',
-	'large_buildingD.mtl', 'large_buildingG.mtl', 'large_buildingF.mtl'];
-	var mtlLoader = new MTLLoader();
-	mtlLoader.setPath('./models/large/');
-	mtlLoader.load(mtl[pp], function(materials) {
-		materials.preload();
 
-		var glftLoader = new OBJLoader();
-		glftLoader.setPath('./models/large/');
-		glftLoader.setMaterials(materials);
-
-		glftLoader.load(obj[pp], function(gltfScene) {
-			gltfScene.scale.set(10, 10, 10);
-			if (zz<0){
-				gltfScene.position.x = left;
-				left += 10;
-			}
-			else {
-				gltfScene.position.x = right;
-				right += 10;
-			}
-			
-			gltfScene.position.y = 0;
-			gltfScene.position.z = zz;
-			gltfScene.traverse(function(node){
-				if(node.isMesh){
-					node.castShadow = false;
-					node.receiveShadow = true;
-				}
-			});
-			scene.add(gltfScene);
-			flats.push(gltfScene);
-		});
-	});
-}
-
-function sLight00(zz){
-	let light = new THREE.PointLight(0xFFFFFF, 600.0);
-	light.position.set(zz, 11.5, 9.8);
-	light.castShadow = true;
-	scene.add(light);
-	sLights.push(light);
-	
-	var mtlLoader = new MTLLoader();
-	mtlLoader.setPath('./models/lights/');
-	mtlLoader.load('materials.mtl', function(materials) {
-		materials.preload();
-
-		var glftLoader = new OBJLoader();
-		glftLoader.setPath('./models/lights/');
-		glftLoader.setMaterials(materials);
-
-		glftLoader.load('./model.obj', function(gltfScene) {
-			gltfScene.scale.set(4, 4, 4);
-			gltfScene.position.x = zz;
-			gltfScene.position.y = 10;
-			gltfScene.position.z = 11;
-			gltfScene.traverse(function(node){
-				if(node.isMesh){
-					node.castShadow = true;
-					node.receiveShadow = true;
-				}
-			});
-			scene.add(gltfScene);
-			lightPoll.push(gltfScene);
-		});
-	});
-}
-
-
-
-/////////////////////////////////////////////////////////////////////////////////
-
-
-// Do not know yet
-/////////////////////////////////////////////////////////////////////////////////
+//////////Function to add and place the lights and light polls/////////////
 
 function sLight(zz){
 	let light = new THREE.PointLight(0xFFFFFF, 600.0);
@@ -213,18 +128,17 @@ function sLight(zz){
 
 }
 
+//declaring fuctions to load the models from blender
 const loader1 = new GLTFLoader();
 const loader2 = new GLTFLoader();
 let mixer;
 let mixer2; // Declare a mixer variable to manage animations
 var person;
 var person2;
-
-var ani;
-var ani2;
 var jumpjump;
 
-loader1.load('./untitled3.glb', function (gltf) {
+//loading the our character from blender
+loader1.load('./models/untitled1.glb', function (gltf) {
     // Add the loaded 3D object to the scene
     gltf.scene.rotation.set(0, Math.PI / 2, 0);
     gltf.scene.scale.set(3, 3, 3);
@@ -237,8 +151,6 @@ loader1.load('./untitled3.glb', function (gltf) {
 	});
     scene.add(gltf.scene);
 	person = gltf.scene;
-	ani = gltf.animations;
-	ani2 = gltf.animations;
 
     // Initialize the mixer
     mixer = new THREE.AnimationMixer(gltf.scene);
@@ -265,6 +177,10 @@ loader1.load('./untitled3.glb', function (gltf) {
 		const firstAnimationAction1 = mixer.clipAction(firstAnimationClip1);
 		firstAnimationAction1.loop = THREE.LoopOnce;
 
+		const firstAnimationClip2 = animations[2];
+		const firstAnimationAction2 = mixer.clipAction(firstAnimationClip2);
+		firstAnimationAction2.loop = THREE.LoopOnce;
+
 		mixer.addEventListener('finished', function(e) {
 			if (jumpjump == 10){
 				jumpjump = 9;
@@ -274,6 +190,11 @@ loader1.load('./untitled3.glb', function (gltf) {
 				if(check==="true"){
 					camera.position.y += 3;
 			    }
+			}
+			else if (dead==true && dying==1){
+				dying = 1;
+				firstAnimationAction2.reset();
+				firstAnimationAction2.play();
 			}
 
 			else {
@@ -286,12 +207,8 @@ loader1.load('./untitled3.glb', function (gltf) {
     console.error(error);
 });
 
-/*const loader = new THREE.TextureLoader();
-const bgTexture = loader.load('./resources/night.jpg');
-bgTexture.colorSpace = THREE.SRGBColorSpace;
-scene.background = bgTexture; */
-
-loader2.load('./person2.glb', function (gltf) {
+//////loading the monster chasing the boy from blender
+loader2.load('./models/beast.glb', function (gltf) {
     // Add the loaded 3D object to the scene
     gltf.scene.rotation.set(0, Math.PI / 2, 0);
     gltf.scene.scale.set(2, 2, 2);
@@ -317,15 +234,29 @@ loader2.load('./person2.glb', function (gltf) {
 		const firstAnimationClip = animations[0];
 		const firstAnimationAction = mixer2.clipAction(firstAnimationClip);
 		firstAnimationAction.play();
+		firstAnimationAction.loop = THREE.LoopOnce;
+
+		const firstAnimationClip1 = animations[1];
+		const firstAnimationAction1 = mixer2.clipAction(firstAnimationClip1);
+		firstAnimationAction1.loop = THREE.LoopOnce;
+
+		mixer2.addEventListener('finished', function(e) {
+			if (dead==false){
+				firstAnimationAction.reset();
+				firstAnimationAction.play();
+			}
+			else if (dead==true){
+				firstAnimationAction1.reset();
+				firstAnimationAction1.play();
+			}
+		});
 	}
 }, undefined, function (error) {
     console.error(error);
 });
 
 
-/////////////////////////////////////////////////////////////////////////////////
-
-
+/////////////////getting elements from the html/////////////////////////////////
 
 const divButtons=document.getElementById("myButtons");
 const startButton=document.getElementById("startButton");
@@ -335,7 +266,7 @@ const welcomeContainer=document.getElementById("welcomeContainer");
 let gameInProgress = false; // Variable to track game state
 
 startButton.addEventListener("click",function(e){
-	
+
 	welcomeContainer.style.display = "none";
 	divButtons.style.display="none";
 	scoreCard.style.display="block";
@@ -345,12 +276,7 @@ startButton.addEventListener("click",function(e){
 	
 });
 
-function gameOver() {
-    gameInProgress = false;
-    // Add code to handle game over here
-}
-
-
+//////code to display the leaderboard
 function scoreBack() {
     const leaderboard = document.getElementById('leaderboard');
 
@@ -368,6 +294,7 @@ function scoreBack() {
     }
 }
 
+////////////
 const scoreBackk=document.getElementById("scoreBack");
 scoreBackk.addEventListener("click",function(e){
 	scoreBack();
@@ -388,8 +315,12 @@ let models3 = new Level3();
 
 
 function animate() {
-    requestAnimationFrame(animate);
-	//preloader.style.display = 'none';
+   requestAnimationFrame(animate);
+   if (mixer && dying==1) {
+	mixer.update(0.03);
+	mixer2.update(0.03);
+	//requestAnimationFrame(animate);
+	}
     
 		// CLASS FOR MODELS
 	/////////////////////////////////////////////////////////////////////////////////
@@ -397,14 +328,18 @@ function animate() {
 		models = models3;
 	}else if(level == 2){
 		models = models2;
+		
 	}
 	else{
 		models = models3;
 	}
+	
 	blockClone = models.getCar();
 	coinClone = models.getCoin();
 	flatClone = models.getFlat();
 	pollClone = models.getPoll();
+
+	
 	if (!end){
 		if (mixer) {
 			mixer.update(0.03);
@@ -496,20 +431,21 @@ function animate() {
 			death.playSound();
 			end = true;
 			dead = true;
+			dying = 1;
 			toggleCardVisibility();
 		}
 		if (blocks.length > 1 && move.length > 0 && blocks[1].position.x == move[0].position.x+4
 			&& 4>= Math.abs(blocks[1].position.z - move[0].position.z)) {
 			end = true;
 			dead = true;
-			
+			dying = 1;
 			toggleCardVisibility();
 		}
 		if (blocks.length > 2 && move.length > 0 && blocks[2].position.x == move[0].position.x+4
 			&& 4>= Math.abs(blocks[2].position.z - move[0].position.z)) {
 			end = true;
 			dead = true;
-			
+			dying = 1;
 			toggleCardVisibility();
 		}
 	
@@ -677,10 +613,10 @@ function Pond(){
 	mirror.rotateX(Math.PI/9);
 	scene.add(mirror);
 	ponds.push(mirror);
-	mirror.visible = false;
+	mirror.visible = true;
 }
 
-
+////variables needed at the start
 var roads;
 var paves;
 var ponds;
@@ -692,6 +628,8 @@ var points;
 var levels;
 var sLights;
 var lightPoll;
+
+//function to load everything at the start
 function start(){
 	
 	xx = -20;
@@ -719,8 +657,6 @@ function start(){
 	skybox = models.getSkybox();
 	scene.add(skybox);
 
-	right = -40;
-	left = -40;
 	sLight(-50);
 
 
@@ -754,6 +690,7 @@ function start(){
 var move; 
 var end;
 var dead;
+var dying;
 function car(){
     const car = new THREE.Group();
 	move = [];
@@ -772,6 +709,7 @@ function car(){
 	
 	end = true;
 	dead = false;
+	dying = 0;
     return car;
 }
 
@@ -795,7 +733,7 @@ function renderScene() {
 			move[i].position.z += 6;
 		}
 		if (objectNumber==5 && check==="false"){
-			camera.position.x = camera.position.x+15.9;
+			camera.position.x = camera.position.x+16.7;
 			camera.position.y = 4.7;
 			camera.position.z = person.position.z;
 			camera.rotation.y = Math.PI*(3/2);
@@ -803,7 +741,7 @@ function renderScene() {
 			check= "true";
 		}
 		if (objectNumber==6 && check==="true"){
-			camera.position.x = camera.position.x-15.9;
+			camera.position.x = camera.position.x-16.7;
 			camera.position.y = 7;
 			camera.position.z = 0;
 			camera.rotation.y = Math.PI*(3/2);
@@ -926,6 +864,7 @@ restart.addEventListener("click", function (e) {
     scoreElement.textContent = 0;
     end = false;
 	dead = false;
+	dying = 0;
     start();
 
     scene.add(person);
@@ -947,8 +886,10 @@ restart.addEventListener("click", function (e) {
 
 
 	leaderboard.style.display = "none";
+	
     animate();
 });
+
 
 const pauseButton = document.getElementById("pauseButton");
 const options = document.getElementById("options");
