@@ -64,6 +64,20 @@ if(level == 1){
 else{
 	models = new model();
 }
+const loadingManager = new THREE.LoadingManager();
+const progressBar = document.getElementById('progress-bar');
+
+loadingManager.onProgress = function(url, loaded, total) {
+    progressBar.value = (loaded / total) * 100;
+}
+
+const progressBarContainer = document.querySelector('.progress-bar-container');
+
+loadingManager.onLoad = function() {
+    progressBarContainer.style.display = 'none';
+}
+
+
 // const models = new Level3();
 let blockClone;
 let coinClone;
@@ -109,8 +123,90 @@ function flat(zz){
 	scene.add(here);
 	flats.push(here);
 }
+//adding the initial flats to scene
+var right;
+var left;
+function flat00(zz){
+	var pp = Math.floor(Math.random()*6);
+	
+	var obj = ['large_buildingA.obj', 'large_buildingB.obj', 'large_buildingC.obj',
+	'large_buildingD.obj', 'large_buildingG.obj', 'large_buildingF.obj'];
+	var mtl = ['large_buildingA.mtl', 'large_buildingB.mtl', 'large_buildingC.mtl',
+	'large_buildingD.mtl', 'large_buildingG.mtl', 'large_buildingF.mtl'];
+	var mtlLoader = new MTLLoader();
+	mtlLoader.setPath('./models/large/');
+	mtlLoader.load(mtl[pp], function(materials) {
+		materials.preload();
 
-//////////Function to add and place the lights and light polls/////////////
+		var glftLoader = new OBJLoader();
+		glftLoader.setPath('./models/large/');
+		glftLoader.setMaterials(materials);
+
+		glftLoader.load(obj[pp], function(gltfScene) {
+			gltfScene.scale.set(10, 10, 10);
+			if (zz<0){
+				gltfScene.position.x = left;
+				left += 10;
+			}
+			else {
+				gltfScene.position.x = right;
+				right += 10;
+			}
+			
+			gltfScene.position.y = 0;
+			gltfScene.position.z = zz;
+			gltfScene.traverse(function(node){
+				if(node.isMesh){
+					node.castShadow = false;
+					node.receiveShadow = true;
+				}
+			});
+			scene.add(gltfScene);
+			flats.push(gltfScene);
+		});
+	});
+}
+
+function sLight00(zz){
+	let light = new THREE.PointLight(0xFFFFFF, 600.0);
+	light.position.set(zz, 11.5, 9.8);
+	light.castShadow = true;
+	scene.add(light);
+	sLights.push(light);
+	
+	var mtlLoader = new MTLLoader();
+	mtlLoader.setPath('./models/lights/');
+	mtlLoader.load('materials.mtl', function(materials) {
+		materials.preload();
+
+		var glftLoader = new OBJLoader();
+		glftLoader.setPath('./models/lights/');
+		glftLoader.setMaterials(materials);
+
+		glftLoader.load('./model.obj', function(gltfScene) {
+			gltfScene.scale.set(4, 4, 4);
+			gltfScene.position.x = zz;
+			gltfScene.position.y = 10;
+			gltfScene.position.z = 11;
+			gltfScene.traverse(function(node){
+				if(node.isMesh){
+					node.castShadow = true;
+					node.receiveShadow = true;
+				}
+			});
+			scene.add(gltfScene);
+			lightPoll.push(gltfScene);
+		});
+	});
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
+
+
+// Do not know yet
+/////////////////////////////////////////////////////////////////////////////////
 
 function sLight(zz){
 	let light = new THREE.PointLight(0xFFFFFF, 600.0);
@@ -129,17 +225,15 @@ function sLight(zz){
 
 }
 
-//declaring fuctions to load the models from blender
-const loader1 = new GLTFLoader();
-const loader2 = new GLTFLoader();
+const loader1 = new GLTFLoader(loadingManager);
+const loader2 = new GLTFLoader(loadingManager);
 let mixer;
 let mixer2; // Declare a mixer variable to manage animations
 var person;
 var person2;
 var jumpjump;
-
-//loading the our character from blender
-loader1.load('./models/untitled1.glb', function (gltf) {
+/*
+loader1.load('./untitled3.glb', function (gltf) {
     // Add the loaded 3D object to the scene
     gltf.scene.rotation.set(0, Math.PI / 2, 0);
     gltf.scene.scale.set(3, 3, 3);
@@ -208,8 +302,12 @@ loader1.load('./models/untitled1.glb', function (gltf) {
     console.error(error);
 });
 
-//////loading the monster chasing the boy from blender
-loader2.load('./models/beast.glb', function (gltf) {
+/*const loader = new THREE.TextureLoader();
+const bgTexture = loader.load('./resources/night.jpg');
+bgTexture.colorSpace = THREE.SRGBColorSpace;
+scene.background = bgTexture; */
+
+loader2.load('./person2.glb', function (gltf) {
     // Add the loaded 3D object to the scene
     gltf.scene.rotation.set(0, Math.PI / 2, 0);
     gltf.scene.scale.set(2, 2, 2);
@@ -255,7 +353,7 @@ loader2.load('./models/beast.glb', function (gltf) {
 }, undefined, function (error) {
     console.error(error);
 });
-
+*/
 
 /////////////////getting elements from the html/////////////////////////////////
 
@@ -267,7 +365,7 @@ const welcomeContainer=document.getElementById("welcomeContainer");
 let gameInProgress = false; // Variable to track game state
 
 startButton.addEventListener("click",function(e){
-
+	
 	welcomeContainer.style.display = "none";
 	divButtons.style.display="none";
 	scoreCard.style.display="block";
@@ -336,7 +434,7 @@ function animate() {
 		models = models1;
 		
 		
-	}else if(level == 2){
+	}else if(level%2 ==0){
 		models = models2;
 	}
 	else{
