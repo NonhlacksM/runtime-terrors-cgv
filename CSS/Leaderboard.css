@@ -1,6 +1,7 @@
 /*****************************************************************
 ******************LeaderBoard Styling Below***********************
 *****************************************************************/
+/* Style for a leaderboard container */
 #leaderboard {
     display: none;
     background-color: #c1e7f3;
@@ -14,7 +15,8 @@
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     text-align: center;
   }
-  
+
+  /* Style for individual list items in the leaderboard */
   #scoreList {
     list-style: none;
     padding: 0;
@@ -25,6 +27,7 @@
     font-size: 16px;
     font-style: italic;
   }
+
   /* Style for the leaderboard pop-up */
 .modal {
     display: none;
@@ -37,6 +40,7 @@
     background-color: rgba(0, 0, 0, 0.7);
 }
 
+/* Style for the content inside the modal */
 .modal-content {
     background-color: #f0f0f0;
     border: 1px solid #ccc;
@@ -49,10 +53,53 @@
     text-align: center;
 }
 
+/* Style for the close button in the modal */
 .close {
     position: absolute;
     top: 0;
     right: 0;
     padding: 10px;
     cursor: pointer;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+h1 {
+  text-align: center;
+}
+ul#leaderboardList {
+  list-style: none;
+  padding: 0;
+  margin: 20px;
+}
+#leaderboard1 {
+max-width: 160px; /* Adjust the width to fit inside the card */
+margin: 0 auto;
+background-color: #fff;
+border: 1px solid #ccc;
+border-radius: 5px;
+padding: 10px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#leaderboard1 h2 {
+margin-bottom: 10px;
+color: #333;
+}
+
+#leaderboard1 ul {
+list-style-type: none;
+padding: 0;
+}
+
+#leaderboard1 li {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 5px;
+background-color: #f9f9f9;
+border-radius: 5px;
+padding: 5px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

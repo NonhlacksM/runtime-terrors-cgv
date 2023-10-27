@@ -1,3 +1,4 @@
+/* Style for a progress bar container */
 .progress-bar-container {
     position: absolute;
     left: 50%;
@@ -12,13 +13,17 @@
     align-items: center;
 }
 
-
+/* Style for the progress bar element */
 #progress-bar {
     width: 30%;
     margin-top: 0.5%;
     height: 2%;
 }
+
+/* Style for labels within the progress bar container */
 label {
     color: white;
     font-size: 2rem;
+    font-family: italic;
+    
 }

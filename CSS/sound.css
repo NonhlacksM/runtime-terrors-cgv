@@ -1,17 +1,17 @@
 #soundSwitch {
-    width: 25px; /* Set the width of the checkbox */
-    height: 20px; /* Set the height of the checkbox */
-    transform: scale(2); /* Increase the size of the checkbox */
+    width: 25px; 
+    height: 20px; 
+    transform: scale(2); 
     margin: 0 10px;
-    border: 1px solid hsla(216, 97%, 47%, 0.678); /* Add margin for spacing */
+    border: 1px solid hsla(216, 97%, 47%, 0.678); 
   }
   
   #words {
-    font-size: 29px; /* Increase the font size of the label */
+    font-size: 29px; 
     margin-right: 10px;
     font-weight: bold;
     font-style: italic;
-     /* Add margin for spacing between the label and checkbox */
+     
   }
   #back{
     text-align: center;

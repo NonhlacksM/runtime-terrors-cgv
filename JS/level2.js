@@ -15,11 +15,13 @@ class Level2 {
         // Initialize your variables.
         this.car = [];
         const loadingManager = new THREE.LoadingManager();
-        loadingManager.onProgress=function(url,itemsloaded,itemsTotal){
-            //alert(1+"loading");
+        const preloader = document.getElementById('preloader');
+        loadingManager.onProgress = function(url, loaded, total) {
+            
         }
-        loadingManager.onLoad = function(){
-            //alert("just finished");
+
+        loadingManager.onLoad = function() {
+            preloader.style.display = "none";
         }
         
         var obj = ['Cop.obj','SUV.obj','Taxi.obj','SportsCar.obj'];
@@ -56,12 +58,13 @@ class Level2 {
         this.coin = null;
         const self = this;
         const loadingManager = new THREE.LoadingManager();
-        loadingManager.onProgress=function(url,itemsloaded,itemsTotal){
-            //alert(1+"loading");
+        const preloader = document.getElementById('preloader');
+        loadingManager.onProgress = function(url, loaded, total) {
+            
         }
-        loadingManager.onLoad = function(){
-            //alert("just finished");
-            //this.check = "true";
+
+        loadingManager.onLoad = function() {
+            preloader.style.display = "none";
         }
 
         var coinCreate  = new MTLLoader(loadingManager);
@@ -91,12 +94,13 @@ class Level2 {
         this.flat = [];
         const self = this;
         const loadingManager = new THREE.LoadingManager();
-        loadingManager.onProgress=function(url,itemsloaded,itemsTotal){
-            //alert(1+"loading");
+        const preloader = document.getElementById('preloader');
+        loadingManager.onProgress = function(url, loaded, total) {
+            
         }
-        loadingManager.onLoad = function(){
-            //alert("just finished");
-            //this.check = "true";
+
+        loadingManager.onLoad = function() {
+            preloader.style.display = "none";
         }
 
         for (let ii=0; ii<6; ii++){
@@ -132,12 +136,13 @@ class Level2 {
         this.poll = null;
         const self = this;
         const loadingManager = new THREE.LoadingManager();
-        loadingManager.onProgress=function(url,itemsloaded,itemsTotal){
-            //alert(1+"loading");
+        const preloader = document.getElementById('preloader');
+        loadingManager.onProgress = function(url, loaded, total) {
+            
         }
-        loadingManager.onLoad = function(){
-            //alert("just finished");
-            //this.check = "true";
+
+        loadingManager.onLoad = function() {
+            preloader.style.display = "none";
         }
 
         var mtlLoader = new MTLLoader();
@@ -163,12 +168,12 @@ class Level2 {
 
     createSkybox(){
         let materialArray = [];
-        let texture_ft = new THREE.TextureLoader().load( './models/skybox/arid2_ft.jpg');
-        let texture_bk = new THREE.TextureLoader().load( './models/skybox/arid2_bk.jpg');
-        let texture_up = new THREE.TextureLoader().load( './models/skybox/arid2_up.jpg');
-        let texture_dn = new THREE.TextureLoader().load( './models/skybox/arid2_dn.jpg');
-        let texture_rt = new THREE.TextureLoader().load( './models/skybox/arid2_rt.jpg');
-        let texture_lf = new THREE.TextureLoader().load( './models/skybox/arid2_lf.jpg');
+        let texture_ft = new THREE.TextureLoader().load( './models/skybox/meadow_ft.jpg');
+        let texture_bk = new THREE.TextureLoader().load( './models/skybox/meadow_bk.jpg');
+        let texture_up = new THREE.TextureLoader().load( './models/skybox/meadow_up.jpg');
+        let texture_dn = new THREE.TextureLoader().load( './models/skybox/meadow_dn.jpg');
+        let texture_rt = new THREE.TextureLoader().load( './models/skybox/meadow_rt.jpg');
+        let texture_lf = new THREE.TextureLoader().load( './models/skybox/meadow_lf.jpg');
         
         materialArray.push(new THREE.MeshBasicMaterial( { map: texture_ft }));
         materialArray.push(new THREE.MeshBasicMaterial( { map: texture_bk }));

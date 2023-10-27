@@ -3,6 +3,8 @@
 	<head lang="en"> 
 		<meta charset="utf-8">
 		<title>Runtime Terror!</title>
+
+        <!-- Include external CSS files -->
         <link rel="stylesheet" href='./CSS/loader.css'>
         <link rel="stylesheet" href='./CSS/styles.css'>
         <link rel="stylesheet" href='./CSS/score.css'>
@@ -13,15 +15,17 @@
 	</head>
     
 	<body>
+        <!-- Welcome container with game title and animation -->
         <div id="welcomeContainer">
-            <h1 id="gameNameWelcome">Runtime <span>Terror</span>!</h1>
+            <h1 id="gameNameWelcome">Run<span>..</span> time <span>Terror</span>!</h1>
             <div class="gradient-border"></div>
             <div class= "infinite" id="RunTimeAnimation">
                 <div class="girl"></div>
                 <div class="shadow"></div>
             </div>
         </div>
-        
+
+        <!-- Score card container initially hidden -->
 		<div class="score-card" id = "scoreCard" style="display: none;">
 			<div class="card-title">Score</div>
 			<div class="score-value" id="score">0</div>
@@ -36,25 +40,24 @@
             </div>
 
 		</div>
-        
+
+        <!-- Buttons container for game options -->
         <div id="myButtons" style="display: flex;flex-direction: column;">
-            <button id="Level1">Level1</button>
-            <button id="Level2">Level2</button>
-            <button id="startButton">Level3</button>
+            <button id="startButton">Start</button>
             <button id="scoreBoardB">Leaderboard</button>
             <button id="optionButton">Options</button>
             <button id="quitButton">Quit</button>
         </div>
    
         <!--- Leaderboard menu --->
-    <div id="leaderboard" class="hidden" style="display: none; top: 0%;margin-left: 240px; width: 220px;">
-        <h2>Leaderboard</h2>
-        <ul id="scoreList">
-    
-        </ul>
-        <button id="scoreBack" onclick="back()">back</button>
-    </div>
-    <div id="leaderboardPopup" class="modal">
+        <div id="leaderboard" class="hidden" style="display: none; top: 0%;margin-left: 240px; width: 220px;">
+            <h2>Leaderboard</h2>
+            <ul id="scoreList">
+        
+            </ul>
+            <button id="scoreBack" onclick="back()">back</button>
+        </div>
+        <div id="leaderboardPopup" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeLeaderboardPopup()">&times;</span>
             <h2>Leaderboard</h2>
@@ -71,17 +74,27 @@
         <button id="back" onclick="back()">back</button>
     </div>
 
+    <!-- Game over card container -->
     <div class="game-over-card" id="gameOverCard">
         <div class="game-over-text">Game Over</div>
+       
+        <div id="leaderboard1">
+          <h2>Leaderboard</h2>
+          <ul id="leaderboardList"></ul>
+        </div>
         <button class="restart-button" id="restartGame">Restart</button>
     </div>
+
     <div id = "preloader" class="progress-bar-container">
         <label for="progress-bar">Loading...</label>
         <progress id="progress-bar" value="0" max="100"></progress>
     </div>
-        
+    
+        <!-- JavaScript scripts -->
 		<script type="module" src="./main.js"></script>
         <script src='./JS/sound.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+        <script src="./JS/i.js"></script>
         <script src='./JS/Leaderboard.js'></script>
         
 	</body>

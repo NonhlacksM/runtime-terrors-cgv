@@ -21,7 +21,7 @@ class Level3 {
         const loadingManager = new THREE.LoadingManager();
         const preloader = document.getElementById('preloader');
         loadingManager.onProgress = function(url, loaded, total) {
-            //preloader.style.display = "block";
+            
         }
 
         loadingManager.onLoad = function() {
@@ -62,7 +62,7 @@ class Level3 {
         const loadingManager = new THREE.LoadingManager();
         const preloader = document.getElementById('preloader');
         loadingManager.onProgress = function(url, loaded, total) {
-            //preloader.style.display = "block";
+            
         }
 
         loadingManager.onLoad = function() {
@@ -100,7 +100,7 @@ class Level3 {
         const loadingManager = new THREE.LoadingManager();
         const preloader = document.getElementById('preloader');
         loadingManager.onProgress = function(url, loaded, total) {
-            //preloader.style.display = "block";
+            
         }
 
         loadingManager.onLoad = function() {
@@ -136,30 +136,6 @@ class Level3 {
             });
         }
 
-        /*var flatCreate = new MTLLoader();
-        flatCreate.setPath('./models/forest/');
-        flatCreate.load('FieldOfCorn.mtl', function(materials) {
-            materials.preload();
-
-            var glftLoader = new OBJLoader();
-            glftLoader.setPath('./models/forest/');
-            glftLoader.setMaterials(materials);
-
-            glftLoader.load('FieldOfCorn.obj', function(gltfScene) {
-                gltfScene.scale.set(0.8, 0.8, 0.8);
-                gltfScene.position.y = 0;
-                //gltfScene.rotation.y = Math.PI*(3/2);
-                gltfScene.traverse(function(node){
-                    if(node.isMesh){
-                        node.castShadow = false;
-                        node.receiveShadow = true;
-                    }
-                });
-                for (let ii=0; ii<6; ii++){
-                    self.flat.push(gltfScene);
-                }
-            });
-        });*/
     }
 
     createPoll() {
@@ -169,7 +145,7 @@ class Level3 {
         const loadingManager = new THREE.LoadingManager();
         const preloader = document.getElementById('preloader');
         loadingManager.onProgress = function(url, loaded, total) {
-           // preloader.style.display = "block";
+           
         }
 
         loadingManager.onLoad = function() {
@@ -201,12 +177,12 @@ class Level3 {
     createSkybox(){
         
         let materialArray = [];
-        let texture_ft = new THREE.TextureLoader().load( './models/skybox/meadow_ft.jpg');
-        let texture_bk = new THREE.TextureLoader().load( './models/skybox/meadow_bk.jpg');
-        let texture_up = new THREE.TextureLoader().load( './models/skybox/meadow_up.jpg');
-        let texture_dn = new THREE.TextureLoader().load( './models/skybox/meadow_dn.jpg');
-        let texture_rt = new THREE.TextureLoader().load( './models/skybox/meadow_rt.jpg');
-        let texture_lf = new THREE.TextureLoader().load( './models/skybox/meadow_lf.jpg');
+        let texture_ft = new THREE.TextureLoader().load( './models/skybox/arid2_ft.jpg');
+        let texture_bk = new THREE.TextureLoader().load( './models/skybox/arid2_bk.jpg');
+        let texture_up = new THREE.TextureLoader().load( './models/skybox/arid2_up.jpg');
+        let texture_dn = new THREE.TextureLoader().load( './models/skybox/arid2_dn.jpg');
+        let texture_rt = new THREE.TextureLoader().load( './models/skybox/arid2_rt.jpg');
+        let texture_lf = new THREE.TextureLoader().load( './models/skybox/arid2_lf.jpg');
         
         materialArray.push(new THREE.MeshBasicMaterial( { map: texture_ft }));
         materialArray.push(new THREE.MeshBasicMaterial( { map: texture_bk }));

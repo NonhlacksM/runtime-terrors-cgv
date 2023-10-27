@@ -3,19 +3,17 @@ const settingsButton = document.getElementById('settingsButton');
 const optionsMenu = document.getElementById('optionsMenu');
 const soundSwitch = document.getElementById('soundSwitch');
 const divButtons=document.getElementById("myButtons");
-//const preloader = document.getElementById('preloader');
 const welcomeContainer=document.getElementById("welcomeContainer");
 let isSoundOn = true; // Initially, sound is on
 
 
 let backkk;
-// Event listener for the "OpStions" button
+// Event listener for the "Options" button
 optionButton.addEventListener('click', function(){
     backkk = true;
     // Toggle the visibility of the options menu
     divButtons.style.display="none";
     welcomeContainer.style.display = "none";
-    //preloader.style.display = "none";
     optionsMenu.style.display="block";
     if (optionsMenu.classList.contains('hidden')) {
         optionsMenu.classList.remove('hidden');
@@ -29,7 +27,6 @@ settingsButton.addEventListener('click', function() {
     // Toggle the visibility of the options menu
     divButtons.style.display="none";
     welcomeContainer.style.display = "none";
-    //preloader.style.display = "none";
     optionsMenu.style.display="block";
     if (optionsMenu.classList.contains('hidden')) {
         optionsMenu.classList.remove('hidden');
@@ -61,6 +58,7 @@ soundSwitch.addEventListener('change', function() {
         stopSound();
     }
 });
+
 let audio; // Global variable to hold the audio element
 
 // Function to play the sound

@@ -8,8 +8,10 @@ body{
     justify-content: center;
     align-items:center;
     min-height:100vh;
-    background: radial-gradient(#9bdfff, #009be4);
+    background: url('night.jpg');
+    background-size: 85%;
 }
+   
 .infinite{
     position: relative;
     width: 800px;
@@ -63,14 +65,16 @@ body{
     height: 200px;
     width: calc(1248px / 6);
     overflow:hidden;
-    background: url('https://cdn.codeandweb.com/blog/2016/05/10/how-to-create-a-sprite-sheet/spritestrip.png');
+    left: 10%;
+    background: url('spritestrip.webp');
     transform: perspective(500px) rotateX(-25deg) 
-    translateY(-150px);
+    translateY(-150px) scale(0.46);
     -webkit-box-reflect: below 1px 
     linear-gradient(transparent 90%, #0004 );
     animation: animateGirl 1s steps(6) infinite;
     background-position: 0 0;
     top: 35%;
+    
 }
 @keyframes animateGirl
 {
@@ -79,9 +83,9 @@ body{
 }
 #RunTimeAnimation {
     position: absolute;
-    top: 120px; /* Adjust the top value to move it up to your desired position */
+    top: 120px; 
     left: 50%;
     transform: translateX(-50%);
-    width: 490px; /* Set the desired width for the animation */
-    height: 80px; /* Set the desired height for the animation */
+    width: 490px; 
+    height: 80px; 
 }

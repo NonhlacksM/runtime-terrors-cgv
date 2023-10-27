@@ -1,10 +1,10 @@
-//const preloader = document.getElementById('preloader');
 const leaderboard = document.getElementById('leaderboard');
 const scoreBoardB = document.getElementById('scoreBoardB');
+
+// Add a click event listener to the "Leaderboard" button
 scoreBoardB.addEventListener("click",function(e){
     // Toggle the visibility of the options menu
     divButtons.style.display="none";
-    //preloader.style.display = "none";
    welcomeContainer.style.display = "none";
    leaderboard.style.display="block";
    if (leaderboard.classList.contains('hidden')) {
@@ -16,14 +16,18 @@ scoreBoardB.addEventListener("click",function(e){
 
 const card = document.getElementById("gameOverCard");
 const scoreCard = document.getElementById("scoreCard");
+
+// Function to handle going back from the leaderboard
 function scoreBack1(){
     card.style.display = "none";
     scoreCard.style.display = "none";
     divButtons.style.display="flex";
     leaderboard.style.display="none";
-    //preloader.style.display = "none";
     welcomeContainer.style.display = "block";
 }
+
+
+// Function to update the leaderboard with a new score
 function updateLeaderboard(score) {
     const leaderboard = document.getElementById('leaderboard');
     leaderboard.style.display = 'block';
@@ -45,9 +49,7 @@ function updateLeaderboard(score) {
 }
 
 
-/*************************************
- * Initialise board
- ************************************/
+
 // Function to initialize the leaderboard with zeros
 function initializeLeaderboard() {
     const leaderboard = document.getElementById('leaderboard');
@@ -78,12 +80,4 @@ document.getElementById('pauseLeaderboard').addEventListener('click', showLeader
 function showLeaderboardOnPause() {
     const leaderboard = document.getElementById('leaderboard');
     leaderboard.style.display = 'block';
-    
-    // You may also need to populate the leaderboard with scores here if you haven't already.
-    // Example:
-    // populateLeaderboard();
 }
-
-
-
-

@@ -15,11 +15,13 @@ class Model {
         // Initialize your variables.
         this.train = null;
         const loadingManager = new THREE.LoadingManager();
-        loadingManager.onProgress=function(url,itemsloaded,itemsTotal){
-            //alert(1+"loading");
+        const preloader = document.getElementById('preloader');
+        loadingManager.onProgress = function(url, loaded, total) {
+            
         }
-        loadingManager.onLoad = function(){
-            //alert("just finished");
+
+        loadingManager.onLoad = function() {
+            preloader.style.display = "none";
         }
         const blockCreate = new MTLLoader(loadingManager);
 
@@ -50,12 +52,13 @@ class Model {
         this.coin = null;
         const self = this;
         const loadingManager = new THREE.LoadingManager();
-        loadingManager.onProgress=function(url,itemsloaded,itemsTotal){
-            //alert(1+"loading");
+        const preloader = document.getElementById('preloader');
+        loadingManager.onProgress = function(url, loaded, total) {
+            
         }
-        loadingManager.onLoad = function(){
-            //alert("just finished");
-            //this.check = "true";
+
+        loadingManager.onLoad = function() {
+            preloader.style.display = "none";
         }
 
         var coinCreate  = new MTLLoader(loadingManager);
@@ -85,12 +88,13 @@ class Model {
         this.flat = [];
         const self = this;
         const loadingManager = new THREE.LoadingManager();
-        loadingManager.onProgress=function(url,itemsloaded,itemsTotal){
-            //alert(1+"loading");
+        const preloader = document.getElementById('preloader');
+        loadingManager.onProgress = function(url, loaded, total) {
+            
         }
-        loadingManager.onLoad = function(){
-            //alert("just finished");
-            //this.check = "true";
+
+        loadingManager.onLoad = function() {
+            preloader.style.display = "none";
         }
 
         for (let ii=0; ii<6; ii++){
@@ -126,12 +130,13 @@ class Model {
         this.poll = null;
         const self = this;
         const loadingManager = new THREE.LoadingManager();
-        loadingManager.onProgress=function(url,itemsloaded,itemsTotal){
-            //alert(1+"loading");
+        const preloader = document.getElementById('preloader');
+        loadingManager.onProgress = function(url, loaded, total) {
+            
         }
-        loadingManager.onLoad = function(){
-            //alert("just finished");
-            //this.check = "true";
+
+        loadingManager.onLoad = function() {
+            preloader.style.display = "none";
         }
 
         var mtlLoader = new MTLLoader();
@@ -157,12 +162,12 @@ class Model {
 
     createSkybox(){
         let materialArray = [];
-        let texture_ft = new THREE.TextureLoader().load( './models/skybox/battery_ft.jpg');
-        let texture_bk = new THREE.TextureLoader().load( './models/skybox/battery_bk.jpg');
-        let texture_up = new THREE.TextureLoader().load( './models/skybox/battery_up.jpg');
-        let texture_dn = new THREE.TextureLoader().load( './models/skybox/battery_dn.jpg');
-        let texture_rt = new THREE.TextureLoader().load( './models/skybox/battery_rt.jpg');
-        let texture_lf = new THREE.TextureLoader().load( './models/skybox/battery_lf.jpg');
+        let texture_ft = new THREE.TextureLoader().load( './models/skybox/meadow_ft.jpg');
+        let texture_bk = new THREE.TextureLoader().load( './models/skybox/meadow_bk.jpg');
+        let texture_up = new THREE.TextureLoader().load( './models/skybox/meadow_up.jpg');
+        let texture_dn = new THREE.TextureLoader().load( './models/skybox/meadow_dn.jpg');
+        let texture_rt = new THREE.TextureLoader().load( './models/skybox/meadow_rt.jpg');
+        let texture_lf = new THREE.TextureLoader().load( './models/skybox/meadow_lf.jpg');
         
         materialArray.push(new THREE.MeshBasicMaterial( { map: texture_ft }));
         materialArray.push(new THREE.MeshBasicMaterial( { map: texture_bk }));
