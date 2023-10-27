@@ -18,16 +18,17 @@ div.gradient-border {
 button {
     border:none;
     outline:none;
+    width: 33%;
     display:inline-block;
     font-size:1.1em;
     font-style: italic;
     font-weight: bold;
     cursor:pointer;
     text-decoration:none;
-    padding: 20px;
+    padding: 40px;
     border-radius:50px;
     color: hsla(216, 97%, 47%, 0.678);
-    background-color:linear-gradient(to right,  #1bafdb,rgb(175, 240, 237));
+    background-color:linear-gradient(to right,  #61bdda,rgb(175, 240, 237));
     border: 1px solid hsla(216, 97%, 47%, 0.678);
     transition: all .2s ease-in-out;
 }
@@ -44,8 +45,8 @@ button:hover {
 #myButtons {
     border: 5px ;
     position: absolute;
-    top: 10%;
-    right: 45%;
+    top: 0%;
+    right: 5%;
     transform: translate(0, -50%);
     padding: 10px;
     display: flex;
