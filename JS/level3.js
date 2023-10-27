@@ -25,7 +25,7 @@ class Level3 {
         }
 
         loadingManager.onLoad = function() {
-            //preloader.style.display = "none";
+            preloader.style.display = "none";
         }
 
         const blockCreate = new MTLLoader(loadingManager);
@@ -66,7 +66,7 @@ class Level3 {
         }
 
         loadingManager.onLoad = function() {
-            //preloader.style.display = "none";
+            preloader.style.display = "none";
         }
 
         var coinCreate  = new MTLLoader(loadingManager);
@@ -104,7 +104,7 @@ class Level3 {
         }
 
         loadingManager.onLoad = function() {
-            //preloader.style.display = "none";
+            preloader.style.display = "none";
         }
 
         for (let ii=0; ii<3; ii++){
@@ -173,7 +173,7 @@ class Level3 {
         }
 
         loadingManager.onLoad = function() {
-            //preloader.style.display = "none";
+            preloader.style.display = "none";
         }
 
         var mtlLoader = new MTLLoader();

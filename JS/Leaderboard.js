@@ -1,18 +1,17 @@
-const preloader = document.getElementById('preloader');
+//const preloader = document.getElementById('preloader');
 const leaderboard = document.getElementById('leaderboard');
-const scoreBoard = document.getElementById('scoreBoard');
-scoreBoard.addEventListener("click",function(e){
+const scoreBoardB = document.getElementById('scoreBoardB');
+scoreBoardB.addEventListener("click",function(e){
     // Toggle the visibility of the options menu
     divButtons.style.display="none";
-    preloader.style.display = "none";
+    //preloader.style.display = "none";
    welcomeContainer.style.display = "none";
    leaderboard.style.display="block";
    if (leaderboard.classList.contains('hidden')) {
        leaderboard.classList.remove('hidden');
-   } else {
+   } else { 
        leaderboard.classList.add('hidden');
    }
-
 });
 
 const card = document.getElementById("gameOverCard");
@@ -22,7 +21,7 @@ function scoreBack1(){
     scoreCard.style.display = "none";
     divButtons.style.display="flex";
     leaderboard.style.display="none";
-    preloader.style.display = "none";
+    //preloader.style.display = "none";
     welcomeContainer.style.display = "block";
 }
 function updateLeaderboard(score) {

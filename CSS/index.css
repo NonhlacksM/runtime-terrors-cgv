@@ -46,7 +46,7 @@ button:hover {
     border: 5px ;
     position: absolute;
     top: 0%;
-    right: 5%;
+    right: 50%;
     transform: translate(0, -50%);
     padding: 10px;
     display: flex;
