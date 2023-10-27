@@ -21,6 +21,7 @@ const levelElement = document.getElementById('level');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 //camera positions
+var finalScore=0;
 
 camera.position.x = -15;
 camera.position.y = 7;
@@ -685,6 +686,21 @@ function animate() {
 	if (dead == true) {
 		
 		updateLeaderboardd(points);
+		var name = "Themba";
+		
+		try {
+		  if ( hasLowerScore(parseInt(points))) {
+			//alert("true");
+			addLeaderboardEntry(name,parseInt(points));
+		  } else {
+			//alert("false");
+			//addLeaderboardEntry(name,score);
+			// Call the function to delete the lowest score entry
+			
+		  }
+		} catch (error) {
+		  console.error("Error checking for lower score: ", error);
+		}
 		levelElement.textContent = '1'; // Change the content to whatever you need
 		// Display the leaderboard pop-up
 		const leaderboardPopup = document.getElementById('leaderboardPopup');
@@ -1095,3 +1111,179 @@ playButton.addEventListener("click", function() {
 	//preloader.style.display = "none";
 	// Add code to resume playback here
 });
+
+//document.addEventListener("DOMContentLoaded", function () {
+	// Firebase configuration
+	
+	const firebaseConfig = {
+	   //   copy your firebase config informations
+	   apiKey: "AIzaSyBiQr7aHxdYxk8sCkHxMebkVyBEgXCnknU",
+	 authDomain: "online-store-b90ca.firebaseapp.com",
+	 databaseURL: "https://online-store-b90ca-default-rtdb.firebaseio.com",
+	 projectId: "online-store-b90ca",
+	 storageBucket: "online-store-b90ca.appspot.com",
+	 messagingSenderId: "160581372978",
+	 appId: "1:160581372978:web:b507d7ac5f14c9e4ff002b",
+	 measurementId: "G-PH4QNCPP2J"
+	 };
+	// Initialize Firebase
+	firebase.initializeApp(firebaseConfig);
+	 const database = firebase.database();
+   
+	   // Reference to the "leaderboard" table
+	   const leaderboardRef = database.ref("leaderboard");
+   
+		// Reference to the HTML list element
+		const leaderboardList = document.getElementById("leaderboardList");
+   
+		// Function to retrieve, sort, and display leaderboard data
+		  
+   
+	   
+	//	var add = document.getElementById("add");
+   
+	//	add.addEventListener("click", async function (e) {
+		//  var score = 90;
+		 
+	//	});
+		
+   // Function to check if a score exists in the database that's less than the given score
+   function hasLowerScore(score) {
+	   return new Promise((resolve, reject) => {
+		 leaderboardRef.once("value", (snapshot) => {
+		   if (snapshot.exists()) {
+			 const leaderboardData = [];
+			 
+			 snapshot.forEach(childSnapshot => {
+			   const data = childSnapshot.val();
+			   leaderboardData.push(data);
+			 });
+	 
+			 // Sort the data by score in descending order
+			 leaderboardData.sort((a, b) => b.score - a.score);
+	 
+			 // Check if there is a score lower than the given score
+			 const lowerScoreExists = leaderboardData.some(data => data.score < score);
+			 
+			 resolve(lowerScoreExists);
+		   } else {
+			 resolve(false); // No data in the leaderboard
+		   }
+		 });
+	   });
+	 }
+	 
+	 // Function to add a new entry, sort, and remove the lowest-scoring entry
+	 function addLeaderboardEntry(name, score) {
+	   hasLowerScore(score)
+		 .then((lowerScoreExists) => {
+		   if (lowerScoreExists) {
+			 // Add the new entry to the database
+			 const newEntryRef = leaderboardRef.push();
+			 newEntryRef.set({ name, score });
+	         deleteLowestScoreEntry();
+			 // Retrieve the leaderboard data and sort it
+			 leaderboardRef.once("value", (snapshot) => {
+			   if (snapshot.exists()) {
+				 const leaderboardData = [];
+				 snapshot.forEach(childSnapshot => {
+				   const data = childSnapshot.val();
+				   leaderboardData.push(data);
+				 });
+	 
+				 leaderboardData.sort((a, b) => b.score - a.score);
+	 
+				 // Remove the lowest-scoring entry if there are more than 10 entries
+				 if (leaderboardData.length > 10) {
+				   const lowestScore = leaderboardData.pop().score;
+				   leaderboardData = leaderboardData.filter(data => data.score !== lowestScore);
+				 }
+	 
+				 // Update the leaderboard with the sorted and trimmed data
+				 leaderboardRef.set(leaderboardData);
+			   }
+			 });
+			 
+		   } else {
+			 console.log("Score is not higher than any existing scores.");
+		   }
+		 })
+		 .catch(error => {
+		   console.error("Error checking for lower score: ", error);
+		 });
+	 }
+   
+	 function deleteLowestScoreEntry() {
+	   leaderboardRef.once("value", (snapshot) => {
+		 if (snapshot.exists()) {
+		   const leaderboardData = [];
+	 
+		   snapshot.forEach(childSnapshot => {
+			 const data = childSnapshot.val();
+			 leaderboardData.push({ key: childSnapshot.key, score: data.score });
+		   });
+	 
+		   // Sort the data by score in ascending order to get the lowest score first
+		   leaderboardData.sort((a, b) => a.score - b.score);
+	 
+		   if (leaderboardData.length > 0) {
+			 const lowestScoreKey = leaderboardData[0].key;
+	 
+			 // Delete the lowest scoring entry from the database
+			 database.ref("leaderboard/" + lowestScoreKey).remove()
+			   .then(() => {
+				 console.log("Lowest score entry deleted successfully.");
+			   })
+			   .catch((error) => {
+				 console.error("Error deleting lowest score entry:", error);
+			   });
+		   } else {
+			 console.log("No entries in the leaderboard.");
+		   }
+		 }
+	   });
+	 }
+	 
+	 
+	 document.addEventListener("DOMContentLoaded", function () {
+    
+		const database = firebase.database();
+	  
+		  // Reference to the "leaderboard" table
+		  const leaderboardRef = database.ref("leaderboard");
+	  
+		   // Reference to the HTML list element
+		   const leaderboardList = document.getElementById("leaderboardList");
+	  
+		   // Function to retrieve, sort, and display leaderboard data
+		   function displayLeaderboardData(snapshot) {
+			 leaderboardList.innerHTML = ""; // Clear previous data
+	  
+			 if (snapshot.exists()) { // Check if data exists
+			   const leaderboardData = [];
+	  
+			   snapshot.forEach(childSnapshot => {
+				 const data = childSnapshot.val();
+				 leaderboardData.push(data);
+			   });
+	  
+			   // Sort the data by score in descending order
+			   leaderboardData.sort((a, b) => b.score - a.score);
+	  
+			   leaderboardData.forEach(data => {
+				 const listItem = document.createElement("li");
+				 listItem.textContent = `${data.name}: ${data.score}`;
+				 leaderboardList.appendChild(listItem);
+	  
+				 // Print data to the console
+				 console.log(`${data.name}: ${data.score}`);
+			   });
+			 }
+			 
+		   }
+	  
+		   // Attach an event listener to the "leaderboard" table
+		   leaderboardRef.on("value", displayLeaderboardData);
+	  
+		  });
+  // });
