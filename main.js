@@ -561,7 +561,7 @@ function animate() {
 	
 	const leaderboard = document.getElementById('leaderboard');
 	function updateLeaderboardd(score) {
-		leaderboard.style.display = 'block';
+		leaderboard.style.display = 'none';
 	
 		const scoreList = document.getElementById('scoreList');
 		const newItem = document.createElement('li');
@@ -953,6 +953,7 @@ function toggleCardVisibility() {
 	
 	if (card.style.display === "none") {
 		card.style.display = "block"; 
+		
 		// Show the card
 	} 
 }
