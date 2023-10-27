@@ -567,7 +567,7 @@ function animate() {
 	if (dead == true) {
 		
 		updateLeaderboardd(points);
-		var name = "Themba";
+		var name = "score";
 		
 		try {
 		  if ( hasLowerScore(parseInt(points))) {
