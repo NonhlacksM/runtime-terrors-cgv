@@ -13,7 +13,9 @@ import Level3 from './JS/level3.js';
 
 const scoreElement = document.getElementById('score');
 const card = document.getElementById("gameOverCard");
+const preloader = document.getElementById('preloader');
 card.style.display = "none";
+preloader.style.display = "none";
 // Get the element with the id "level"
 const levelElement = document.getElementById('level');
 const scene = new THREE.Scene();
@@ -330,19 +332,30 @@ const scoreCard = document.getElementById("scoreCard");
 const welcomeContainer=document.getElementById("welcomeContainer");
 
 let gameInProgress = false; // Variable to track game state
+const loadingManager = new THREE.LoadingManager();
+
+///const progressBar = document.getElementById('progress-bar');
+loadingManager.OnStart = function(url,itemsloaded,itemsTotal){
+	preloader.value = (loaded / total) * 10;	
+}
+
 startButton.addEventListener("click",function(e){
-	welcomeContainer.style.display = "none"
+	preloader.style.display = "block";
+	welcomeContainer.style.display = "none";
 	divButtons.style.display="none";
-	scoreCard.style.display="block";
+	scoreCard.style.display="none";
 	gameInProgress = true;
 	start();
 	animate();
 });
-
+loadingManager.onLoad = function(){
+	preloader.style.display = "none";
+}
 function gameOver() {
     gameInProgress = false;
     // Add code to handle game over here
 }
+
 
 function scoreBack() {
     const leaderboard = document.getElementById('leaderboard');
@@ -356,6 +369,7 @@ function scoreBack() {
         scoreCard.style.display = "none";
         divButtons.style.display="flex";
         leaderboard.style.display="none";
+		preloader.style.display = "none";
         welcomeContainer.style.display = "block";
     }
 }
@@ -893,6 +907,7 @@ const restart = document.getElementById("restartGame");
 restart.addEventListener("click", function (e) {
     card.style.display = "none";
 	welcomeContainer.style.display="none";
+	preloader.style.display = "none";
 
     // Iterate through the scene's children and filter out lights and camera
     scene.children.forEach((child) => {
@@ -954,5 +969,6 @@ pauseButton.addEventListener("click", function() {
 playButton.addEventListener("click", function() {
 	end = false;
 	options.style.display = "none";
+	preloader.style.display = "none";
 	// Add code to resume playback here
 });

@@ -1,25 +1,40 @@
+
 body{
     background-color:#1bafdb;
 }
 
+
+
+div.gradient-border {
+    width: 33%;
+    height: 5px;
+    position: absolute;
+    top: 15%;
+    left: 34%;
+    margin: 1px ;
+    background: linear-gradient(to right,  hsla(217, 69%, 5%, 0.4), hsla(180, 96%, 30%, 0.4));
+}
+
 button {
     border:none;
-    appearance:none;
     outline:none;
     display:inline-block;
-    font-size:1.5em;
+    font-size:1.1em;
+    font-style: italic;
+    font-weight: bold;
     cursor:pointer;
     text-decoration:none;
-    padding:12px 48px 12px 48px;
-    border-radius:4px;
-    color:#ffffff;
-    background-color:#1bafdb;
-    border: 2px solid #ffffff;
+    padding: 20px;
+    border-radius:50px;
+    color: hsla(216, 97%, 47%, 0.678);
+    background-color:linear-gradient(to right,  #1bafdb,rgb(175, 240, 237));
+    border: 1px solid hsla(216, 97%, 47%, 0.678);
+    transition: all .2s ease-in-out;
 }
 button {   transition-duration: 0.4s; margin: 5px;}
 button:hover {
     font-size:1.6em;
-    background-color:#05c46b;
+    transform: scale(1.03);
 }
 
 #myButtons {
@@ -32,7 +47,7 @@ button:hover {
     top: 10%;
     right: 45%;
     transform: translate(0, -50%);
-    padding: 0px;
+    padding: 10px;
     display: flex;
     flex-direction: column; /* Stack the child elements vertically */
 }
@@ -45,18 +60,18 @@ button:hover {
     padding: 0px;
     display: flex;
 }
-/* #optionsMenu {
-    display: flex;
-    align-items: center;
-    left: 50%;
-    text-align: center;
-    margin-top: 25%;
-    padding: 10px; 
-  } */
+
 #gameNameWelcome{
+    font-family: italic;
     text-align: center;
     position: absolute;
-    top: 0%; /* Center vertically */
-    left: 35%;
+    font-size: 4rem;
+    top: 3%; /* Center vertically */
+    left: 34%;
+    color:  hsla(217, 69%, 5%, 0.4);
+}
+#gameNameWelcome span {
+    font-style: italic;
+    color:  hsla(216, 97%, 47%, 0.678);
 }
 

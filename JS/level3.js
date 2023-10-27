@@ -2,8 +2,6 @@ import * as THREE from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
-import {Reflector} from './reflector.js';
-
 
 class Level3 {
     constructor() {
@@ -12,18 +10,25 @@ class Level3 {
         this.createFlat();
         this.createPoll();
         this.createSkybox();
+        
     }
+    
+
 
     createCar() {
         // Initialize your variables.
         this.car = null;
         const loadingManager = new THREE.LoadingManager();
+        const preloader = document.getElementById('preloader');
         loadingManager.onProgress=function(url,itemsloaded,itemsTotal){
-            //alert(1+"loading");
+            preloader.value = (loaded / total) * 2;
         }
+
+        //const progressBarContainer = document.querySelector('.progress-bar-container');
         loadingManager.onLoad = function(){
-            //alert("just finished");
+            preloader.style.display = "none";
         }
+
         const blockCreate = new MTLLoader(loadingManager);
 
         blockCreate.setPath('./models/truck/');
@@ -48,18 +53,23 @@ class Level3 {
                 this.car = gltfScene;
             });
         });
+        
     }
 
     createCoin() {
+        
         this.coin = null;
         const self = this;
         const loadingManager = new THREE.LoadingManager();
+        const progressBar = document.getElementById('progress-bar');
+        const preloader = document.getElementById('preloader');
         loadingManager.onProgress=function(url,itemsloaded,itemsTotal){
-            //alert(1+"loading");
+            preloader.value = (loaded / total) * 2;
         }
+        
+        //const progressBarContainer = document.querySelector('.progress-bar-container');
         loadingManager.onLoad = function(){
-            //alert("just finished");
-            //this.check = "true";
+            preloader.style.display = "none";
         }
 
         var coinCreate  = new MTLLoader(loadingManager);
@@ -83,18 +93,22 @@ class Level3 {
                 self.coin = gltfScene;
             });
         });
+        
     }
 
     createFlat() {
+        
         this.flat = [];
         const self = this;
         const loadingManager = new THREE.LoadingManager();
+        const preloader = document.getElementById('preloader');
         loadingManager.onProgress=function(url,itemsloaded,itemsTotal){
-            //alert(1+"loading");
+            preloader.value = (loaded / total) * 2;
         }
+
+        //const progressBarContainer = document.querySelector('.progress-bar-container');
         loadingManager.onLoad = function(){
-            //alert("just finished");
-            //this.check = "true";
+            preloader.style.display = "none";
         }
 
         for (let ii=0; ii<3; ii++){
@@ -125,18 +139,46 @@ class Level3 {
                 });
             });
         }
+
+        /*var flatCreate = new MTLLoader();
+        flatCreate.setPath('./models/forest/');
+        flatCreate.load('FieldOfCorn.mtl', function(materials) {
+            materials.preload();
+
+            var glftLoader = new OBJLoader();
+            glftLoader.setPath('./models/forest/');
+            glftLoader.setMaterials(materials);
+
+            glftLoader.load('FieldOfCorn.obj', function(gltfScene) {
+                gltfScene.scale.set(0.8, 0.8, 0.8);
+                gltfScene.position.y = 0;
+                //gltfScene.rotation.y = Math.PI*(3/2);
+                gltfScene.traverse(function(node){
+                    if(node.isMesh){
+                        node.castShadow = false;
+                        node.receiveShadow = true;
+                    }
+                });
+                for (let ii=0; ii<6; ii++){
+                    self.flat.push(gltfScene);
+                }
+            });
+        });*/
     }
 
     createPoll() {
+        
         this.poll = null;
         const self = this;
         const loadingManager = new THREE.LoadingManager();
+        const preloader = document.getElementById('preloader');
         loadingManager.onProgress=function(url,itemsloaded,itemsTotal){
-            //alert(1+"loading");
+            preloader.value = (loaded / total) * 2;
         }
+        
+        //const progressBarContainer = document.querySelector('.progress-bar-container');
         loadingManager.onLoad = function(){
-            //alert("just finished");
-            //this.check = "true";
+            preloader.style.display = "none";
         }
 
         var mtlLoader = new MTLLoader();
@@ -158,9 +200,11 @@ class Level3 {
                 self.poll = gltfScene;
             });
         });
+        
     }
 
     createSkybox(){
+        
         let materialArray = [];
         let texture_ft = new THREE.TextureLoader().load( './models/skybox/meadow_ft.jpg');
         let texture_bk = new THREE.TextureLoader().load( './models/skybox/meadow_bk.jpg');
@@ -181,6 +225,7 @@ class Level3 {
 
         let skyboxGeo = new THREE.BoxGeometry( 300, 100, 100);
         this.skybox = new THREE.Mesh( skyboxGeo, materialArray );
+        
     }
 
 

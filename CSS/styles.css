@@ -63,7 +63,7 @@ body{
     height: 200px;
     width: calc(1248px / 6);
     overflow:hidden;
-    background: url(spritestrip.webp);
+    background: url('https://cdn.codeandweb.com/blog/2016/05/10/how-to-create-a-sprite-sheet/spritestrip.png');
     transform: perspective(500px) rotateX(-25deg) 
     translateY(-150px);
     -webkit-box-reflect: below 1px 
@@ -79,7 +79,7 @@ body{
 }
 #RunTimeAnimation {
     position: absolute;
-    top: 150px; /* Adjust the top value to move it up to your desired position */
+    top: 120px; /* Adjust the top value to move it up to your desired position */
     left: 50%;
     transform: translateX(-50%);
     width: 490px; /* Set the desired width for the animation */

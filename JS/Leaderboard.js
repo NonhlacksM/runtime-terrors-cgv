@@ -1,6 +1,10 @@
+const preloader = document.getElementById('preloader');
+const leaderboard = document.getElementById('leaderboard');
+const scoreBoard = document.getElementById('scoreBoard');
 scoreBoard.addEventListener("click",function(e){
     // Toggle the visibility of the options menu
     divButtons.style.display="none";
+    preloader.style.display = "none";
    welcomeContainer.style.display = "none";
    leaderboard.style.display="block";
    if (leaderboard.classList.contains('hidden')) {
@@ -18,6 +22,7 @@ function scoreBack1(){
     scoreCard.style.display = "none";
     divButtons.style.display="flex";
     leaderboard.style.display="none";
+    preloader.style.display = "none";
     welcomeContainer.style.display = "block";
 }
 function updateLeaderboard(score) {

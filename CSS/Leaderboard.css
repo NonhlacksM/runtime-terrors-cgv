@@ -3,12 +3,13 @@
 *****************************************************************/
 #leaderboard {
     display: none;
-    background-color: #f0f0f0;
+    background-color: #c1e7f3;
     border: 1px solid #ccc;
     padding: 10px;
     position: absolute;
     top: 10%;
-    left: 40%;
+    left: 35%;
+    font-style: italic;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     text-align: center;
@@ -22,6 +23,7 @@
   #scoreList li {
     margin: 5px;
     font-size: 16px;
+    font-style: italic;
   }
   /* Style for the leaderboard pop-up */
 .modal {

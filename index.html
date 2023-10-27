@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-	<head lang="en">
+	<head lang="en"> 
 		<meta charset="utf-8">
 		<title>My first three.js app</title>
 		<style>
@@ -15,7 +15,7 @@
             text-align: center;
             position: absolute;
             top: 0%; /* Center vertically */
-            left: 0%;
+            left: 40%;
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
         }
@@ -116,18 +116,21 @@
 		</style>
         <link rel="stylesheet" href='./CSS/index.css'>
         <link rel="stylesheet" href='./CSS/styles.css'>
+        <link rel="stylesheet" href='./CSS/score.css'>
+        <link rel="stylesheet" href='./CSS/index.css'>
+        <link rel="stylesheet" href='./CSS/sound.css'>
         <link rel="stylesheet" href='./CSS/Leaderboard.css'>
         
 	</head>
 	<body>
-
-  
-
-
-
+        <div id = "preloader" class="progress-bar-container">
+            <label for="progress-bar">Loading...</label>
+            <progress id="progress-bar" value="0" max="100"></progress>
+        </div>
 
         <div id="welcomeContainer">
-            <h1 id="gameNameWelcome">Welcome to RunTime Terror</h1>
+            <h1 id="gameNameWelcome">Runtime <span>Terror</span>!</h1>
+            <div class="gradient-border"></div>
             <div class= "infinite" id="RunTimeAnimation">
                 <div class="girl"></div>
                 <div class="shadow"></div>
@@ -162,7 +165,7 @@
         <ul id="scoreList">
     
         </ul>
-        <button id="scoreBack" >back</button>
+        <button id="scoreBack" onclick="back()">back</button>
     </div>
     <div id="leaderboardPopup" class="modal">
         <div class="modal-content">
@@ -185,93 +188,11 @@
 			<div class="game-over-text">Game Over</div>
 			<button class="restart-button" id="restartGame">Restart</button>
 		</div>
-
+        <script src='./JS/loader.js'></script>
 		<script type="module" src="./main.js"></script>
+        <script src='./JS/sound.js'></script>
         <script src='./JS/Leaderboard.js'></script>
+        <script src='./JS/level3.js'></script>
 	</body>
-
-    <script>
-const optionButton = document.getElementById('optionButton');
-const settingsButton = document.getElementById('settingsButton');
-const optionsMenu = document.getElementById('optionsMenu');
-const soundSwitch = document.getElementById('soundSwitch');
-const divButtons=document.getElementById("myButtons");
-const welcomeContainer=document.getElementById("welcomeContainer");
-let isSoundOn = true; // Initially, sound is on
-
-
-let backkk;
-// Event listener for the "Options" button
-optionButton.addEventListener('click', () => {
-    backkk = true;
-    // Toggle the visibility of the options menu
-    divButtons.style.display="none";
-    welcomeContainer.style.display = "none";
-    optionsMenu.style.display="block";
-    if (optionsMenu.classList.contains('hidden')) {
-        optionsMenu.classList.remove('hidden');
-    } else {
-        optionsMenu.classList.add('hidden');
-    }
-});
-
-settingsButton.addEventListener('click', () => {
-    backkk = false;
-    // Toggle the visibility of the options menu
-    divButtons.style.display="none";
-    welcomeContainer.style.display = "none";
-    optionsMenu.style.display="block";
-    if (optionsMenu.classList.contains('hidden')) {
-        optionsMenu.classList.remove('hidden');
-    } else {
-        optionsMenu.classList.add('hidden');
-    }
-});
-
-function back(){
-    optionsMenu.style.display="none";
-    if (backkk){
-        divButtons.style.display="flex";
-        welcomeContainer.style.display = "block";
-    }
-}
-// Event listener for the sound switch
-soundSwitch.addEventListener('change', () => {
-    // Update the sound status based on the switch state
-    isSoundOn = soundSwitch.checked;
-
-    // Play or stop the song based on the sound status
-    if (isSoundOn) {
-        // Play the song (you'll need to add your specific code for playing the song)
-        playSound();
-    } else {
-        // Stop the song (you'll need to add your specific code for stopping the song)
-        stopSound();
-    }
-});
-let audio; // Global variable to hold the audio element
-
-// Function to play the sound
-function playSound() {
-    if (!audio) {
-        // Create an audio element and set the source of your audio file
-        audio = new Audio('./Sounds/SUBWAY SURFERS (Main Theme).m4a');
-        audio.loop = true; // Enable looping for continuous playback
-    }
-
-    // Check if the audio is paused, and if so, play it
-    if (audio.paused) {
-        audio.play();
-    }
-}
-
-// Function to stop the sound
-function stopSound() {
-    if (audio) {
-        audio.pause();
-    }
-}
-
-    </script>
    
 </html>
