@@ -61,3 +61,45 @@
     padding: 10px;
     cursor: pointer;
 }
+
+body {
+  font-family: Arial, sans-serif;
+}
+h1 {
+  text-align: center;
+}
+ul#leaderboardList {
+  list-style: none;
+  padding: 0;
+  margin: 20px;
+}
+#leaderboard1 {
+max-width: 160px; /* Adjust the width to fit inside the card */
+margin: 0 auto;
+background-color: #fff;
+border: 1px solid #ccc;
+border-radius: 5px;
+padding: 10px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#leaderboard1 h2 {
+margin-bottom: 10px;
+color: #333;
+}
+
+#leaderboard1 ul {
+list-style-type: none;
+padding: 0;
+}
+
+#leaderboard1 li {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 5px;
+background-color: #f9f9f9;
+border-radius: 5px;
+padding: 5px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

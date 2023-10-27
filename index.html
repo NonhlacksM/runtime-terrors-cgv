@@ -77,6 +77,11 @@
     <!-- Game over card container -->
     <div class="game-over-card" id="gameOverCard">
         <div class="game-over-text">Game Over</div>
+       
+        <div id="leaderboard1">
+          <h2>Leaderboard</h2>
+          <ul id="leaderboardList"></ul>
+        </div>
         <button class="restart-button" id="restartGame">Restart</button>
     </div>
 
@@ -88,6 +93,8 @@
         <!-- JavaScript scripts -->
 		<script type="module" src="./main.js"></script>
         <script src='./JS/sound.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+        <script src="./JS/i.js"></script>
         <script src='./JS/Leaderboard.js'></script>
         
 	</body>
