@@ -41,14 +41,6 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Shadow map type can be adju
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-/*
-const controls = new OrbitControls(camera, renderer.domElement); // Pass the renderer's DOM element to OrbitControls
-// Add event listener for changes to update the renderer
-controls.addEventListener('change', () => {
-    renderer.render(scene, camera);
-});
-*/
-
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
 scene.add(ambientLight);
 
@@ -232,9 +224,22 @@ let mixer;
 let mixer2; // Declare a mixer variable to manage animations
 var person;
 var person2;
+var ani;
+var ani2;
 var jumpjump;
 
-loader1.load('./models/untitled1.glb', function (gltf) {
+/////////////////getting elements from the html/////////////////////////////////
+
+const divButtons=document.getElementById("myButtons");
+const startButton=document.getElementById("startButton");
+const scoreCard = document.getElementById("scoreCard");
+const welcomeContainer=document.getElementById("welcomeContainer");
+
+let gameInProgress = false; // Variable to track game state
+
+startButton.addEventListener("click",function(e){
+	progressBarContainer.style.display = 'flex';
+loader1.load('./untitled3.glb', function (gltf) {
     // Add the loaded 3D object to the scene
     gltf.scene.rotation.set(0, Math.PI / 2, 0);
     gltf.scene.scale.set(3, 3, 3);
@@ -247,6 +252,8 @@ loader1.load('./models/untitled1.glb', function (gltf) {
 	});
     scene.add(gltf.scene);
 	person = gltf.scene;
+	ani = gltf.animations;
+	ani2 = gltf.animations;
 
     // Initialize the mixer
     mixer = new THREE.AnimationMixer(gltf.scene);
@@ -273,10 +280,6 @@ loader1.load('./models/untitled1.glb', function (gltf) {
 		const firstAnimationAction1 = mixer.clipAction(firstAnimationClip1);
 		firstAnimationAction1.loop = THREE.LoopOnce;
 
-		const firstAnimationClip2 = animations[2];
-		const firstAnimationAction2 = mixer.clipAction(firstAnimationClip2);
-		firstAnimationAction2.loop = THREE.LoopOnce;
-
 		mixer.addEventListener('finished', function(e) {
 			if (jumpjump == 10){
 				jumpjump = 9;
@@ -286,11 +289,6 @@ loader1.load('./models/untitled1.glb', function (gltf) {
 				if(check==="true"){
 					camera.position.y += 3;
 			    }
-			}
-			else if (dead==true && dying==1){
-				dying = 1;
-				firstAnimationAction2.reset();
-				firstAnimationAction2.play();
 			}
 
 			else {
@@ -303,12 +301,7 @@ loader1.load('./models/untitled1.glb', function (gltf) {
     console.error(error);
 });
 
-/*const loader = new THREE.TextureLoader();
-const bgTexture = loader.load('./resources/night.jpg');
-bgTexture.colorSpace = THREE.SRGBColorSpace;
-scene.background = bgTexture; */
-
-loader2.load('./models/beast.glb', function (gltf) {
+loader2.load('./person2.glb', function (gltf) {
     // Add the loaded 3D object to the scene
     gltf.scene.rotation.set(0, Math.PI / 2, 0);
     gltf.scene.scale.set(2, 2, 2);
@@ -334,39 +327,11 @@ loader2.load('./models/beast.glb', function (gltf) {
 		const firstAnimationClip = animations[0];
 		const firstAnimationAction = mixer2.clipAction(firstAnimationClip);
 		firstAnimationAction.play();
-		firstAnimationAction.loop = THREE.LoopOnce;
-
-		const firstAnimationClip1 = animations[1];
-		const firstAnimationAction1 = mixer2.clipAction(firstAnimationClip1);
-		firstAnimationAction1.loop = THREE.LoopOnce;
-
-		mixer2.addEventListener('finished', function(e) {
-			if (dead==false){
-				firstAnimationAction.reset();
-				firstAnimationAction.play();
-			}
-			else if (dead==true){
-				firstAnimationAction1.reset();
-				firstAnimationAction1.play();
-			}
-		});
 	}
 }, undefined, function (error) {
     console.error(error);
 });
 
-
-/////////////////getting elements from the html/////////////////////////////////
-
-const divButtons=document.getElementById("myButtons");
-const startButton=document.getElementById("startButton");
-const scoreCard = document.getElementById("scoreCard");
-const welcomeContainer=document.getElementById("welcomeContainer");
-
-let gameInProgress = false; // Variable to track game state
-
-startButton.addEventListener("click",function(e){
-	
 	welcomeContainer.style.display = "none";
 	divButtons.style.display="none";
 	scoreCard.style.display="block";
@@ -381,6 +346,11 @@ startButton.addEventListener("click",function(e){
 	animate();
 	
 });
+
+function gameOver() {
+    gameInProgress = false;
+    // Add code to handle game over here
+}
 
 //////code to display the leaderboard
 function scoreBack() {
@@ -526,10 +496,6 @@ function animate() {
 		scene.remove(paves[0]);
 		paves.shift();
 
-		//if (xx%1000==0){
-		//	Pond();
-		//}
-
 		xx += 1;
 		time += 1;
 		time1 += 1;
@@ -565,7 +531,7 @@ function animate() {
 	
 		const scoreList = document.getElementById('scoreList');
 		const newItem = document.createElement('li');
-		newItem.textContent = 'Score: ' + score;
+		newItem.textContent = 'PlayerName: ' + score;
 	
 		const scores = Array.from(scoreList.children);
 	
@@ -822,14 +788,13 @@ function car(){
 		opacity: 0,
 		transparent: true,})
     );
-	//main.castShadow = true;
-    //main.receiveShadow = true;
+	
     main.position.y =  1.2;
     scene.add(main);
 	move.push(main);
 
 	
-	end = true;
+	end = false;
 	dead = false;
 	dying = 0;
     return car;
@@ -1058,15 +1023,6 @@ playButton.addEventListener("click", function() {
 		const leaderboardList = document.getElementById("leaderboardList");
    
 		// Function to retrieve, sort, and display leaderboard data
-		  
-   
-	   
-	//	var add = document.getElementById("add");
-   
-	//	add.addEventListener("click", async function (e) {
-		//  var score = 90;
-		 
-	//	});
 		
    // Function to check if a score exists in the database that's less than the given score
    function hasLowerScore(score) {
@@ -1121,7 +1077,7 @@ playButton.addEventListener("click", function() {
 				 }
 	 
 				 // Update the leaderboard with the sorted and trimmed data
-				 leaderboardRef.set(leaderboardData);
+				 leaderboardRef.set(leaderboardData); 
 			   }
 			 });
 			 

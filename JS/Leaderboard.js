@@ -34,7 +34,7 @@ function updateLeaderboard(score) {
 
     const scoreList = document.getElementById('scoreList');
     const newItem = document.createElement('li');
-    newItem.textContent = 'Score: ' + score;
+    newItem.textContent = 'PlayerName: ' + score;
 
     scoreList.appendChild(newItem);
 
@@ -61,7 +61,7 @@ function initializeLeaderboard() {
     // Create and add zero scores
     for (let i = 0; i < 5; i++) {
         const newItem = document.createElement('li');
-        newItem.textContent = 'Score: 0';
+        newItem.textContent = 'PlayerName: 0';
         scoreList.appendChild(newItem);
     }
 }
