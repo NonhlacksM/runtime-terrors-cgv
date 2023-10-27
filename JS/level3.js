@@ -19,13 +19,13 @@ class Level3 {
         // Initialize your variables.
         this.car = null;
         const loadingManager = new THREE.LoadingManager();
-        const preloader = document.getElementById('preloader');
+        
         loadingManager.onProgress = function(url, loaded, total) {
             
         }
 
         loadingManager.onLoad = function() {
-            preloader.style.display = "none";
+        
         }
 
         const blockCreate = new MTLLoader(loadingManager);
@@ -60,13 +60,13 @@ class Level3 {
         this.coin = null;
         const self = this;
         const loadingManager = new THREE.LoadingManager();
-        const preloader = document.getElementById('preloader');
+        
         loadingManager.onProgress = function(url, loaded, total) {
             
         }
 
         loadingManager.onLoad = function() {
-            preloader.style.display = "none";
+           
         }
 
         var coinCreate  = new MTLLoader(loadingManager);
@@ -98,13 +98,13 @@ class Level3 {
         this.flat = [];
         const self = this;
         const loadingManager = new THREE.LoadingManager();
-        const preloader = document.getElementById('preloader');
+        
         loadingManager.onProgress = function(url, loaded, total) {
             
         }
 
         loadingManager.onLoad = function() {
-            preloader.style.display = "none";
+        
         }
 
         for (let ii=0; ii<3; ii++){
@@ -143,13 +143,13 @@ class Level3 {
         this.poll = null;
         const self = this;
         const loadingManager = new THREE.LoadingManager();
-        const preloader = document.getElementById('preloader');
+       
         loadingManager.onProgress = function(url, loaded, total) {
            
         }
 
         loadingManager.onLoad = function() {
-            preloader.style.display = "none";
+          
         }
 
         var mtlLoader = new MTLLoader();

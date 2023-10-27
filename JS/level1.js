@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 
-class Model {
+class Level1 {
     constructor() {
         this.createCar();
         this.createCoin();
@@ -15,13 +15,13 @@ class Model {
         // Initialize your variables.
         this.train = null;
         const loadingManager = new THREE.LoadingManager();
-        const preloader = document.getElementById('preloader');
+        
         loadingManager.onProgress = function(url, loaded, total) {
             
         }
 
         loadingManager.onLoad = function() {
-            preloader.style.display = "none";
+         
         }
         const blockCreate = new MTLLoader(loadingManager);
 
@@ -52,13 +52,13 @@ class Model {
         this.coin = null;
         const self = this;
         const loadingManager = new THREE.LoadingManager();
-        const preloader = document.getElementById('preloader');
+        
         loadingManager.onProgress = function(url, loaded, total) {
             
         }
 
         loadingManager.onLoad = function() {
-            preloader.style.display = "none";
+         
         }
 
         var coinCreate  = new MTLLoader(loadingManager);
@@ -88,13 +88,13 @@ class Model {
         this.flat = [];
         const self = this;
         const loadingManager = new THREE.LoadingManager();
-        const preloader = document.getElementById('preloader');
+       
         loadingManager.onProgress = function(url, loaded, total) {
             
         }
 
         loadingManager.onLoad = function() {
-            preloader.style.display = "none";
+          
         }
 
         for (let ii=0; ii<6; ii++){
@@ -130,13 +130,13 @@ class Model {
         this.poll = null;
         const self = this;
         const loadingManager = new THREE.LoadingManager();
-        const preloader = document.getElementById('preloader');
+        
         loadingManager.onProgress = function(url, loaded, total) {
             
         }
 
         loadingManager.onLoad = function() {
-            preloader.style.display = "none";
+          
         }
 
         var mtlLoader = new MTLLoader();
@@ -205,4 +205,4 @@ class Model {
     }
 }
 
-export default Model;
+export default Level1;

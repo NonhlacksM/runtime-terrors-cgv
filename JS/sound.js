@@ -40,14 +40,14 @@ function back(){
     if (backkk){
         divButtons.style.display="flex";
         welcomeContainer.style.display = "block";
-        preloader.style.display = "none";
+        
     }
 }
 // Event listener for the sound switch
 soundSwitch.addEventListener('change', function() {
     // Update the sound status based on the switch state
     isSoundOn = soundSwitch.checked;
-    preloader.style.display = "none";
+   
 
     // Play or stop the song based on the sound status
     if (isSoundOn) {

@@ -65,7 +65,7 @@ body{
     height: 200px;
     width: calc(1248px / 6);
     overflow:hidden;
-    left: 10%;
+    left: 7%;
     background: url('spritestrip.webp');
     transform: perspective(500px) rotateX(-25deg) 
     translateY(-150px) scale(0.46);

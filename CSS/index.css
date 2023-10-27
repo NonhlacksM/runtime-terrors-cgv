@@ -6,11 +6,11 @@ body{
 
 /* Create a gradient border div */
 div.gradient-border {
-    width: 33%;
+    width: 40%;
     height: 5px;
     position: absolute;
     top: 15%;
-    left: 34%;
+    left: 30%;
     margin: 1px ;
     background: linear-gradient(to right,  hsla(216, 97%, 47%, 0.678), hsla(180, 96%, 30%, 0.4));
 }
@@ -47,7 +47,7 @@ button:hover {
 #myButtons {
     border: 10px ;
     position: absolute;
-    top: 9%;
+    top: 3%;
     right: 44%;
     transform: translate(0, -50%);
     display: flex;
@@ -72,7 +72,7 @@ button:hover {
     position: absolute;
     font-size: 4rem;
     top: 3%; 
-    left: 34%;
+    left: 31%;
     color:  hsla(217, 57%, 87%, 0.4);
 }
 

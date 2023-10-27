@@ -4,13 +4,13 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {Reflector} from './JS/reflector.js';
 
 import AudioManager from './JS/sounds.js';
-import model from './JS/Models.js';
+import Level1 from './JS/level1.js';
 import Level2 from './JS/level2.js';
 import Level3 from './JS/level3.js';
 
 const scoreElement = document.getElementById('score');
 const card = document.getElementById("gameOverCard");
-const preloader = document.getElementById('preloader');
+
 card.style.display = "none";
 
 // Get the element with the id "level"
@@ -56,13 +56,13 @@ scene.add(ambientLight);
 let models;
 /////////////////////////////////////////////////////////////////////////////////
 if(level == 1){
-	models = new model();
+	models = new Level1();
 }else if(level == 2){
 	models = new Level2();
 	
 }
 else{
-	models = new model();
+	models = new Level3();
 }
 const loadingManager = new THREE.LoadingManager();
 const progressBar = document.getElementById('progress-bar');
@@ -232,8 +232,8 @@ let mixer2; // Declare a mixer variable to manage animations
 var person;
 var person2;
 var jumpjump;
-/*
-loader1.load('./untitled3.glb', function (gltf) {
+
+loader1.load('./models/untitled1.glb', function (gltf) {
     // Add the loaded 3D object to the scene
     gltf.scene.rotation.set(0, Math.PI / 2, 0);
     gltf.scene.scale.set(3, 3, 3);
@@ -307,7 +307,7 @@ const bgTexture = loader.load('./resources/night.jpg');
 bgTexture.colorSpace = THREE.SRGBColorSpace;
 scene.background = bgTexture; */
 
-loader2.load('./person2.glb', function (gltf) {
+loader2.load('./models/beast.glb', function (gltf) {
     // Add the loaded 3D object to the scene
     gltf.scene.rotation.set(0, Math.PI / 2, 0);
     gltf.scene.scale.set(2, 2, 2);
@@ -353,7 +353,7 @@ loader2.load('./person2.glb', function (gltf) {
 }, undefined, function (error) {
     console.error(error);
 });
-*/
+
 
 /////////////////getting elements from the html/////////////////////////////////
 
@@ -394,7 +394,6 @@ function scoreBack() {
         scoreCard.style.display = "none";
         divButtons.style.display="flex";
         leaderboard.style.display="none";
-		//preloader.style.display = "none";
         welcomeContainer.style.display = "block";
     }
 }
@@ -413,7 +412,7 @@ var time2;
 
 
 
-let models1 = new model();
+let models1 = new Level1();
 
 let models2= new Level2();
 
@@ -948,7 +947,7 @@ const restart = document.getElementById("restartGame");
 restart.addEventListener("click", function (e) {
     card.style.display = "none";
 	welcomeContainer.style.display="none";
-	//preloader.style.display = "none";
+	
 
     // Iterate through the scene's children and filter out lights and camera
     scene.children.forEach((child) => {
@@ -1013,6 +1012,6 @@ pauseButton.addEventListener("click", function() {
 playButton.addEventListener("click", function() {
 	end = false;
 	options.style.display = "none";
-	//preloader.style.display = "none";
+	
 	// Add code to resume playback here
 });
