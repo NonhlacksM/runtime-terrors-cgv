@@ -32,7 +32,7 @@ let mirror;
 const renderer = new THREE.WebGLRenderer();
 // Define your fog settings
 const fogColor = 0xf1f1f1;
-const fogDensity = 0.14;
+const fogDensity = 0.015;
 
 // Create the fog object
 const customFog = new THREE.FogExp2(fogColor, fogDensity);
@@ -51,6 +51,7 @@ controls.addEventListener('change', () => {
     renderer.render(scene, camera);
 });
 */
+
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
 scene.add(ambientLight);
 
@@ -59,7 +60,7 @@ scene.add(ambientLight);
 let models;
 /////////////////////////////////////////////////////////////////////////////////
 if(level == 1){
-	models = new Level3();
+	models = new model();
 }else if(level == 2){
 	models = new Level2();
 }
@@ -341,6 +342,12 @@ startButton.addEventListener("click",function(e){
 	scoreCard.style.display="block";
 	gameInProgress = true;
 	start();
+
+	scene.fog = customFog;
+	setTimeout(() => {
+		scene.fog = null; // Set fog to null to remove it
+	}, 10000); // 4000 milliseconds (4 seconds)
+
 	animate();
 	
 });
@@ -381,12 +388,13 @@ var time2;
 
 
 
+let models1 = new model();
 
 let models2= new Level2();
 
 let models3 = new Level3();
 
-
+let k = "2";
 function animate() {
     requestAnimationFrame(animate);
 	//preloader.style.display = 'none';
@@ -394,17 +402,24 @@ function animate() {
 		// CLASS FOR MODELS
 	/////////////////////////////////////////////////////////////////////////////////
 	if(level == 1){
-		models = models3;
+		models = models1;
+		
+		
 	}else if(level == 2){
 		models = models2;
+		
+		
 	}
 	else{
 		models = models3;
+		
+		
 	}
 	blockClone = models.getCar();
 	coinClone = models.getCoin();
 	flatClone = models.getFlat();
 	pollClone = models.getPoll();
+	
 	if (!end){
 		if (mixer) {
 			mixer.update(0.03);
@@ -420,6 +435,7 @@ function animate() {
 		person.position.x += 1;
 		person2.position.x += 1;
 		skybox.position.x += 1;
+		
 		ponds[0].position.x += 1;
 		for (let i=0;i<move.length;i++){
 			move[i].position.x += 1;
@@ -583,10 +599,9 @@ function animate() {
 					// Enable the fog
 					scene.fog = customFog;
 
-					// Wait for 4 seconds and then remove the fog
 					setTimeout(() => {
 						scene.fog = null; // Set fog to null to remove it
-					}, 4000); // 4000 milliseconds (4 seconds)
+					}, 10000); // 4000
 					
 				}
 				scoreElement.textContent = points;
@@ -677,7 +692,7 @@ function Pond(){
 	mirror.rotateX(Math.PI/9);
 	scene.add(mirror);
 	ponds.push(mirror);
-	mirror.visible = false;
+	mirror.visible = true;
 }
 
 

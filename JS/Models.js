@@ -157,12 +157,12 @@ class Model {
 
     createSkybox(){
         let materialArray = [];
-        let texture_ft = new THREE.TextureLoader().load( './models/skybox/battery_ft.jpg');
-        let texture_bk = new THREE.TextureLoader().load( './models/skybox/battery_bk.jpg');
-        let texture_up = new THREE.TextureLoader().load( './models/skybox/battery_up.jpg');
-        let texture_dn = new THREE.TextureLoader().load( './models/skybox/battery_dn.jpg');
-        let texture_rt = new THREE.TextureLoader().load( './models/skybox/battery_rt.jpg');
-        let texture_lf = new THREE.TextureLoader().load( './models/skybox/battery_lf.jpg');
+        let texture_ft = new THREE.TextureLoader().load( './models/skybox/meadow_ft.jpg');
+        let texture_bk = new THREE.TextureLoader().load( './models/skybox/meadow_bk.jpg');
+        let texture_up = new THREE.TextureLoader().load( './models/skybox/meadow_up.jpg');
+        let texture_dn = new THREE.TextureLoader().load( './models/skybox/meadow_dn.jpg');
+        let texture_rt = new THREE.TextureLoader().load( './models/skybox/meadow_rt.jpg');
+        let texture_lf = new THREE.TextureLoader().load( './models/skybox/meadow_lf.jpg');
         
         materialArray.push(new THREE.MeshBasicMaterial( { map: texture_ft }));
         materialArray.push(new THREE.MeshBasicMaterial( { map: texture_bk }));
