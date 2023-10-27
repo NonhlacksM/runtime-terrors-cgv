@@ -122,12 +122,8 @@
         <link rel="stylesheet" href='./CSS/Leaderboard.css'>
         
 	</head>
+    
 	<body>
-        <div id = "preloader" class="progress-bar-container">
-            <label for="progress-bar">Loading...</label>
-            <progress id="progress-bar" value="0" max="100"></progress>
-        </div>
-
         <div id="welcomeContainer">
             <h1 id="gameNameWelcome">Runtime <span>Terror</span>!</h1>
             <div class="gradient-border"></div>
@@ -144,11 +140,11 @@
 			<div class="score-value" id="level">0</div>
 
             <button id="pauseButton">Pause</button>
-    <div id="options">
-        <button id="playButton">Play</button>
-        <button id="pauseLeaderboard">Leaderboard</button>
-        <button id="settingsButton">Options</button>
-    </div>
+            <div id="options">
+                <button id="playButton">Play</button>
+                <button id="pauseLeaderboard">Leaderboard</button>
+                <button id="settingsButton">Options</button>
+            </div>
 
 		</div>
         
@@ -184,11 +180,15 @@
         <button id="back" onclick="back()">back</button>
     </div>
 
-		<div class="game-over-card" id="gameOverCard">
-			<div class="game-over-text">Game Over</div>
-			<button class="restart-button" id="restartGame">Restart</button>
-		</div>
-        <script src='./JS/loader.js'></script>
+    <div class="game-over-card" id="gameOverCard">
+        <div class="game-over-text">Game Over</div>
+        <button class="restart-button" id="restartGame">Restart</button>
+    </div>
+    <div id = "preloader" class="progress-bar-container">
+        <label for="progress-bar">Loading...</label>
+        <progress id="progress-bar" value="0" max="100"></progress>
+    </div>
+        
 		<script type="module" src="./main.js"></script>
         <script src='./JS/sound.js'></script>
         <script src='./JS/Leaderboard.js'></script>

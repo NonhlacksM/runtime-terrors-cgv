@@ -21,6 +21,7 @@ const levelElement = document.getElementById('level');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 //camera positions
+
 camera.position.x = -15;
 camera.position.y = 7;
 camera.position.z = 0;
@@ -332,25 +333,18 @@ const scoreCard = document.getElementById("scoreCard");
 const welcomeContainer=document.getElementById("welcomeContainer");
 
 let gameInProgress = false; // Variable to track game state
-const loadingManager = new THREE.LoadingManager();
-
-///const progressBar = document.getElementById('progress-bar');
-loadingManager.OnStart = function(url,itemsloaded,itemsTotal){
-	preloader.value = (loaded / total) * 10;	
-}
 
 startButton.addEventListener("click",function(e){
-	preloader.style.display = "block";
+	
 	welcomeContainer.style.display = "none";
 	divButtons.style.display="none";
-	scoreCard.style.display="none";
+	scoreCard.style.display="block";
 	gameInProgress = true;
 	start();
 	animate();
+	
 });
-loadingManager.onLoad = function(){
-	preloader.style.display = "none";
-}
+
 function gameOver() {
     gameInProgress = false;
     // Add code to handle game over here
@@ -395,6 +389,7 @@ let models3 = new Level3();
 
 function animate() {
     requestAnimationFrame(animate);
+	preloader.style.display = 'none';
     
 		// CLASS FOR MODELS
 	/////////////////////////////////////////////////////////////////////////////////
@@ -698,6 +693,7 @@ var levels;
 var sLights;
 var lightPoll;
 function start(){
+	
 	xx = -20;
 	time = 10;
 	time1 = 0;

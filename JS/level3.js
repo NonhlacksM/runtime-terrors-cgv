@@ -10,7 +10,7 @@ class Level3 {
         this.createFlat();
         this.createPoll();
         this.createSkybox();
-        
+           
     }
     
 
@@ -20,12 +20,11 @@ class Level3 {
         this.car = null;
         const loadingManager = new THREE.LoadingManager();
         const preloader = document.getElementById('preloader');
-        loadingManager.onProgress=function(url,itemsloaded,itemsTotal){
-            preloader.value = (loaded / total) * 2;
+        loadingManager.onProgress = function(url, loaded, total) {
+            preloader.style.display = "block";
         }
 
-        //const progressBarContainer = document.querySelector('.progress-bar-container');
-        loadingManager.onLoad = function(){
+        loadingManager.onLoad = function() {
             preloader.style.display = "none";
         }
 
@@ -61,14 +60,12 @@ class Level3 {
         this.coin = null;
         const self = this;
         const loadingManager = new THREE.LoadingManager();
-        const progressBar = document.getElementById('progress-bar');
         const preloader = document.getElementById('preloader');
-        loadingManager.onProgress=function(url,itemsloaded,itemsTotal){
-            preloader.value = (loaded / total) * 2;
+        loadingManager.onProgress = function(url, loaded, total) {
+            preloader.style.display = "block";
         }
-        
-        //const progressBarContainer = document.querySelector('.progress-bar-container');
-        loadingManager.onLoad = function(){
+
+        loadingManager.onLoad = function() {
             preloader.style.display = "none";
         }
 
@@ -102,12 +99,11 @@ class Level3 {
         const self = this;
         const loadingManager = new THREE.LoadingManager();
         const preloader = document.getElementById('preloader');
-        loadingManager.onProgress=function(url,itemsloaded,itemsTotal){
-            preloader.value = (loaded / total) * 2;
+        loadingManager.onProgress = function(url, loaded, total) {
+            preloader.style.display = "block";
         }
 
-        //const progressBarContainer = document.querySelector('.progress-bar-container');
-        loadingManager.onLoad = function(){
+        loadingManager.onLoad = function() {
             preloader.style.display = "none";
         }
 
@@ -172,12 +168,11 @@ class Level3 {
         const self = this;
         const loadingManager = new THREE.LoadingManager();
         const preloader = document.getElementById('preloader');
-        loadingManager.onProgress=function(url,itemsloaded,itemsTotal){
-            preloader.value = (loaded / total) * 2;
+        loadingManager.onProgress = function(url, loaded, total) {
+            preloader.style.display = "block";
         }
-        
-        //const progressBarContainer = document.querySelector('.progress-bar-container');
-        loadingManager.onLoad = function(){
+
+        loadingManager.onLoad = function() {
             preloader.style.display = "none";
         }
 
