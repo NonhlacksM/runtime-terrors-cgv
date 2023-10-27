@@ -21,7 +21,7 @@ class Level3 {
         const loadingManager = new THREE.LoadingManager();
         const preloader = document.getElementById('preloader');
         loadingManager.onProgress = function(url, loaded, total) {
-            //preloader.style.display = "block";
+            
         }
 
         loadingManager.onLoad = function() {
@@ -62,7 +62,7 @@ class Level3 {
         const loadingManager = new THREE.LoadingManager();
         const preloader = document.getElementById('preloader');
         loadingManager.onProgress = function(url, loaded, total) {
-            //preloader.style.display = "block";
+            
         }
 
         loadingManager.onLoad = function() {
@@ -100,7 +100,7 @@ class Level3 {
         const loadingManager = new THREE.LoadingManager();
         const preloader = document.getElementById('preloader');
         loadingManager.onProgress = function(url, loaded, total) {
-            //preloader.style.display = "block";
+            
         }
 
         loadingManager.onLoad = function() {
@@ -136,30 +136,6 @@ class Level3 {
             });
         }
 
-        /*var flatCreate = new MTLLoader();
-        flatCreate.setPath('./models/forest/');
-        flatCreate.load('FieldOfCorn.mtl', function(materials) {
-            materials.preload();
-
-            var glftLoader = new OBJLoader();
-            glftLoader.setPath('./models/forest/');
-            glftLoader.setMaterials(materials);
-
-            glftLoader.load('FieldOfCorn.obj', function(gltfScene) {
-                gltfScene.scale.set(0.8, 0.8, 0.8);
-                gltfScene.position.y = 0;
-                //gltfScene.rotation.y = Math.PI*(3/2);
-                gltfScene.traverse(function(node){
-                    if(node.isMesh){
-                        node.castShadow = false;
-                        node.receiveShadow = true;
-                    }
-                });
-                for (let ii=0; ii<6; ii++){
-                    self.flat.push(gltfScene);
-                }
-            });
-        });*/
     }
 
     createPoll() {
@@ -169,7 +145,7 @@ class Level3 {
         const loadingManager = new THREE.LoadingManager();
         const preloader = document.getElementById('preloader');
         loadingManager.onProgress = function(url, loaded, total) {
-           // preloader.style.display = "block";
+           
         }
 
         loadingManager.onLoad = function() {

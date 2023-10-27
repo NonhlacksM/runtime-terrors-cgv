@@ -1,10 +1,10 @@
-
+/* Set the background color for the entire page */
 body{
-    background-color:#1bafdb;
+    background: url('night.jpg');
+    background-size: 85%;
 }
 
-
-
+/* Create a gradient border div */
 div.gradient-border {
     width: 33%;
     height: 5px;
@@ -12,13 +12,13 @@ div.gradient-border {
     top: 15%;
     left: 34%;
     margin: 1px ;
-    background: linear-gradient(to right,  hsla(217, 69%, 5%, 0.4), hsla(180, 96%, 30%, 0.4));
+    background: linear-gradient(to right,  hsla(216, 97%, 47%, 0.678), hsla(180, 96%, 30%, 0.4));
 }
 
+/* Style for buttons */
 button {
     border:none;
     outline:none;
-    
     display:inline-block;
     font-size:1.1em;
     font-style: italic;
@@ -32,26 +32,29 @@ button {
     border: 1px solid hsla(216, 97%, 47%, 0.678);
     transition: all .2s ease-in-out;
 }
-button {   transition-duration: 0.4s; margin: 5px;}
+/* Adjust the button on hover */
+button {   
+    transition-duration: 0.4s; 
+    margin: 5px;}
+
+/* Increase font size and scale the button on hover */
 button:hover {
     font-size:1.6em;
     transform: scale(1.03);
 }
+/* Style for a group of buttons */
 
-#myButtons {
-    display: flex;
-    flex-direction: column;
-}
 #myButtons {
     border: 10px ;
     position: absolute;
-    top: 22%;
+    top: 9%;
     right: 44%;
     transform: translate(0, -50%);
     display: flex;
     flex-direction: column;
-    justify-content: space-around; /* Stack the child elements vertically */
-}
+    justify-content: space-around; }
+
+/* Style for an options menu */
 #optionsMenu {
     border: 5px ;
     position: absolute;
@@ -62,17 +65,19 @@ button:hover {
     display: flex;
 }
 
+/* Style for a game name/welcome message */
 #gameNameWelcome{
     font-family: italic;
     text-align: center;
     position: absolute;
     font-size: 4rem;
-    top: 3%; /* Center vertically */
+    top: 3%; 
     left: 34%;
-    color:  hsla(217, 69%, 5%, 0.4);
+    color:  hsla(217, 57%, 87%, 0.4);
 }
+
+/* Style for a specific span element within the game name/welcome message */
 #gameNameWelcome span {
     font-style: italic;
     color:  hsla(216, 97%, 47%, 0.678);
 }
-
