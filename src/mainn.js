@@ -1,12 +1,16 @@
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
-import {Reflector} from './JS/reflector.js';
+// game
+// import * as THREE from 'three';
+// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+// import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 
-import AudioManager from './JS/sounds.js';
-import Level1 from './JS/level1.js';
-import Level2 from './JS/level2.js';
-import Level3 from './JS/level3.js';
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.module.js';
+import { GLTFLoader } from "../lib/GLTFLoader.js"
+
+import {Reflector} from './reflector.js';
+import AudioManager from './sounds.js';
+import Level1 from './level1.js';
+import Level2 from './level2.js';
+import Level3 from './level3.js';
 
 const scoreElement = document.getElementById('score');
 const card = document.getElementById("gameOverCard");
@@ -236,101 +240,109 @@ const scoreCard = document.getElementById("scoreCard");
 const welcomeContainer=document.getElementById("welcomeContainer");
 
 let gameInProgress = false; // Variable to track game state
-
-startButton.addEventListener("click",function(e){
-	progressBarContainer.style.display = 'flex';
-loader1.load('./untitled3.glb', function (gltf) {
-    // Add the loaded 3D object to the scene
-    gltf.scene.rotation.set(0, Math.PI / 2, 0);
-    gltf.scene.scale.set(3, 3, 3);
-
-	gltf.scene.traverse(function(node){
-		if(node.isMesh){
-			node.castShadow = true;
-			node.receiveShadow = true;
-		}
-	});
-    scene.add(gltf.scene);
-	person = gltf.scene;
-	ani = gltf.animations;
-	ani2 = gltf.animations;
-
-    // Initialize the mixer
-    mixer = new THREE.AnimationMixer(gltf.scene);
-
-    // Get all the animations from the loaded model
-    const animations = gltf.animations;
-	if (animations && animations.length > 0) {
-        console.log("List of animations:");
-
-        // Loop through the animations and print their names to the console
-        animations.forEach((animation, index) => {
-            console.log(`Animation ${index + 1}: ${animation.name}`);
-        });
-    }
-
-    // Create animation actions for each animation and add them to the mixer
-    if (animations.length > 0) {
-		const firstAnimationClip = animations[0];
-		const firstAnimationAction = mixer.clipAction(firstAnimationClip);
-		firstAnimationAction.play();
-		firstAnimationAction.loop = THREE.LoopOnce;
-
-		const firstAnimationClip1 = animations[1];
-		const firstAnimationAction1 = mixer.clipAction(firstAnimationClip1);
-		firstAnimationAction1.loop = THREE.LoopOnce;
-
-		mixer.addEventListener('finished', function(e) {
-			if (jumpjump == 10){
-				jumpjump = 9;
-				firstAnimationAction1.reset();
-				firstAnimationAction1.play();
-				person.position.y += 3;
-				if(check==="true"){
-					camera.position.y += 3;
-			    }
-			}
-
-			else {
-				firstAnimationAction.reset();
-				firstAnimationAction.play();
+function init(){
+	loader1.load('./untitled3.glb', function (gltf) {
+		// Add the loaded 3D object to the scene
+		gltf.scene.rotation.set(0, Math.PI / 2, 0);
+		gltf.scene.scale.set(3, 3, 3);
+	
+		gltf.scene.traverse(function(node){
+			if(node.isMesh){
+				node.castShadow = true;
+				node.receiveShadow = true;
 			}
 		});
-	}
-}, undefined, function (error) {
-    console.error(error);
-});
-
-loader2.load('./person2.glb', function (gltf) {
-    // Add the loaded 3D object to the scene
-    gltf.scene.rotation.set(0, Math.PI / 2, 0);
-    gltf.scene.scale.set(2, 2, 2);
-
-	gltf.scene.traverse(function(node){
-		if(node.isMesh){
-			node.castShadow = true;
-			node.receiveShadow = true;
+		scene.add(gltf.scene);
+		person = gltf.scene;
+		person.position.set(0, 0, 0);
+		ani = gltf.animations;
+		ani2 = gltf.animations;
+	
+		// Initialize the mixer
+		mixer = new THREE.AnimationMixer(gltf.scene);
+	
+		// Get all the animations from the loaded model
+		const animations = gltf.animations;
+		if (animations && animations.length > 0) {
+			console.log("List of animations:");
+	
+			// Loop through the animations and print their names to the console
+			animations.forEach((animation, index) => {
+				console.log(`Animation ${index + 1}: ${animation.name}`);
+			});
 		}
+	
+		// Create animation actions for each animation and add them to the mixer
+		if (animations.length > 0) {
+			const firstAnimationClip = animations[0];
+			const firstAnimationAction = mixer.clipAction(firstAnimationClip);
+			firstAnimationAction.play();
+			firstAnimationAction.loop = THREE.LoopOnce;
+	
+			const firstAnimationClip1 = animations[1];
+			const firstAnimationAction1 = mixer.clipAction(firstAnimationClip1);
+			firstAnimationAction1.loop = THREE.LoopOnce;
+	
+			mixer.addEventListener('finished', function(e) {
+				if (jumpjump == 10){
+					jumpjump = 9;
+					firstAnimationAction1.reset();
+					firstAnimationAction1.play();
+					person.position.y += 3;
+					if(check==="true"){
+						camera.position.y += 3;
+					}
+				}
+	
+				else {
+					firstAnimationAction.reset();
+					firstAnimationAction.play();
+				}
+			});
+		}
+	}, undefined, function (error) {
+		console.error(error);
 	});
-    scene.add(gltf.scene);
-	person2 = gltf.scene;
-	person2.position.x = -10;
-
-    // Initialize the mixer
-    mixer2 = new THREE.AnimationMixer(gltf.scene);
-
-    // Get all the animations from the loaded model
-    const animations = gltf.animations;
-
-    // Create animation actions for each animation and add them to the mixer
-    if (animations.length > 0) {
-		const firstAnimationClip = animations[0];
-		const firstAnimationAction = mixer2.clipAction(firstAnimationClip);
-		firstAnimationAction.play();
-	}
-}, undefined, function (error) {
-    console.error(error);
-});
+	
+	loader2.load('./person2.glb', function (gltf) {
+		// Add the loaded 3D object to the scene
+		gltf.scene.rotation.set(0, Math.PI / 2, 0);
+		gltf.scene.scale.set(2, 2, 2);
+	
+		gltf.scene.traverse(function(node){
+			if(node.isMesh){
+				node.castShadow = true;
+				node.receiveShadow = true;
+			}
+		});
+		scene.add(gltf.scene);
+		person2 = gltf.scene;
+		// person2.position.x = -10;
+		person2.position.set(-10, 0, 0); // Set an initial position for person
+		// console.log(person)
+		// console.log(person2)
+		// console.log(person.position)
+		// console.log(person2.position)
+	
+		// Initialize the mixer
+		mixer2 = new THREE.AnimationMixer(gltf.scene);
+	
+		// Get all the animations from the loaded model
+		const animations = gltf.animations;
+	
+		// Create animation actions for each animation and add them to the mixer
+		if (animations.length > 0) {
+			const firstAnimationClip = animations[0];
+			const firstAnimationAction = mixer2.clipAction(firstAnimationClip);
+			firstAnimationAction.play();
+		}
+	}, undefined, function (error) {
+		console.error(error);
+	});
+}
+init();
+startButton.addEventListener("click",function(e){
+	progressBarContainer.style.display = 'flex';
 
 	welcomeContainer.style.display = "none";
 	divButtons.style.display="none";
@@ -338,11 +350,14 @@ loader2.load('./person2.glb', function (gltf) {
 	gameInProgress = true;
 	start();
 
+	/*
 	scene.fog = customFog;
 	setTimeout(() => {
 		scene.fog = null; // Set fog to null to remove it
 	}, 10000); // 4000 milliseconds (4 seconds)
+	*/
 
+	progressBarContainer.style.display = 'none';
 	animate();
 	
 });
@@ -1029,7 +1044,7 @@ playButton.addEventListener("click", function() {
 	   return new Promise((resolve, reject) => {
 		 leaderboardRef.once("value", (snapshot) => {
 		   if (snapshot.exists()) {
-			 const leaderboardData = [];
+			 let leaderboardData = [];
 			 
 			 snapshot.forEach(childSnapshot => {
 			   const data = childSnapshot.val();

@@ -72,7 +72,7 @@ window.addEventListener('load', () => {
 });
 
 
-
+/*
 // Add an event listener to the "Leaderboard" button in your JavaScript code
 document.getElementById('pauseLeaderboard').addEventListener('click', showLeaderboardOnPause);
 
@@ -81,3 +81,5 @@ function showLeaderboardOnPause() {
     const leaderboard = document.getElementById('leaderboard');
     leaderboard.style.display = 'block';
 }
+*/
+
